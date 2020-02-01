@@ -31,5 +31,7 @@ public final class Constants {
 
         public static final double LEFT_DEADZONE = .1;
         public static final double RIGHT_DEADZONE = .1;
+
+        public static final boolean IS_DEADZONE = true;
     }
 }
