@@ -11,8 +11,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Drive.DriveWithJoysticks;
+import frc.robot.subsystems.Carousel;
+import frc.robot.subsystems.ColorSpinner;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +33,11 @@ public class RobotContainer {
   // SUBSYSTEMS
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive drive = new Drive();
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
+  private final Carousel carousel = new Carousel();
+  private final Turret turret = new Turret();
+  private final ColorSpinner colorSpinner = new ColorSpinner();
 
   // Joysticks (with imported library)
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
