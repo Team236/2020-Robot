@@ -46,6 +46,7 @@ public class RobotContainer {
 
   // COMMANDS
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
 
   /**
@@ -54,6 +55,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    drive.setDefaultCommand(driveWithJoysticks);
   }
 
   /**
@@ -63,7 +66,14 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
   }
+
+  /*
+   * private Command getAutoFromSwitches() {
+   * 
+   * }
+   */
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
