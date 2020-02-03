@@ -34,4 +34,16 @@ public final class Constants {
 
         public static final boolean IS_DEADZONE = true;
     }
+
+    public static class ShooterConstants  {
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kFF = 0.0002; 
+        public static final double MIN_OUTPUT = 0.0;
+        public static final double MAX_OUTPUT = 6000.0;
+        public static final double interval = 0.0;
+        public static final int ID_MASTER = 5;
+        public static final double SPEED_RPM = 100;
+    }
 }
