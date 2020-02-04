@@ -17,37 +17,37 @@ public class ColorSpinnerPosition extends CommandBase {
   private String currentColor;
   private String desiredColor;
 
-  private ColorSpinner colorSpinnerPosition;
+  private ColorSpinner colorSpinner;
   /**
    * Creates a new ColorSpinnerPosition.
    */
-  public ColorSpinnerPosition(ColorSpinner _colorSpinner) {
+  public ColorSpinnerPosition(ColorSpinner colorSpinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    colorSpinnerPosition = _colorSpinner;
-    addRequirements(colorSpinnerPosition);
+    this.colorSpinner = colorSpinner;
+    addRequirements(this.colorSpinner);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentColor = colorSpinnerPosition.getColor();
-    desiredColor = colorSpinnerPosition.desiredColor();
+    currentColor = colorSpinner.getColor();
+    desiredColor = colorSpinner.desiredColor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    colorSpinnerPosition.startMotor(Constants.ColorSpinnerConstants.SPEED);
-    currentColor = colorSpinnerPosition.getColor();
+    colorSpinner.startMotor(Constants.ColorSpinnerConstants.SPEED);
+    currentColor = colorSpinner.getColor();
     SmartDashboard.putString("desired color", desiredColor);
     SmartDashboard.putString("current color", currentColor);
-    SmartDashboard.putNumber("Color Match", colorSpinnerPosition.colorSensor.getProximity());
+    SmartDashboard.putNumber("Color Match", colorSpinner.colorSensor.getProximity());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    colorSpinnerPosition.stopMotor();
+    colorSpinner.stopMotor();
   }
 
   // Returns true when the command should end.

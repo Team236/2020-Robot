@@ -7,13 +7,14 @@
 
 package frc.robot.commands.ColorSpinner;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ColorSpinner;
 
 public class ColorSpinnerRotation extends CommandBase {
 
-  private ColorSpinner colorSpinnerRotatation;
+  private ColorSpinner colorSpinner;
 
   private String prevColor;
   private String nextColor;
@@ -23,36 +24,38 @@ public class ColorSpinnerRotation extends CommandBase {
    */
   public ColorSpinnerRotation(ColorSpinner colorSpinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    colorSpinnerRotatation = colorSpinner;
-    addRequirements(colorSpinnerRotatation);
+    this.colorSpinner = colorSpinner;
+    addRequirements(this.colorSpinner);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     i = 0;
-    prevColor = colorSpinnerRotatation.getColor();
+    prevColor = colorSpinner.getColor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    colorSpinnerRotatation.startMotor(Constants.ColorSpinnerConstants.SPEED);
-    nextColor = colorSpinnerRotatation.getColor();
+    colorSpinner.startMotor(Constants.ColorSpinnerConstants.SPEED);
+    nextColor = colorSpinner.getColor();
  
     System.out.println("i before if " + i);
-    System.out.println(colorSpinnerRotatation.getColor());
-    if (colorSpinnerRotatation.isColorChange(prevColor, nextColor)) {
+    System.out.println(colorSpinner.getColor());
+    if (colorSpinner.isColorChange(prevColor, nextColor)) {
      i++;
-     prevColor = colorSpinnerRotatation.getColor();     
+     prevColor = colorSpinner.getColor();     
     }
     System.out.println("i after if " + i);
+
+    SmartDashboard.putNumber("color count", i);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    colorSpinnerRotatation.stopMotor();
+    colorSpinner.stopMotor();
   }
 
   // Returns true when the command should end.
