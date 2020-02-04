@@ -50,5 +50,6 @@ public final class Constants {
     public static class ColorSpinnerConstants {
         public static final double SPEED = 0.05;
         public static final int MOTOR_ID = 10;
+        public static final int COLOR_COUNT = 32;
     }
 }
