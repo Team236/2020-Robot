@@ -28,22 +28,21 @@ public class ShooterSparkControl extends CommandBase {
     this.shooter = shooter;
     addRequirements(this.shooter);
 
-    this.speed = speed;
 
     // comment these five lines after tuning PID
     s_kF = 0;  s_kP = 0; s_kI = 0; s_kD = 0;
     SmartDashboard.putNumber("Shooter Feed Fwd", s_lastf);
     SmartDashboard.putNumber("Shooter k_P", s_lastp);
     SmartDashboard.putNumber("Shooter k_I", s_lasti);
-    SmartDashboard.putNumber("Shooter k_I", s_lastd);
+    SmartDashboard.putNumber("Shooter k_D", s_lastd);
+    
+    this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     shooter.resetEncoder();   
-    
-    shooter.setOutputRange();
     
     // comment these four rows when PID tuning done
     shooter.setP(s_kP);
@@ -57,7 +56,9 @@ public class ShooterSparkControl extends CommandBase {
   // shooterSub.setD(Constants.ShooterConstants.kD);
   //shooterSub.setFF(Constants.ShooterConstants.kFF); 
 
+  shooter.setOutputRange();
   }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
