@@ -46,4 +46,9 @@ public final class Constants {
         public static final int ID_MASTER = 5;
         public static final double SPEED_RPM = 100;
     }
+
+    public static class ColorSpinnerConstants {
+        public static final double SPEED = 0.05;
+        public static final int MOTOR_ID = 10;
+    }
 }
