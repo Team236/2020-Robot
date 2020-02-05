@@ -10,7 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
+import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
 import frc.robot.commands.Drive.DriveWithJoysticks;
+import frc.robot.commands.Shooter.ShooterSparkControl;
 import frc.robot.subsystems.Carousel;
 import frc.robot.subsystems.ColorSpinner;
 import frc.robot.subsystems.Drive;
@@ -48,12 +51,22 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
-
+  // COLOR SPINNER
+  private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
+  private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
+  // SHOOTER
+  private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, Constants.ShooterConstants.SPEED_RPM);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+
+    leftStick.left.whenPressed(colorSpinnerRotation);
+    leftStick.right.whenPressed(colorSpinnerPosition);
+
+    leftStick.middle.whileHeld(shooterSparkControl);
+
     configureButtonBindings();
 
     drive.setDefaultCommand(driveWithJoysticks);
