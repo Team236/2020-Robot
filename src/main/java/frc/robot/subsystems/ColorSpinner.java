@@ -7,12 +7,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.SparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.util.Color;
@@ -27,15 +24,16 @@ import frc.robot.Constants;
 
 public class ColorSpinner extends SubsystemBase {
 
-  public CANSparkMax spinnerMotor;
+  private CANSparkMax spinnerMotor;
 
-  public ColorSensorV3 colorSensor;
-  ColorMatch colorMatcher;
-  Color kBlueTarget, kGreenTarget, kRedTarget, kYellowTarget;
-  public String colorString;
+  private ColorSensorV3 colorSensor;
+  private ColorMatch colorMatcher;
+  private Color kBlueTarget, kGreenTarget, kRedTarget, kYellowTarget;
+  private String colorString;
 
-  String gameData;
-  char fmsColor;
+  private String gameData;
+  private char fmsColor;
+
   /**
    * Creates a new ColorSpinner.
    */
@@ -66,7 +64,11 @@ public class ColorSpinner extends SubsystemBase {
     spinnerMotor.set(0);
   }
 
-  public String getColor() {
+  /**
+   * Determines color currently in view
+   * @return The current color
+   */
+  public String getCurrentColor() {
 
     Color detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
@@ -91,11 +93,21 @@ public class ColorSpinner extends SubsystemBase {
     return colorString;
   }
 
+  /**
+   * Determines whether current color and previous color are the same
+   * @param prevColor
+   * @param nextColor
+   * @return True if color has changed
+   */
   public boolean isColorChange(String prevColor, String nextColor) {
     return !prevColor.equals(nextColor);
   }
 
-  public String desiredColor() {
+  /**
+   * Retrieves desired color from FMS
+   * @return Color requested by FMS
+   */
+  public String getDesiredColor() {
 
     gameData = DriverStation.getInstance().getGameSpecificMessage();
     if(gameData.length() > 0) {
@@ -123,8 +135,22 @@ public class ColorSpinner extends SubsystemBase {
     }
   }
 
+  /**
+   * Compares current color and desired color
+   * @param currentColor
+   * @param desiredColor
+   * @return True when current color and desired color are equal
+   */
   public boolean atDesiredColor(String currentColor, String desiredColor) {
     return currentColor.equals(desiredColor);
+  }
+
+  /**
+   * Gets proximity value: larger when closer
+   * @return Proximity measurement value, ranging from 0 to 2047
+   */
+  public int getColorProimity() {
+    return colorSensor.getProximity();
   }
   
   @Override

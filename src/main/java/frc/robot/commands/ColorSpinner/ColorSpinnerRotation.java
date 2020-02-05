@@ -18,7 +18,8 @@ public class ColorSpinnerRotation extends CommandBase {
 
   private String prevColor;
   private String nextColor;
-  private int i;
+  private int numColors;
+
   /**
    * Creates a new ColorSpinnerRotation.
    */
@@ -31,25 +32,23 @@ public class ColorSpinnerRotation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    i = 0;
-    prevColor = colorSpinner.getColor();
+    numColors = 0;
+    prevColor = colorSpinner.getCurrentColor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     colorSpinner.startMotor(Constants.ColorSpinnerConstants.SPEED);
-    nextColor = colorSpinner.getColor();
- 
-    System.out.println("i before if " + i);
-    System.out.println(colorSpinner.getColor());
-    if (colorSpinner.isColorChange(prevColor, nextColor)) {
-     i++;
-     prevColor = colorSpinner.getColor();     
-    }
-    System.out.println("i after if " + i);
+    nextColor = colorSpinner.getCurrentColor();
 
-    SmartDashboard.putNumber("color count", i);
+    // Increments count if color has changed
+    if (colorSpinner.isColorChange(prevColor, nextColor)) {
+     numColors++;
+     prevColor = colorSpinner.getCurrentColor();     
+    }
+
+    SmartDashboard.putNumber("color count", numColors);
   }
 
   // Called once the command ends or is interrupted.
@@ -58,9 +57,9 @@ public class ColorSpinnerRotation extends CommandBase {
     colorSpinner.stopMotor();
   }
 
-  // Returns true when the command should end.
+  // Returns true when number of colors changed is greater than desired
   @Override
   public boolean isFinished() {
-    return i > Constants.ColorSpinnerConstants.COLOR_COUNT;
+    return numColors > Constants.ColorSpinnerConstants.COLOR_COUNT;
   }
 }

@@ -13,11 +13,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ColorSpinner;
 
 public class ColorSpinnerPosition extends CommandBase {
+
+  private ColorSpinner colorSpinner;
   
   private String currentColor;
   private String desiredColor;
 
-  private ColorSpinner colorSpinner;
+  
   /**
    * Creates a new ColorSpinnerPosition.
    */
@@ -30,18 +32,20 @@ public class ColorSpinnerPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currentColor = colorSpinner.getColor();
-    desiredColor = colorSpinner.desiredColor();
+    currentColor = colorSpinner.getCurrentColor();
+    desiredColor = colorSpinner.getDesiredColor();
+
+    SmartDashboard.putString("desired color", desiredColor);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     colorSpinner.startMotor(Constants.ColorSpinnerConstants.SPEED);
-    currentColor = colorSpinner.getColor();
-    SmartDashboard.putString("desired color", desiredColor);
+    currentColor = colorSpinner.getCurrentColor();
+
     SmartDashboard.putString("current color", currentColor);
-    SmartDashboard.putNumber("Color Match", colorSpinner.colorSensor.getProximity());
+    // SmartDashboard.putNumber("proximity", colorSpinner.getColorProimity());
   }
 
   // Called once the command ends or is interrupted.
@@ -50,9 +54,9 @@ public class ColorSpinnerPosition extends CommandBase {
     colorSpinner.stopMotor();
   }
 
-  // Returns true when the command should end.
+  // Returns true when current color and desired color are the same
   @Override
   public boolean isFinished() {
-    return currentColor == desiredColor;
+    return colorSpinner.atDesiredColor(currentColor, desiredColor);
   }
 }
