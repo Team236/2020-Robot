@@ -15,11 +15,10 @@ import frc.robot.subsystems.ColorSpinner;
 public class ColorSpinnerPosition extends CommandBase {
 
   private ColorSpinner colorSpinner;
-  
+
   private String currentColor;
   private String desiredColor;
 
-  
   /**
    * Creates a new ColorSpinnerPosition.
    */

@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
 public class ColorSpinner extends SubsystemBase {
 
   private CANSparkMax spinnerMotor;
@@ -66,6 +65,7 @@ public class ColorSpinner extends SubsystemBase {
 
   /**
    * Determines color currently in view
+   * 
    * @return The current color
    */
   public String getCurrentColor() {
@@ -95,6 +95,7 @@ public class ColorSpinner extends SubsystemBase {
 
   /**
    * Determines whether current color and previous color are the same
+   * 
    * @param prevColor
    * @param nextColor
    * @return True if color has changed
@@ -105,15 +106,16 @@ public class ColorSpinner extends SubsystemBase {
 
   /**
    * Retrieves desired color from FMS
+   * 
    * @return Color requested by FMS
    */
   public String getDesiredColor() {
 
     gameData = DriverStation.getInstance().getGameSpecificMessage();
-    if(gameData.length() > 0) {
+    if (gameData.length() > 0) {
 
       fmsColor = gameData.charAt(0);
-      
+
       if (fmsColor == 'B') {
         return "Red";
       }
@@ -125,18 +127,17 @@ public class ColorSpinner extends SubsystemBase {
       }
       if (fmsColor == 'Y') {
         return "Green";
-      }
-      else {
+      } else {
         return "";
       }
-    }
-    else {
+    } else {
       return "";
     }
   }
 
   /**
    * Compares current color and desired color
+   * 
    * @param currentColor
    * @param desiredColor
    * @return True when current color and desired color are equal
@@ -147,12 +148,13 @@ public class ColorSpinner extends SubsystemBase {
 
   /**
    * Gets proximity value: larger when closer
+   * 
    * @return Proximity measurement value, ranging from 0 to 2047
    */
   public int getColorProimity() {
     return colorSensor.getProximity();
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

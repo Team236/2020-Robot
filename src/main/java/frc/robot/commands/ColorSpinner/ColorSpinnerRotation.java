@@ -44,8 +44,8 @@ public class ColorSpinnerRotation extends CommandBase {
 
     // Increments count if color has changed
     if (colorSpinner.isColorChange(prevColor, nextColor)) {
-     numColors++;
-     prevColor = colorSpinner.getCurrentColor();     
+      numColors++;
+      prevColor = colorSpinner.getCurrentColor();
     }
 
     SmartDashboard.putNumber("color count", numColors);
