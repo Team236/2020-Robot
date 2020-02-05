@@ -9,6 +9,7 @@ package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterSparkControl extends CommandBase {
@@ -16,70 +17,94 @@ public class ShooterSparkControl extends CommandBase {
   private Shooter shooter;
   private double speed;
 
-  // comment these three lines after tuning PID
-  private double s_ff, s_pp, s_ii, s_dd;
-  private double s_kF, s_kP, s_kI, s_kD;
-  private double s_lastf, s_lastp, s_lasti, s_lastd;
+  // Used for tuning from dashboard (not needed when hard-coded)
+  private double dash_kF, dash_kP, dash_kI, dash_KD;
+  private double kF, kP, kI, kD;
+
+  // Last recorded constants on cmd end()
+  private double last_kF, last_kP, last_kI, last_kD;
+
   /**
-   * Creates a new ShooterSparkControl.
+   * Sets shooter velocity using spark max velocity control
+   * @param speed Desired speed in RPM
    */
   public ShooterSparkControl(Shooter shooter, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
     addRequirements(this.shooter);
 
+    // DASHBOARD CONSTANTS
+    kF = 0;
+    kP = 0;
+    kI = 0;
+    kD = 0;
+    // HARDCODED CONSTANTS
+    // kF = Constants.ShooterConstants.kFF;
+    // kP = Constants.ShooterConstants.kP;
+    // kI = Constants.ShooterConstants.kI;
+    // kD = Constants.ShooterConstants.kD;
 
-    // comment these five lines after tuning PID
-    s_kF = 0;  s_kP = 0; s_kI = 0; s_kD = 0;
-    SmartDashboard.putNumber("Shooter Feed Fwd", s_lastf);
-    SmartDashboard.putNumber("Shooter k_P", s_lastp);
-    SmartDashboard.putNumber("Shooter k_I", s_lasti);
-    SmartDashboard.putNumber("Shooter k_D", s_lastd);
-    
+    // Posts last constants to dashboard
+    SmartDashboard.putNumber("Shooter Feed Fwd", last_kF);
+    SmartDashboard.putNumber("Shooter k_P", last_kP);
+    SmartDashboard.putNumber("Shooter k_I", last_kI);
+    SmartDashboard.putNumber("Shooter k_D", last_kD);
+
     this.speed = speed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.resetEncoder();   
-    
-    // comment these four rows when PID tuning done
-    shooter.setP(s_kP);
-    shooter.setI(s_kI);
-    shooter.setD(s_kD);
-    shooter.setFF(s_kF);
+    shooter.resetEncoder();
 
-    // uncomment below when PID tuning is done
- // shooterSub.setP(Constants.ShooterConstants.kP);
-  // shooterSub.setI(Constants.ShooterConstants.kI);
-  // shooterSub.setD(Constants.ShooterConstants.kD);
-  //shooterSub.setFF(Constants.ShooterConstants.kFF); 
+    shooter.setP(kP);
+    shooter.setI(kI);
+    shooter.setD(kD);
+    shooter.setFF(kF);
 
-  shooter.setOutputRange();
+    // HARDCODED CONSTANTS (obselete, now set above)
+    // shooterSub.setP(Constants.ShooterConstants.kP);
+    // shooterSub.setI(Constants.ShooterConstants.kI);
+    // shooterSub.setD(Constants.ShooterConstants.kD);
+    // shooterSub.setFF(Constants.ShooterConstants.kFF);
+
+    shooter.setOutputRange();
   }
-
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //comment these four lines when PID tuning done
-    s_ff = SmartDashboard.getNumber("Shooter Feed Fwd", 0);
-    s_pp = SmartDashboard.getNumber("Shooter k_P", 0);
-    s_ii = SmartDashboard.getNumber("Shooter k_I", 0);
-    s_dd = SmartDashboard.getNumber("Shooter k_D", 0);
-    //comment these eight lines when PID tuning done
-    if ((s_ff != s_kF)) {shooter.setFF(s_ff); s_kF = s_ff;}
-    SmartDashboard.putNumber("set s_ff", s_ff);
-    if ((s_pp != s_kP)) {shooter.setP(s_pp); s_kP = s_pp;}
-    SmartDashboard.putNumber("set s_pp", s_pp);
-    if ((s_ii != s_kI)) {shooter.setI(s_ii); s_kI = s_ii;}
-    SmartDashboard.putNumber("set s_ii", s_ii);
-    if ((s_dd != s_kD)) {shooter.setP(s_dd); s_kD = s_dd;}
-    SmartDashboard.putNumber("set s_dd", s_dd);
+    // TODO try moving tuning logic to init (before set) - might allow eliminating setting again
+    // comment these four lines when PID tuning done
+    dash_kF = SmartDashboard.getNumber("Shooter Feed Fwd", 0);
+    dash_kP = SmartDashboard.getNumber("Shooter k_P", 0);
+    dash_kI = SmartDashboard.getNumber("Shooter k_I", 0);
+    dash_KD = SmartDashboard.getNumber("Shooter k_D", 0);
+    // comment these eight lines when PID tuning done
+    if ((dash_kF != kF)) {
+      shooter.setFF(dash_kF);
+      kF = dash_kF;
+    }
+    SmartDashboard.putNumber("current s_ff", dash_kF);
+    if ((dash_kP != kP)) {
+      shooter.setP(dash_kP);
+      kP = dash_kP;
+    }
+    SmartDashboard.putNumber("current s_pp", dash_kP);
+    if ((dash_kI != kI)) {
+      shooter.setI(dash_kI);
+      kI = dash_kI;
+    }
+    SmartDashboard.putNumber("current s_ii", dash_kI);
+    if ((dash_KD != kD)) {
+      shooter.setP(dash_KD);
+      kD = dash_KD;
+    }
+    SmartDashboard.putNumber("current s_dd", dash_KD);
 
+    // Set rpm setpoint
     shooter.setSetPoint(speed);
-    System.out.println("shooter spark pid execute");
 
     SmartDashboard.putNumber("shooter setpoint", speed);
     SmartDashboard.putNumber("actual speed", shooter.getVelocity());
@@ -90,11 +115,11 @@ public class ShooterSparkControl extends CommandBase {
   public void end(boolean interrupted) {
     shooter.stop();
 
-    //comment these four lines when PID tuning done
-    s_lastf = SmartDashboard.getNumber("Shooter Feed Fwd", 0);
-    s_lastp = SmartDashboard.getNumber("Shooter k_P", 0);
-    s_lasti = SmartDashboard.getNumber("Shooter k_I", 0);
-    s_lastd = SmartDashboard.getNumber("Shooter k_D", 0);
+    // comment these four lines when PID tuning done
+    last_kF = SmartDashboard.getNumber("Shooter Feed Fwd", 0);
+    last_kP = SmartDashboard.getNumber("Shooter k_P", 0);
+    last_kI = SmartDashboard.getNumber("Shooter k_I", 0);
+    last_kD = SmartDashboard.getNumber("Shooter k_D", 0);
   }
 
   // Returns true when the command should end.

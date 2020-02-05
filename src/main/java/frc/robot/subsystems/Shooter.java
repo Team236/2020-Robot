@@ -14,7 +14,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import  static frc.robot.Constants.ShooterConstants.*;
+import static frc.robot.Constants.ShooterConstants.*;
 
 public class Shooter extends SubsystemBase {
 
@@ -22,18 +22,26 @@ public class Shooter extends SubsystemBase {
 
   private CANPIDController pidController;
   private CANEncoder encoder;
+
   /**
    * Creates a new Shooter.
    */
   public Shooter() {
 
-  master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
-  master.restoreFactoryDefaults();
-  master.setInverted(true);
-  pidController =master.getPIDController();
-  encoder =master.getEncoder();
+    master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
+    master.restoreFactoryDefaults();
+
+    // Sets master inverted
+    master.setInverted(true);
+
+    pidController = master.getPIDController();
+    encoder = master.getEncoder();
   }
 
+  /**
+   * 
+   * @param speed desired speed in RPM
+   */
   public void setSetPoint(double speed) {
     pidController.setReference(speed, ControlType.kVelocity);
   }
@@ -45,18 +53,19 @@ public class Shooter extends SubsystemBase {
 
   public void setI(double kI) {
     pidController.setI(kI);
-   
+
   }
 
   public void setD(double kD) {
     pidController.setD(kD);
-  
+
   }
 
   public void setFF(double kF) {
     pidController.setFF(kF);
 
   }
+
   public void setOutputRange() {
     pidController.setOutputRange(MIN_OUTPUT, MAX_OUTPUT);
   }
@@ -68,16 +77,30 @@ public class Shooter extends SubsystemBase {
   public double getEncoder() {
     return encoder.getPosition();
   }
+
+  /**
+   * Gets velocity from Neo encoder
+   * @return Shooter velocity in RPM
+   */
   public double getVelocity() {
     return encoder.getVelocity();
   }
+
+  /**
+   * Directly sets speed of shooter motor using percent output
+   * @param speed desired speed -1.0 to 1.0
+   */
   public void setSpeedRaw(double speed) {
     master.set(speed);
-    }
-    public void stop() {
-      setSpeedRaw(0);
-    }
-  
+  }
+
+  public void stop() {
+    setSpeedRaw(0);
+  }
+
+  public void updateConstants() {
+    
+  }
 
   @Override
   public void periodic() {
