@@ -40,7 +40,7 @@ public class ColorSpinner extends SubsystemBase {
    * Creates a new ColorSpinner.
    */
   public ColorSpinner() {
-    spinnerMotor = new CANSparkMax(Constants.ColorSpinnerConstants.MOTOR_ID, MotorType.kBrushless);
+    spinnerMotor = new CANSparkMax(Constants.ColorSpinnerConstants.ID_MOTOR, MotorType.kBrushless);
 
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
