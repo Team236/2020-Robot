@@ -44,7 +44,7 @@ public final class Constants {
         public static final double MAX_OUTPUT = 6000.0;
         public static final double interval = 0.0;
         public static final int ID_MASTER = 5;
-        public static final double SPEED_RPM = 100;
+        public static final double SPEED_RPM = 500;
     }
 
     public static class ColorSpinnerConstants {
