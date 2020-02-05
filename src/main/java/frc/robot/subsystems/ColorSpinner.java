@@ -9,8 +9,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.SparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatchResult;
 
@@ -23,7 +27,7 @@ import frc.robot.Constants;
 
 public class ColorSpinner extends SubsystemBase {
 
-  public VictorSPX spinnerMotor;
+  public CANSparkMax spinnerMotor;
 
   public ColorSensorV3 colorSensor;
   ColorMatch colorMatcher;
@@ -36,7 +40,7 @@ public class ColorSpinner extends SubsystemBase {
    * Creates a new ColorSpinner.
    */
   public ColorSpinner() {
-    spinnerMotor = new VictorSPX(Constants.ColorSpinnerConstants.MOTOR_ID);
+    spinnerMotor = new CANSparkMax(Constants.ColorSpinnerConstants.MOTOR_ID, MotorType.kBrushless);
 
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
@@ -55,11 +59,11 @@ public class ColorSpinner extends SubsystemBase {
   }
 
   public void startMotor(double speed) {
-    spinnerMotor.set(ControlMode.PercentOutput, speed);
+    spinnerMotor.set(speed);
   }
 
   public void stopMotor() {
-    spinnerMotor.set(ControlMode.PercentOutput, 0);
+    spinnerMotor.set(0);
   }
 
   public String getColor() {
