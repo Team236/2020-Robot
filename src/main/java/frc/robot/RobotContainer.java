@@ -10,7 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
 import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
+import frc.robot.commands.ColorSpinner.ColorSpinnerRetract;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
 import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Shooter.ShooterSparkControl;
@@ -54,6 +56,10 @@ public class RobotContainer {
   // COLOR SPINNER
   private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
   private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
+
+  private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
+  private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
+  
   // SHOOTER
   private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, Constants.ShooterConstants.SPEED_RPM);
   /**
@@ -64,6 +70,9 @@ public class RobotContainer {
 
     leftStick.left.whenPressed(colorSpinnerRotation);
     leftStick.right.whenPressed(colorSpinnerPosition);
+    rightStick.right.whileHeld(colorSpinnerExtend);
+    rightStick.left.whileHeld(colorSpinnerRetract);
+    
 
     leftStick.middle.whileHeld(shooterSparkControl);
 
