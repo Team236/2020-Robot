@@ -14,41 +14,40 @@ import frc.robot.subsystems.ColorSpinner;
 public class ColorSpinnerExtend extends CommandBase {
 
   private ColorSpinner colorSpinner;
+
   /**
    * Creates a new ColorSpinnerExtend.
    */
 
   public ColorSpinnerExtend(ColorSpinner colorSpinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-     this.colorSpinner = colorSpinner;
-      addRequirements(this.colorSpinner);
-    }
-  
+    this.colorSpinner = colorSpinner;
+    addRequirements(this.colorSpinner);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    
-  
+    // TODO test this line in init vs execute
+    colorSpinner.extend();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putString("Extend Status", "executing");
-    colorSpinner.colorSpinnerExtend();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    colorSpinner.stopMotor();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

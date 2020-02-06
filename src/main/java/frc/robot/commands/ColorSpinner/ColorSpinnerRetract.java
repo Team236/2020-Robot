@@ -14,35 +14,37 @@ import frc.robot.subsystems.ColorSpinner;
 public class ColorSpinnerRetract extends CommandBase {
 
   private ColorSpinner colorSpinner;
+
   /**
    * Creates a new ColorSpinnerRetract.
    */
   public ColorSpinnerRetract(ColorSpinner colorSpinner) {
     this.colorSpinner = colorSpinner;
-    addRequirements(this.colorSpinner);}
+    addRequirements(this.colorSpinner);
+  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    colorSpinner.retract();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    colorSpinner.colorSpinnerRetract();
-    SmartDashboard.putString("RetractStatus", "Executing");
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    colorSpinner.stopMotor();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

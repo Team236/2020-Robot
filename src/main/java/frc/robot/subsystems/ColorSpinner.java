@@ -25,6 +25,7 @@ import frc.robot.Constants;
 public class ColorSpinner extends SubsystemBase {
 
   private CANSparkMax spinnerMotor;
+  private Servo servo;
 
   private ColorSensorV3 colorSensor;
   private ColorMatch colorMatcher;
@@ -33,18 +34,17 @@ public class ColorSpinner extends SubsystemBase {
 
   private String gameData;
   private char fmsColor;
-  private Servo servo;
 
   /**
    * Creates a new ColorSpinner.
    */
   public ColorSpinner() {
     spinnerMotor = new CANSparkMax(Constants.ColorSpinnerConstants.ID_MOTOR, MotorType.kBrushless);
+    servo = new Servo(Constants.ColorSpinnerConstants.PWM_SERVO);
 
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
     colorMatcher = new ColorMatch();
-    servo = new Servo(Constants.ColorSpinnerConstants.SERVO_PWM);
 
     kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
@@ -158,39 +158,40 @@ public class ColorSpinner extends SubsystemBase {
     return colorSensor.getProximity();
   }
 
-  public void getServo(){
-    servo.get();
-
-  }
-  public void colorSpinnerExtend() {
-    SmartDashboard.putNumber("ServoValue", servo.get());
-    servo.set(0.8);
-  }
-
-  public void colorSpinnerRetract() {
-    SmartDashboard.putNumber("ServoValue", servo.get());
-    servo.set(0.2);
-  
+  /**
+   * Gets servo position
+   * 
+   * @return position between 0.0 and 1.0
+   */
+  public double getServoPos() {
+    return servo.get();
   }
 
- /* public boolean isExtended() {
+  public void extend() {
+    servo.set(Constants.ColorSpinnerConstants.EXTEND_VALUE);
+  }
 
-    if servo.get() >= (Constants.ColorSpinnerConstants.EXTEND_VALUE)){
-      return (true)
+  public void retract() {
+    servo.set(Constants.ColorSpinnerConstants.RETRACT_VALUE);
+  }
 
-      elseif servo.get() <= (Constants.ColorSpinnerConstants.RETRACT_VALUE){
-        return false;
-      }
+  /**
+   * 
+   * @return true if servo is extended past EXTENDED_VALUE constant
+   */
+  public boolean isExtended() {
+
+    if (getServoPos() >= (Constants.ColorSpinnerConstants.EXTEND_VALUE)) {
+      return true;
+    } else {
+      return false;
     }
-  }
-  */
 
-  public void colorSpinnerStart(){
-   servo.set(0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("CS servo pos", getServoPos());
   }
 }
