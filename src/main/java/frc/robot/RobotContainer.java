@@ -44,51 +44,46 @@ public class RobotContainer {
   private final Turret turret = new Turret();
   private final ColorSpinner colorSpinner = new ColorSpinner();
 
-  // Joysticks (with imported library)
+  // JOYSTICKS
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
   Thrustmaster leftStick = new Thrustmaster(Constants.ControllerConstants.USB_LEFT_STICK);
   Thrustmaster rightStick = new Thrustmaster(Constants.ControllerConstants.USB_RIGHT_STICK);
 
   // COMMANDS
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
   // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
+
   // COLOR SPINNER
   private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
   private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
 
   private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
   private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
-  
+
   // SHOOTER
-  private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, Constants.ShooterConstants.SPEED_RPM);
+  private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
+    drive.setDefaultCommand(driveWithJoysticks);
 
+    // Configure the button bindings
+    configureButtonBindings();
+  }
+
+  private void configureButtonBindings() {
+    // COLOR SPINNER
     leftStick.left.whenPressed(colorSpinnerRotation);
     leftStick.right.whenPressed(colorSpinnerPosition);
     rightStick.right.whileHeld(colorSpinnerExtend);
     rightStick.left.whileHeld(colorSpinnerRetract);
-    
 
+    // SHOOTER
     leftStick.middle.whileHeld(shooterSparkControl);
-
-    configureButtonBindings();
-
-    drive.setDefaultCommand(driveWithJoysticks);
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    
   }
 
   /*
