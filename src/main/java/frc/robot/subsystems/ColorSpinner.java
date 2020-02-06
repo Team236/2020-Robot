@@ -17,6 +17,7 @@ import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -32,6 +33,7 @@ public class ColorSpinner extends SubsystemBase {
 
   private String gameData;
   private char fmsColor;
+  private Servo servo;
 
   /**
    * Creates a new ColorSpinner.
@@ -42,6 +44,7 @@ public class ColorSpinner extends SubsystemBase {
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
     colorMatcher = new ColorMatch();
+    servo = new Servo(Constants.ColorSpinnerConstants.SERVO_PWM);
 
     kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
@@ -153,6 +156,37 @@ public class ColorSpinner extends SubsystemBase {
    */
   public int getColorProimity() {
     return colorSensor.getProximity();
+  }
+
+  public void getServo(){
+    servo.get();
+
+  }
+  public void colorSpinnerExtend() {
+    SmartDashboard.putNumber("ServoValue", servo.get());
+    servo.set(0.8);
+  }
+
+  public void colorSpinnerRetract() {
+    SmartDashboard.putNumber("ServoValue", servo.get());
+    servo.set(0.2);
+  
+  }
+
+ /* public boolean isExtended() {
+
+    if servo.get() >= (Constants.ColorSpinnerConstants.EXTEND_VALUE)){
+      return (true)
+
+      elseif servo.get() <= (Constants.ColorSpinnerConstants.RETRACT_VALUE){
+        return false;
+      }
+    }
+  }
+  */
+
+  public void colorSpinnerStart(){
+   servo.set(0.0);
   }
 
   @Override
