@@ -29,10 +29,15 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
 
     master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
+    follower = new CANSparkMax(ID_FOLLOWER, MotorType.kBrushless);
+    
     master.restoreFactoryDefaults();
 
     // Sets master inverted
     master.setInverted(true);
+
+    // Sets follower, inverted from master
+    follower.follow(master, true);
 
     pidController = master.getPIDController();
     encoder = master.getEncoder();

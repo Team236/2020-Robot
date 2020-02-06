@@ -39,6 +39,8 @@ public final class Constants {
 
     public static class ShooterConstants {
         public static final int ID_MASTER = 5;
+        public static final int ID_FOLLOWER = 9;
+
         public static final double SPEED_RPM = 500;
 
         public static final double kP = 0.0;
@@ -59,7 +61,7 @@ public final class Constants {
         public static final double SPEED = 0.05;
 
         public static final int COLOR_COUNT = 32;
-        
+
         public static final double EXTEND_VALUE = 0.8;
         public static final double RETRACT_VALUE = 0.2;
     }
