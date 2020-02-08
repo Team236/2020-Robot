@@ -17,6 +17,9 @@ import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
 import frc.robot.commands.Shooter.ShooterSparkControl;
+import frc.robot.commands.Intake.LimeLightIntake;
+import frc.robot.commands.Turret.LimeLightTurret;
+import frc.robot.commands.Turret.TriggerTurret;
 import frc.robot.subsystems.Carousel;
 import frc.robot.subsystems.ColorSpinner;
 import frc.robot.subsystems.Drive;
@@ -24,6 +27,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Limelight;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +49,8 @@ public class RobotContainer {
   private final Carousel carousel = new Carousel();
   private final Turret turret = new Turret();
   private final ColorSpinner colorSpinner = new ColorSpinner();
+  public final static Limelight myLimelight = new Limelight();
+
 
   // **JOYSTICKS**
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
@@ -60,6 +66,13 @@ public class RobotContainer {
   // INTAKE
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
   private final IntakeWithAxis intakeWithAxis = new IntakeWithAxis(intake, controller);
+  private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive, myLimelight, Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD, Constants.IntakeConstants.LIME_SPEED);
+
+  // TURRET
+  private final LimeLightTurret limeLightTurret = new LimeLightTurret(myLimelight, turret, Constants.TurretConstants.TURRET_kP, 
+  Constants.TurretConstants.TURRET_kI, Constants.TurretConstants.TURRET_kD);
+  private final TriggerTurret triggerTurretZero = new TriggerTurret(turret, 0);
+  private final TriggerTurret triggerTurretOne = new TriggerTurret(turret, 1);
 
   // COLOR SPINNER
   private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
@@ -96,6 +109,12 @@ public class RobotContainer {
     // INTAKE 
     controller.x.whileHeld(setIntakeSpeed);
     controller.lb.whileHeld(intakeWithAxis);
+    leftStick.left.whileHeld(limeLightIntake);
+
+    // TURRET
+    rightStick.left.whileHeld(limeLightTurret);
+    leftStick.trigger.whileHeld(triggerTurretZero);
+    rightStick.trigger.whileHeld(triggerTurretOne);
   }
 
   /*

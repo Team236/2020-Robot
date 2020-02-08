@@ -42,10 +42,17 @@ public final class Constants {
         public static final int ID_POSITION_MOTOR = 99;
         public static final int DIO_INTAKE_SENSOR = 0;
 
+        public static final double LIME_KP = .015;
+        public static final double LIME_KI = .1;
+        public static final double LIME_KD = .055;
+        public static final double LIME_SPEED = 0.60;
+        
         public static final double SPEED = .75;
         
         public static final boolean CONSIDER_COUNT = false;
         public static final int MAX_COUNT = 6;
+
+        public static final double I_ACTIVE_ZONE = 3.00;
     }
 
     public static class ShooterConstants {
@@ -83,5 +90,15 @@ public final class Constants {
         public static final int ID_MOTOR = 25;
 
         public static final double SPEED = .5;
+    }
+
+    public static class TurretConstants {
+        public static final int ID_TURRET = 8;
+        public static final int DIO_TURRET = 0;
+        public static final double TURRET_kP = 0.03;
+        public static final double TURRET_kI = 0.0045;
+        public static final double TURRET_kD = 0.03;
+        public static final double TURRET_SPEED = 0.4;
+        public static final double I_ACTIVE_ZONE = 5.00;
     }
 }
