@@ -65,4 +65,10 @@ public final class Constants {
         public static final double EXTEND_VALUE = 0.8;
         public static final double RETRACT_VALUE = 0.2;
     }
+
+    public static class CarouselConstants {
+        public static final int ID_MOTOR = 25;
+
+        public static final double SPEED = .5;
+    }
 }

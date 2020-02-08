@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Carousel.SpinCarousel;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
 import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRetract;
@@ -35,7 +36,8 @@ import edu.wpi.first.wpilibj2.command.Command;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // SUBSYSTEMS
+
+  // **SUBSYSTEMS**
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive drive = new Drive();
   private final Intake intake = new Intake();
@@ -44,12 +46,12 @@ public class RobotContainer {
   private final Turret turret = new Turret();
   private final ColorSpinner colorSpinner = new ColorSpinner();
 
-  // JOYSTICKS
+  // **JOYSTICKS**
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
   Thrustmaster leftStick = new Thrustmaster(Constants.ControllerConstants.USB_LEFT_STICK);
   Thrustmaster rightStick = new Thrustmaster(Constants.ControllerConstants.USB_RIGHT_STICK);
 
-  // COMMANDS
+  // **COMMANDS**
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   // DRIVE
@@ -58,12 +60,14 @@ public class RobotContainer {
   // COLOR SPINNER
   private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
   private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
-
   private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
   private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
 
   // SHOOTER
   private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
+
+  // CAROUSEL
+  private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
