@@ -37,9 +37,21 @@ public final class Constants {
         public static final boolean IS_DEADZONE = true;
     }
 
+    public static class IntakeConstants {
+        public static final int ID_MOTOR = 24;
+        public static final int DIO_INTAKE_SENSOR = 0;
+
+        public static final double SPEED = .75;
+        
+        public static final boolean CONSIDER_COUNT = false;
+        public static final int MAX_COUNT = 6;
+    }
+
     public static class ShooterConstants {
         public static final int ID_MASTER = 5;
         public static final int ID_FOLLOWER = 9;
+
+        public static final int DIO_SHOOT_COUNTER = 1;
 
         public static final double SPEED_RPM = 500;
 

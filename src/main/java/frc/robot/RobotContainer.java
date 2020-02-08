@@ -16,6 +16,8 @@ import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRetract;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
 import frc.robot.commands.Drive.DriveWithJoysticks;
+import frc.robot.commands.Intake.IntakeWithAxis;
+import frc.robot.commands.Intake.SetIntakeSpeed;
 import frc.robot.commands.Shooter.ShooterSparkControl;
 import frc.robot.subsystems.Carousel;
 import frc.robot.subsystems.ColorSpinner;
@@ -57,6 +59,10 @@ public class RobotContainer {
   // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
 
+  // INTAKE
+  private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
+  private final IntakeWithAxis intakeWithAxis = new IntakeWithAxis(intake, controller);
+
   // COLOR SPINNER
   private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
   private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
@@ -81,13 +87,17 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // COLOR SPINNER
-    leftStick.left.whenPressed(colorSpinnerRotation);
-    leftStick.right.whenPressed(colorSpinnerPosition);
-    rightStick.right.whileHeld(colorSpinnerExtend);
-    rightStick.left.whileHeld(colorSpinnerRetract);
+    // leftStick.left.whenPressed(colorSpinnerRotation);
+    // leftStick.right.whenPressed(colorSpinnerPosition);
+    // rightStick.right.whileHeld(colorSpinnerExtend);
+    // rightStick.left.whileHeld(colorSpinnerRetract);
 
     // SHOOTER
     leftStick.middle.whileHeld(shooterSparkControl);
+
+    // INTAKE 
+    controller.x.whileHeld(setIntakeSpeed);
+    controller.lb.whileHeld(intakeWithAxis);
   }
 
   /*
