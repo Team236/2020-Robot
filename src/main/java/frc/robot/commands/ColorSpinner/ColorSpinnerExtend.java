@@ -16,7 +16,7 @@ public class ColorSpinnerExtend extends CommandBase {
   private ColorSpinner colorSpinner;
 
   /**
-   * Creates a new ColorSpinnerExtend.
+   * Extends color spinner using linear actuator
    */
 
   public ColorSpinnerExtend(ColorSpinner colorSpinner) {

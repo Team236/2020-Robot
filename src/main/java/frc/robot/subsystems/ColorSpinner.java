@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.ColorSpinnerConstants.*;
 
 public class ColorSpinner extends SubsystemBase {
 
@@ -39,8 +39,8 @@ public class ColorSpinner extends SubsystemBase {
    * Creates a new ColorSpinner.
    */
   public ColorSpinner() {
-    spinnerMotor = new CANSparkMax(Constants.ColorSpinnerConstants.ID_MOTOR, MotorType.kBrushless);
-    servo = new Servo(Constants.ColorSpinnerConstants.PWM_SERVO);
+    spinnerMotor = new CANSparkMax(ID_MOTOR, MotorType.kBrushless);
+    servo = new Servo(PWM_SERVO);
 
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
@@ -168,11 +168,11 @@ public class ColorSpinner extends SubsystemBase {
   }
 
   public void extend() {
-    servo.set(Constants.ColorSpinnerConstants.EXTEND_VALUE);
+    servo.set(EXTEND_VALUE);
   }
 
   public void retract() {
-    servo.set(Constants.ColorSpinnerConstants.RETRACT_VALUE);
+    servo.set(RETRACT_VALUE);
   }
 
   /**
@@ -181,7 +181,7 @@ public class ColorSpinner extends SubsystemBase {
    */
   public boolean isExtended() {
 
-    if (getServoPos() >= (Constants.ColorSpinnerConstants.EXTEND_VALUE)) {
+    if (getServoPos() >= (EXTEND_VALUE)) {
       return true;
     } else {
       return false;

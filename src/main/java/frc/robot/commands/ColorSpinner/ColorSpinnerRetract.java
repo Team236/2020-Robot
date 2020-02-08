@@ -16,7 +16,7 @@ public class ColorSpinnerRetract extends CommandBase {
   private ColorSpinner colorSpinner;
 
   /**
-   * Creates a new ColorSpinnerRetract.
+   * Retracts Color Spinner using linear actuator
    */
   public ColorSpinnerRetract(ColorSpinner colorSpinner) {
     this.colorSpinner = colorSpinner;
