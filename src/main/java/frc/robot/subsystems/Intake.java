@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,6 +20,7 @@ import static frc.robot.Constants.IntakeConstants.*;
 public class Intake extends SubsystemBase {
 
   private TalonSRX intakeMotor;
+  private VictorSPX raiseLowerMotor;
 
   private Counter ballCounter;
 
@@ -27,6 +29,8 @@ public class Intake extends SubsystemBase {
    */
   public Intake() {
     intakeMotor = new TalonSRX(ID_MOTOR);
+    raiseLowerMotor = new VictorSPX(ID_POSITION_MOTOR);
+
     this.ballCounter = new Counter();
     this.ballCounter.setUpSource(DIO_INTAKE_SENSOR);
     this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
@@ -48,6 +52,14 @@ public class Intake extends SubsystemBase {
    */
   public int getBallCount() {
     return ballCounter.get();
+  }
+
+  public void setPositionSpeed(double speed) {
+    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void stopPositionMotor() {
+    setPositionSpeed(0);
   }
 
   /**

@@ -39,6 +39,7 @@ public final class Constants {
 
     public static class IntakeConstants {
         public static final int ID_MOTOR = 24;
+        public static final int ID_POSITION_MOTOR = 99;
         public static final int DIO_INTAKE_SENSOR = 0;
 
         public static final double SPEED = .75;
