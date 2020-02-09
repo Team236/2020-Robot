@@ -39,7 +39,7 @@ public class LimeLightIntake extends CommandBase {
     //RobotContainer.drive.navx.reset();
     drive.resetEncoders();
     // System.out.println("gyro drive init");
-    myLimelightLocal.setPipeline(1);
+    myLimelightLocal.setPipeline(0);
   }
 
   @Override

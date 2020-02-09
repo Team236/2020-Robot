@@ -42,10 +42,10 @@ public final class Constants {
         public static final int ID_POSITION_MOTOR = 99;
         public static final int DIO_INTAKE_SENSOR = 0;
 
-        public static final double LIME_KP = .015;
-        public static final double LIME_KI = .1;
-        public static final double LIME_KD = .055;
-        public static final double LIME_SPEED = 0.60;
+        public static final double LIME_KP = .005;
+        public static final double LIME_KI = .0;
+        public static final double LIME_KD = .005;
+        public static final double LIME_SPEED = 0.2;
         
         public static final double SPEED = .75;
         

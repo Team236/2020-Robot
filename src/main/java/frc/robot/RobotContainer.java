@@ -65,6 +65,7 @@ public class RobotContainer {
 
   // INTAKE
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
+  private final SetIntakeSpeed reverseIntakeSpeed = new SetIntakeSpeed(intake, -Constants.IntakeConstants.SPEED);
   private final IntakeWithAxis intakeWithAxis = new IntakeWithAxis(intake, controller);
   private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive, myLimelight, Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD, Constants.IntakeConstants.LIME_SPEED);
 
@@ -110,6 +111,8 @@ public class RobotContainer {
     controller.x.whileHeld(setIntakeSpeed);
     controller.lb.whileHeld(intakeWithAxis);
     leftStick.left.whileHeld(limeLightIntake);
+    rightStick.middle.whileHeld(setIntakeSpeed);
+    rightStick.trigger.whileHeld(reverseIntakeSpeed);
 
     // TURRET
     rightStick.left.whileHeld(limeLightTurret);
