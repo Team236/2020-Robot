@@ -21,7 +21,6 @@ public class LimeLightIntake extends CommandBase {
   private double errorT;
   private double lastError;
 
-
   public LimeLightIntake(Drive driveSub, Limelight limeSub, double _kP, double _kI, double _kD, double _speed) {
     this.kP = _kP;
     this.kI = _kI;
@@ -33,10 +32,9 @@ public class LimeLightIntake extends CommandBase {
     addRequirements(drive);
   }
 
-
-    @Override
+  @Override
   public void initialize() {
-    //RobotContainer.drive.navx.reset();
+    // RobotContainer.drive.navx.reset();
     drive.resetEncoders();
     // System.out.println("gyro drive init");
     myLimelightLocal.setPipeline(0);
@@ -52,56 +50,48 @@ public class LimeLightIntake extends CommandBase {
 
     error = ang;
 
-    if((error < integralActiveZone && error > -integralActiveZone))
-    {
+    if ((error < integralActiveZone && error > -integralActiveZone)) {
       errorT += error;
-    }
-    else 
-    {
+    } else {
       errorT = 0;
     }
-    if(errorT > 50 / kI)
-    {
+    if (errorT > 50 / kI) {
       errorT = 50 / kI;
     }
-    
+
     proportional = error * kP;
     integral = errorT * kI;
     derivative = (error - lastError) * kD;
 
-    if(error > -1.00 && error < 1.00)
-    {
+    if (error > -1.00 && error < 1.00) {
       derivative = 0.00;
     }
-    
+
     lastError = error;
-    
+
     leftSpeed += (proportional + integral + derivative);
     rightSpeed -= (proportional + integral + derivative);
 
-    if(error > -1.00 && error < 1.00)
-    {
+    if (error > -1.00 && error < 1.00) {
       drive.setLeftSpeed(-speed);
       drive.setRightSpeed(-speed);
     }
 
     drive.setLeftSpeed(-leftSpeed);
     drive.setRightSpeed(-rightSpeed);
-    }
+  }
 
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-  //@Override
+  // @Override
   protected void end() {
     drive.stop();
   }
 
-  //@Override
+  // @Override
   protected void interrupted() {
     end();
   }

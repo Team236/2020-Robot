@@ -56,38 +56,32 @@ public class LimeLightTurret extends CommandBase {
 
     error = ang;
 
-    //Proportional
+    // Proportional
     proportional = error * kP;
 
-    //Integral
-    if((error < integralActiveZone && error > -integralActiveZone))
-    {
+    // Integral
+    if ((error < integralActiveZone && error > -integralActiveZone)) {
       errorT += error;
-    }
-    else 
-    {
+    } else {
       errorT = 0;
     }
-    if(errorT > 50 / kI)
-    {
+    if (errorT > 50 / kI) {
       errorT = 50 / kI;
     }
 
     integral = errorT * kI;
 
-    //Derivative
+    // Derivative
     derivative = (error - lastError) * kD;
 
-    if(error == 0.0)
-    {
+    if (error == 0.0) {
       derivative = 0.0;
     }
-    
+
     lastError = error;
 
     speed = (proportional + integral + derivative);
-    //negative -= (proportional + integral + derivative);
-
+    // negative -= (proportional + integral + derivative);
 
     turret.setTurretSpeed(speed);
   }

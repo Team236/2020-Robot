@@ -1,4 +1,4 @@
- /*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 /* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -7,26 +7,24 @@
 
 package frc.robot.commands.Turret;
 
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Turret;
 import frc.robot.Constants;
-
 
 public class TriggerTurret extends CommandBase {
   private Turret turret;
   private int spinCase;
   private boolean wasHitRight, wasHitLeft;
   private boolean smack;
-  
+
   /**
    * Creates a new ReplaceMeCommand.
    */
   public TriggerTurret(Turret _turret, int _case) {
     this.turret = _turret;
     this.spinCase = _case;
-    
+
     addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -43,31 +41,23 @@ public class TriggerTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(turret.isLeftLimit() == false)
-    {
+    if (turret.isLeftLimit() == false) {
       wasHitLeft = true;
     }
-    if(turret.isRightLimit() == false)
-    {
+    if (turret.isRightLimit() == false) {
       wasHitRight = true;
     }
 
-    if(spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != true))
-    {
+    if (spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != true)) {
       turret.setTurretSpeed(Constants.TurretConstants.TURRET_SPEED);
-    }
-    else if(wasHitRight == true && spinCase == 1)
-    {
+    } else if (wasHitRight == true && spinCase == 1) {
       wasHitLeft = false;
       turret.stop();
     }
 
-    if(spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != true))
-    {
+    if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != true)) {
       turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
-    }
-    else if(wasHitLeft == true && spinCase == 0)
-    {
+    } else if (wasHitLeft == true && spinCase == 0) {
       wasHitRight = false;
       turret.stop();
     }

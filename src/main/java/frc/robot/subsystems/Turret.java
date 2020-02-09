@@ -19,29 +19,34 @@ import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
   private TalonSRX turretSpinner;
-  //private Counter counter;
+  // private Counter counter;
   private DigitalInput leftLimit, rightLimit;
 
   public Turret() {
     turretSpinner = new TalonSRX(Constants.TurretConstants.ID_TURRET);
-    //counter = new Counter(Constants.TurretConstants.DIO_TURRET);
+    // counter = new Counter(Constants.TurretConstants.DIO_TURRET);
     // leftLimit = new DigitalInput(0);
     // rightLimit = new DigitalInput(1);
-    turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 1);
+    turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+        0);
+    turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+        1);
 
   }
+
   public void setTurretSpeed(double speed) {
     turretSpinner.set(ControlMode.PercentOutput, speed);
   }
 
   public void resetEncoders() {
-    //counter.reset();
+    // counter.reset();
     turretSpinner.setSelectedSensorPosition(0);
   }
+
   public int getEncoder() {
     return turretSpinner.getSelectedSensorPosition();
   }
+
   public boolean isLeftLimit() {
     // return leftLimit.get();
     return false;
@@ -54,6 +59,7 @@ public class Turret extends SubsystemBase {
     // return turretSpinner.getSensorCollection().isFwdLimitSwitchClosed();
 
   }
+
   public void setSpeed(double speed) {
     if (!isLeftLimit() && !isRightLimit()) {
       setTurretSpeed(speed);
@@ -61,12 +67,13 @@ public class Turret extends SubsystemBase {
       stop();
     }
   }
+
   public void stop() {
     turretSpinner.set(ControlMode.PercentOutput, 0);
   }
 
-    @Override
-    public void periodic() {
-      // This method will be called once per scheduler run
-    }
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
+}
