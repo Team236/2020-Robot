@@ -22,6 +22,8 @@ import static frc.robot.Constants.DriveConstants.*;
 
 public class Drive extends SubsystemBase implements TurnInterface {
 
+  // TODO currently uses built-in encoders -- require testing (as good as external??)
+
   private CANSparkMax leftFront, leftRear, rightFront, rightRear;
   private CANEncoder leftEncoder, rightEncoder;
   private AHRS navx;
