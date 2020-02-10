@@ -96,8 +96,8 @@ public class Drive extends SubsystemBase implements TurnInterface {
   }
 
   public double getGyroAngle() {
-    // return navx.getAngle();
-    return 0;
+    return navx.getAngle();
+    // return 0;
   }
 
   @Override
@@ -125,7 +125,6 @@ public class Drive extends SubsystemBase implements TurnInterface {
    * @return position of encoder
    */
   public double getLeftEncoder() {
-    // return leftFront.getEncoder().getPosition();
     return leftEncoder.getPosition();
   }
 
@@ -136,7 +135,6 @@ public class Drive extends SubsystemBase implements TurnInterface {
    */
   public double getRightEncoder() {
     // rightFront.getEncoder().setPositionConversionFactor(-1);
-    // return rightFront.getEncoder().getPosition();
     return rightEncoder.getPosition();
   }
 
@@ -144,8 +142,6 @@ public class Drive extends SubsystemBase implements TurnInterface {
    * Resets Neo drive motor encoders
    */
   public void resetEncoders() {
-    // rightFront.getEncoder().setPosition(0);
-    // leftFront.getEncoder().setPosition(0);
     rightEncoder.setPosition(0);
     leftEncoder.setPosition(0);
   }
