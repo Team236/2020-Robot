@@ -21,6 +21,7 @@ import frc.robot.commands.Intake.LimeLightIntake;
 import frc.robot.commands.Turret.LimeLightTurret;
 import frc.robot.commands.Turret.TriggerTurret;
 import frc.robot.subsystems.Carousel;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ColorSpinner;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -50,6 +51,7 @@ public class RobotContainer {
   private final Turret turret = new Turret();
   private final ColorSpinner colorSpinner = new ColorSpinner();
   public final static Limelight myLimelight = new Limelight();
+  private final Climber climber = new Climber();
 
 
   // **JOYSTICKS**
@@ -95,6 +97,9 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    // Sets up auto stuff
+    // configAutos();
   }
 
   private void configureButtonBindings() {
@@ -120,6 +125,17 @@ public class RobotContainer {
     rightStick.trigger.whileHeld(triggerTurretOne);
   }
 
+  /**
+   * Call this in robotContainer constructor (to run during robotInit)
+   */
+  private void configAutos() {
+    // TODO create auto switches
+
+    // TODO generate trapezoidal profiles
+
+  }
+
+  // TODO auto switches
   /*
    * private Command getAutoFromSwitches() {
    * 
@@ -128,11 +144,13 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * (runs in autoInit)
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    drive.resetEncoders();
+    drive.resetAngle();
+
     return m_autoCommand;
   }
 }

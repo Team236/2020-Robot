@@ -101,4 +101,14 @@ public final class Constants {
         public static final double TURRET_SPEED = 0.4;
         public static final double I_ACTIVE_ZONE = 5.00;
     }
+
+    public static class ClimberConstants {
+        public static final int ID_MASTER = 0;
+        public static final int ID_FOLLOWER = 0;
+
+        public static final int DIO_TOP_LIMIT = 11;
+        public static final int DIO_BOT_LIMIT = 11;
+
+        public static final double SPEED = 1.0;
+    }
 }
