@@ -17,6 +17,7 @@ import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
 import frc.robot.commands.Shooter.ShooterSparkControl;
+import frc.robot.commands.Shooter.TriggerHood;
 import frc.robot.commands.Intake.LimeLightIntake;
 import frc.robot.commands.Turret.LimeLightTurret;
 import frc.robot.commands.Turret.TriggerTurret;
@@ -85,6 +86,8 @@ public class RobotContainer {
 
   // SHOOTER
   private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
+  private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
+  private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
 
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
@@ -111,6 +114,8 @@ public class RobotContainer {
 
     // SHOOTER
     leftStick.middle.whileHeld(shooterSparkControl);
+    leftStick.right.whileHeld(triggerHoodZero);
+    rightStick.right.whileHeld(triggerHoodOne);
 
     // INTAKE 
     controller.x.whileHeld(setIntakeSpeed);
