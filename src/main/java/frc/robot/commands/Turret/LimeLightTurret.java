@@ -45,7 +45,7 @@ public class LimeLightTurret extends CommandBase {
   @Override
   public void initialize() {
     lime.setPipeline(0);
-    turret.resetEncoders();
+    //turret.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

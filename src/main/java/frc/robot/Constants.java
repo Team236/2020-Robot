@@ -95,13 +95,13 @@ public final class Constants {
     }
 
     public static class TurretConstants {
-        public static final int ID_TURRET = 8;
+        public static final int ID_TURRET = 12;
         public static final int DIO_TURRET = 0;
         
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.03;
-        public static final double TURRET_SPEED = 0.2;
+        public static final double TURRET_SPEED = 0.5;
         public static final double I_ACTIVE_ZONE = 5.00;
     }
 
