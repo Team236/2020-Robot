@@ -97,6 +97,7 @@ public final class Constants {
     public static class TurretConstants {
         public static final int ID_TURRET = 12;
         public static final int DIO_TURRET = 0;
+        
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.03;
@@ -112,5 +113,6 @@ public final class Constants {
         public static final int DIO_BOT_LIMIT = 11;
 
         public static final double SPEED = 1.0;
+        public static final double ENC_LIMIT = 1000;
     }
 }

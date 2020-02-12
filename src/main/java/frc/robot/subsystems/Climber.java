@@ -52,14 +52,33 @@ public class Climber extends SubsystemBase {
     return bottomLimit.get();
   }
 
+  public double getEncoder() {
+    return master.getSelectedSensorPosition();
+  }
+
+  public void resetEncoder() {
+    master.setSelectedSensorPosition(0);
+  }
+
   /**
    * Sets pre-determined speed, takes into account limits
    */
-  public void setSpeed() {
+  public void setSpeed(double speed) {
     if (isTopLimit() || isBottomLimit()) {
       stop();
     } else {
-      setSpeedRaw(SPEED);
+      setSpeedRaw(speed);
+    }
+  }
+
+  /**
+   * Sets to specified speed unless past encoder limit
+   */
+  public void setSpeedEnc() {
+    if (getEncoder() < ENC_LIMIT) {
+      setSpeed(SPEED);
+    } else {
+      setSpeed(0.2);
     }
   }
 
