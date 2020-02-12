@@ -58,12 +58,12 @@ public final class Constants {
     public static class ShooterConstants {
         public static final int ID_MASTER = 5;
         public static final int ID_FOLLOWER = 9;
-        public static final int ID_HOOD = 0;
+        public static final int ID_HOOD = 30;
 
         public static final int DIO_SHOOT_COUNTER = 1;
 
         public static final double SPEED_RPM = 500;
-        public static final double HOOD_SPEED = .10;
+        public static final double HOOD_SPEED = .20;
 
         public static final double kP = 0.0;
         public static final double kI = 0.0;
@@ -100,7 +100,7 @@ public final class Constants {
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.03;
-        public static final double TURRET_SPEED = 0.5;
+        public static final double TURRET_SPEED = 0.25;
         public static final double I_ACTIVE_ZONE = 5.00;
     }
 

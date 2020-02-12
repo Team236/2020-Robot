@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-  private CANSparkMax turretSpinner;
+  public CANSparkMax turretSpinner;
   //private Counter counter;
   private DigitalInput leftLimit, rightLimit;
   //private CANEncoder encoder;
@@ -51,7 +51,10 @@ public class Turret extends SubsystemBase {
     return encoder.getPosition();
   }
   */
-  
+  public double getRawSpeed() {
+    return turretSpinner.getEncoder().getVelocity();
+  }
+
   public boolean isLeftLimit() {
     return leftLimit.get();
     //return turretSpinner.getSensorCollection().isRevLimitSwitchClosed();

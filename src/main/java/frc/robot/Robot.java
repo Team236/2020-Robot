@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Turret;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;
+  private Turret turret;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+    turret = new Turret();
   }
 
   /**
@@ -55,6 +58,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Connected", RobotContainer.myLimelight.getLimeLight().isConnected());
     SmartDashboard.putNumber("Angle to:", RobotContainer.myLimelight.getAngleOffset());
     SmartDashboard.putNumber("Angle Vertical to:", RobotContainer.myLimelight.getVertOffset());
+
+    //
+    SmartDashboard.putNumber("Turret Motor Speed", turret.getRawSpeed());
+    SmartDashboard.putNumber("Turret Spin Speed", turret.getRawSpeed() / 75);
   }
 
   /**
