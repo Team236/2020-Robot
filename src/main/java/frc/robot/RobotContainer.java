@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Carousel.SpinCarousel;
+import frc.robot.commands.Climber.SetClimbSpeed;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
 import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRetract;
@@ -92,6 +93,9 @@ public class RobotContainer {
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
 
+  // CLIMBER
+  private final SetClimbSpeed setClimbSpeed = new SetClimbSpeed(climber);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -128,6 +132,9 @@ public class RobotContainer {
     rightStick.left.whileHeld(limeLightTurret);
     leftStick.trigger.whileHeld(triggerTurretZero);
     rightStick.trigger.whileHeld(triggerTurretOne);
+
+    // CLIMBER
+
   }
 
   /**
