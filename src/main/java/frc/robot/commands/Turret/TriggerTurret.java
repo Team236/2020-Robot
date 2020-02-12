@@ -32,7 +32,7 @@ public class TriggerTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    turret.resetEncoders();
+    //turret.resetEncoders();
     smack = false;
     wasHitLeft = false;
     wasHitRight = false;
@@ -41,13 +41,20 @@ public class TriggerTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (turret.isLeftLimit() == false) {
+    if (turret.isLeftLimit() == true) {
       wasHitLeft = true;
     }
-    if (turret.isRightLimit() == false) {
+    if (turret.isRightLimit() == true) {
       wasHitRight = true;
     }
-
+    
+    if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != true)) {
+      turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
+    } else if (wasHitLeft == true && spinCase == 0) {
+      wasHitRight = false;
+      turret.stop();
+    }
+    
     if (spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != true)) {
       turret.setTurretSpeed(Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitRight == true && spinCase == 1) {
@@ -55,12 +62,6 @@ public class TriggerTurret extends CommandBase {
       turret.stop();
     }
 
-    if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != true)) {
-      turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
-    } else if (wasHitLeft == true && spinCase == 0) {
-      wasHitRight = false;
-      turret.stop();
-    }
     SmartDashboard.putBoolean("isLeftLimit", turret.isLeftLimit());
     SmartDashboard.putBoolean("isRightLimit", turret.isRightLimit());
 
@@ -68,7 +69,7 @@ public class TriggerTurret extends CommandBase {
     SmartDashboard.putBoolean("wasHitRight", wasHitRight);
     SmartDashboard.putBoolean("smack", smack);
 
-    SmartDashboard.putNumber("Encoder Position", turret.getEncoder());
+    //SmartDashboard.putNumber("Encoder Position", turret.getEncoder());
   }
 
   // Called once the command ends or is interrupted.
