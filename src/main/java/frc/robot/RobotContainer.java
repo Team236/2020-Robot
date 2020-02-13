@@ -18,6 +18,7 @@ import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
 import frc.robot.commands.Shooter.ShooterSparkControl;
+import frc.robot.commands.Shooter.SparkShoot2;
 import frc.robot.commands.Shooter.TriggerHood;
 import frc.robot.commands.Intake.LimeLightIntake;
 import frc.robot.commands.Turret.LimeLightTurret;
@@ -86,7 +87,8 @@ public class RobotContainer {
   private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
 
   // SHOOTER
-  private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
+  // private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
+  private final SparkShoot2 shoot4000 = new SparkShoot2(shooter, 4500);
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
 
@@ -117,9 +119,10 @@ public class RobotContainer {
     // rightStick.left.whileHeld(colorSpinnerRetract);
 
     // SHOOTER
-    leftStick.middle.whileHeld(shooterSparkControl);
+    leftStick.middle.whileHeld(shoot4000);
     leftStick.right.whileHeld(triggerHoodZero);
     rightStick.right.whileHeld(triggerHoodOne);
+    leftStick.left.whileHeld(triggerHoodOne);
 
     // INTAKE 
     controller.x.whileHeld(setIntakeSpeed);
