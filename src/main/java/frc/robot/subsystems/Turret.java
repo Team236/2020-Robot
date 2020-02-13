@@ -31,8 +31,8 @@ public class Turret extends SubsystemBase {
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
     //counter = new Counter(Constants.TurretConstants.DIO_TURRET);
-    // leftLimit = new DigitalInput(0);
-    // rightLimit = new DigitalInput(1);
+    leftLimit = new DigitalInput(0);
+    rightLimit = new DigitalInput(1);
     //turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     //turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 1);
 
@@ -56,14 +56,12 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isLeftLimit() {
-    // return leftLimit.get();
-    return false;
+    return leftLimit.get();
     //return turretSpinner.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   public boolean isRightLimit() {
-    // return rightLimit.get();
-    return false;
+    return rightLimit.get();
     //return turretSpinner.getSensorCollection().isFwdLimitSwitchClosed();
 
   }

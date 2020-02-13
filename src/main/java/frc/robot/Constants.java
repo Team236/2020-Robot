@@ -101,6 +101,7 @@ public final class Constants {
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.03;
+        
         public static final double TURRET_SPEED = 0.25;
         public static final double I_ACTIVE_ZONE = 5.00;
     }
