@@ -61,7 +61,7 @@ public class ShooterSparkControl extends CommandBase {
     shooter.setP(kP);
     shooter.setI(kI);
     shooter.setD(kD);
-    shooter.setFF(kF);
+    shooter.setFF(Constants.ShooterConstants.kFF);
 
     // HARDCODED CONSTANTS (obselete, now set above)
     // shooterSub.setP(Constants.ShooterConstants.kP);
@@ -82,10 +82,10 @@ public class ShooterSparkControl extends CommandBase {
     dash_kI = SmartDashboard.getNumber("Shooter k_I", 0);
     dash_KD = SmartDashboard.getNumber("Shooter k_D", 0);
     // comment these eight lines when PID tuning done
-    if ((dash_kF != kF)) {
-      shooter.setFF(dash_kF);
-      kF = dash_kF;
-    }
+    // if ((dash_kF != kF)) {
+      // shooter.setFF(dash_kF);
+      // kF = dash_kF;
+    // }
     SmartDashboard.putNumber("current s_ff", dash_kF);
     if ((dash_kP != kP)) {
       shooter.setP(dash_kP);

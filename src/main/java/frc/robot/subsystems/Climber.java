@@ -31,8 +31,8 @@ public class Climber extends SubsystemBase {
 
     follower.follow(master);
 
-    topLimit = new DigitalInput(DIO_TOP_LIMIT);
-    bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
+    // topLimit = new DigitalInput(DIO_TOP_LIMIT);
+    // bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
 
   }
 
@@ -45,11 +45,13 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean isTopLimit() {
-    return topLimit.get();
+    // return topLimit.get();
+    return false;
   }
 
   public boolean isBottomLimit() {
-    return bottomLimit.get();
+    // return bottomLimit.get();
+    return false;
   }
 
   public double getEncoder() {

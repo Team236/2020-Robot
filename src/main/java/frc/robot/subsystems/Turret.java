@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
-  private CANSparkMax turretSpinner;
+  public CANSparkMax turretSpinner;
   //private Counter counter;
   private DigitalInput leftLimit, rightLimit;
   //private CANEncoder encoder;
@@ -31,8 +31,8 @@ public class Turret extends SubsystemBase {
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
     //counter = new Counter(Constants.TurretConstants.DIO_TURRET);
-    leftLimit = new DigitalInput(0);
-    rightLimit = new DigitalInput(1);
+    // leftLimit = new DigitalInput(0);
+    // rightLimit = new DigitalInput(1);
     //turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
     //turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 1);
 
@@ -51,14 +51,19 @@ public class Turret extends SubsystemBase {
     return encoder.getPosition();
   }
   */
-  
+  public double getRawSpeed() {
+    return turretSpinner.getEncoder().getVelocity();
+  }
+
   public boolean isLeftLimit() {
-    return leftLimit.get();
+    // return leftLimit.get();
+    return false;
     //return turretSpinner.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   public boolean isRightLimit() {
-    return rightLimit.get();
+    // return rightLimit.get();
+    return false;
     //return turretSpinner.getSensorCollection().isFwdLimitSwitchClosed();
 
   }
