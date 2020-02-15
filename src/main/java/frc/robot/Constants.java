@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import lib.pid.PIDParameters;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -34,7 +36,25 @@ public final class Constants {
         public static final double LEFT_DEADZONE = .1;
         public static final double RIGHT_DEADZONE = .1;
 
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kF = 0.0;
+
+        public static final double MIN_OUTPUT = 0.0;
+        public static final double MAX_OUTPUT = 1.0;
+
         public static final boolean IS_DEADZONE = true;
+    }
+
+    public static class AutoConstants {
+        public static final int DIO_SWITCH_1 = 0;
+        public static final int DIO_SWITCH_2 = 1;
+        public static final int DIO_SWITCH_3 = 2;
+        public static final int DIO_SWITCH_4 = 3;
+
+        // TURN CONSTANTS
+        public static final PIDParameters TURN_PARAMS = new PIDParameters(0.001, 0.0, 0.0, .02);
     }
 
     public static class IntakeConstants {

@@ -34,6 +34,8 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Limelight;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
+import lib.turn.Turn;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -67,6 +69,7 @@ public class RobotContainer {
 
   // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
+  private final Turn turn90 = new Turn(drive, 90, 5, Constants.AutoConstants.TURN_PARAMS);
 
   // INTAKE
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
@@ -88,7 +91,7 @@ public class RobotContainer {
 
   // SHOOTER
   // private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
-  private final SparkShoot2 shoot4000 = new SparkShoot2(shooter, 4500);
+  private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
 
@@ -97,6 +100,10 @@ public class RobotContainer {
 
   // CLIMBER
   private final SetClimbSpeed setClimbSpeed = new SetClimbSpeed(climber);
+
+
+  // **AUTO SWITCHES**
+  private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -119,7 +126,7 @@ public class RobotContainer {
     // rightStick.left.whileHeld(colorSpinnerRetract);
 
     // SHOOTER
-    leftStick.middle.whileHeld(shoot4000);
+    leftStick.middle.whileHeld(shoot);
     leftStick.right.whileHeld(triggerHoodZero);
     rightStick.right.whileHeld(triggerHoodOne);
     leftStick.left.whileHeld(triggerHoodOne);
@@ -138,6 +145,9 @@ public class RobotContainer {
 
     // CLIMBER
 
+    // AUTO
+    // controller.a.whenHeld(turn90);
+
   }
 
   /**
@@ -145,8 +155,12 @@ public class RobotContainer {
    */
   private void configAutos() {
     // TODO create auto switches
+    autoSwitch1 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_1);
+    autoSwitch2 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_2);
+    autoSwitch3 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_3);
+    autoSwitch4 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_4);
 
-    // TODO generate trapezoidal profiles
+    // TODO generate trapezoidal profiles (if using)
 
   }
 

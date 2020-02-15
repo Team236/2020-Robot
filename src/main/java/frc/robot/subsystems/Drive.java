@@ -22,7 +22,8 @@ import static frc.robot.Constants.DriveConstants.*;
 
 public class Drive extends SubsystemBase implements TurnInterface {
 
-  // TODO currently uses built-in encoders -- require testing (as good as external??)
+  // TODO currently uses built-in encoders -- require testing (as good as
+  // external??)
 
   private CANSparkMax leftFront, leftRear, rightFront, rightRear;
   private CANEncoder leftEncoder, rightEncoder;
@@ -169,9 +170,23 @@ public class Drive extends SubsystemBase implements TurnInterface {
   }
 
   // SPARK MOTION CONTROL
+  /**
+   * Sets spark motion control kP
+   * @param kP
+   */
   public void setkP(double kP) {
     leftPID.setP(kP);
     rightPID.setP(kP);
+  }
+
+  public void setkI(double kI) {
+    leftPID.setI(kI);
+    rightPID.setI(kI);
+  }
+
+  public void setkD(double kD) {
+    leftPID.setD(kD);
+    rightPID.setD(kD);
   }
 
   public void setkF(double kF) {
