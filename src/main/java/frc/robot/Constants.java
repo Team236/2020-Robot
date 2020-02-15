@@ -48,10 +48,10 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-        public static final int DIO_SWITCH_1 = 0;
-        public static final int DIO_SWITCH_2 = 1;
-        public static final int DIO_SWITCH_3 = 2;
-        public static final int DIO_SWITCH_4 = 3;
+        public static final int DIO_SWITCH_1 = 1;
+        public static final int DIO_SWITCH_2 = 2;
+        public static final int DIO_SWITCH_3 = 3;
+        public static final int DIO_SWITCH_4 = 4;
 
         // TURN CONSTANTS
         public static final PIDParameters TURN_PARAMS = new PIDParameters(0.001, 0.0, 0.0, .02);
@@ -60,7 +60,7 @@ public final class Constants {
     public static class IntakeConstants {
         public static final int ID_MOTOR = 24;
         public static final int ID_POSITION_MOTOR = 99;
-        public static final int DIO_INTAKE_SENSOR = 0;
+        public static final int DIO_INTAKE_COUNTER = 0;
 
         public static final double LIME_KP = .005;
         public static final double LIME_KI = .0;
@@ -82,7 +82,7 @@ public final class Constants {
         public static final int ID_FOLLOWER = 9;
         public static final int ID_HOOD = 30;
 
-        public static final int DIO_SHOOT_COUNTER = 1;
+        public static final int DIO_SHOOT_COUNTER = 5;
 
         public static final double SPEED_RPM = 500;
         public static final double HOOD_SPEED = 1.0;

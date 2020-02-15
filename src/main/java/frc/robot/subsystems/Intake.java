@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
 
     this.ballCounter = new Counter();
-    this.ballCounter.setUpSource(DIO_INTAKE_SENSOR);
+    this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
     this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
 
   }
