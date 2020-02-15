@@ -27,6 +27,13 @@ public class SetIntakeSpeed extends CommandBase {
     this.speed = speed;
   }
 
+  public SetIntakeSpeed(Intake intake) {
+    this.intake = intake;
+    addRequirements(this.intake);
+
+    this.speed = Constants.IntakeConstants.SPEED;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {

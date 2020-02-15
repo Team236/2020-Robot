@@ -31,6 +31,18 @@ public class LimeLightIntake extends CommandBase {
     addRequirements(drive);
   }
 
+  public LimeLightIntake(Drive driveSub, Limelight limeSub) {
+    this.kP = Constants.IntakeConstants.LIME_KP;
+    this.kI = Constants.IntakeConstants.LIME_KI;
+    this.kD = Constants.IntakeConstants.LIME_KD;
+    this.speed = Constants.IntakeConstants.LIME_SPEED;
+    
+    this.drive = driveSub;
+    this.myLimelightLocal = limeSub;
+
+    addRequirements(myLimelightLocal, driveSub);
+  }
+
   @Override
   public void initialize() {
     // RobotContainer.drive.navx.reset();
