@@ -48,6 +48,8 @@ public final class Constants {
         public static final double LIME_SPEED = 0.2;
         
         public static final double SPEED = .75;
+        public static final double RAISE_SPEED = 1.0;
+        public static final double LOWER_SPEED = -RAISE_SPEED;
         
         public static final boolean CONSIDER_COUNT = false;
         public static final int MAX_COUNT = 6;
