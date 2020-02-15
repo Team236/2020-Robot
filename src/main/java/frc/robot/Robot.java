@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;
-  private Turret turret;
+  // private Turret turret;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    turret = new Turret();
+    // turret = new Turret();
   }
 
   /**
@@ -60,8 +60,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Angle Vertical to:", RobotContainer.myLimelight.getVertOffset());
 
     //
-    SmartDashboard.putNumber("Turret Motor Speed", turret.getRawSpeed());
-    SmartDashboard.putNumber("Turret Spin Speed", turret.getRawSpeed() / 75);
+    // SmartDashboard.putNumber("Turret Motor Speed", turret.getRawSpeed());
+    // SmartDashboard.putNumber("Turret Spin Speed", turret.getRawSpeed() / 75);
   }
 
   /**
