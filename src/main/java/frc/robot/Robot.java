@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -25,6 +27,8 @@ public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
   // private Turret turret;
 
+  private UsbCamera usbCamera0;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -35,6 +39,16 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
     // turret = new Turret();
+
+    // USB CAMERA TRY-CATCH
+    try {
+      usbCamera0 = CameraServer.getInstance().startAutomaticCapture(0);
+    } catch (Exception e) {
+      System.out.println("camera capture failed");
+      System.out.println(e.getStackTrace());
+
+      SmartDashboard.putString("camera capture failed", "failed");
+    }
   }
 
   /**
