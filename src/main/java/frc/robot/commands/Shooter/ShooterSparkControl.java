@@ -103,7 +103,7 @@ public class ShooterSparkControl extends CommandBase {
     }
     SmartDashboard.putNumber("current s_dd", dash_KD);
 
-    // Set rpm setpoint
+    // Set RPM setpoint
     shooter.setSetPoint(speed);
 
     SmartDashboard.putNumber("shooter setpoint", speed);

@@ -206,11 +206,11 @@ public class Drive extends SubsystemBase implements TurnInterface {
   }
 
   /**
-   * Configures sparks to position-based closed-loop control mode
+   * Configures Spark Max to position-based closed-loop control mode and sets target distance
    * 
    * @param dist the target distance
    */
-  public void setUpDistPID(double dist) {
+  public void setSetPoint(double dist) {
     leftPID.setReference(dist, ControlType.kPosition);
     rightPID.setReference(dist, ControlType.kPosition);
   }

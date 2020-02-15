@@ -20,6 +20,8 @@ public class SparkMotnControl extends CommandBase {
   private double margin;
   private double error;
 
+  private double kP, kI, kD, kFF;
+
   /**
    * Creates a new SparkMotnControl.
    */
@@ -29,6 +31,11 @@ public class SparkMotnControl extends CommandBase {
 
     this.dist = dist;
     this.margin = margin;
+
+    this.kP = Constants.DriveConstants.kP;
+    this.kI = Constants.DriveConstants.kI;
+    this.kD = Constants.DriveConstants.kD;
+    this.kFF = Constants.DriveConstants.kF;
   }
 
   // Called when the command is initially scheduled.
@@ -36,17 +43,18 @@ public class SparkMotnControl extends CommandBase {
   public void initialize() {
     drive.resetEncoders();
 
-    drive.setkP(Constants.DriveConstants.kP);
-    drive.setkI(Constants.DriveConstants.kI);
-    drive.setkD(Constants.DriveConstants.kD);
-    drive.setkF(Constants.DriveConstants.kF);
+    drive.setkP(this.kP);
+    drive.setkI(this.kI);
+    drive.setkD(this.kD);
+    drive.setkF(this.kFF);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     drive.setOutputRange(Constants.DriveConstants.MIN_OUTPUT, Constants.DriveConstants.MAX_OUTPUT);
-    drive.setUpDistPID(dist);
+    drive.setSetPoint(dist);
+    
     error = Math.abs(dist - drive.getLeftEncoder());
 
     SmartDashboard.putNumber("Spark setPoint", dist);
