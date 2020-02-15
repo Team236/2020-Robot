@@ -19,8 +19,8 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase {
 
-  private TalonSRX intakeMotor;
-  private VictorSPX raiseLowerMotor;
+  private VictorSPX intakeMotor;
+  private TalonSRX raiseLowerMotor;
 
   private Counter ballCounter;
 
@@ -28,8 +28,8 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
   public Intake() {
-    intakeMotor = new TalonSRX(ID_MOTOR);
-    raiseLowerMotor = new VictorSPX(ID_POSITION_MOTOR);
+    intakeMotor = new VictorSPX(ID_MOTOR);
+    raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
 
     this.ballCounter = new Counter();
     this.ballCounter.setUpSource(DIO_INTAKE_SENSOR);
@@ -54,19 +54,32 @@ public class Intake extends SubsystemBase {
     return ballCounter.get();
   }
 
-  public void setPositionSpeed(double speed) {
-    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
-  }
-
-  public void stopPositionMotor() {
-    setPositionSpeed(0);
-  }
-
   /**
    * Resets intake counter to 0
    */
   public void resetCounter() {
     ballCounter.reset();
+  }
+
+  /**
+   * Sets speed of motor that positions intake up/down
+   * 
+   * @param speed
+   */
+  public void setPositionSpeed(double speed) {
+    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void raise() {
+
+  }
+
+  public void lower() {
+
+  }
+
+  public void stopPositionMotor() {
+    setPositionSpeed(0);
   }
 
   @Override

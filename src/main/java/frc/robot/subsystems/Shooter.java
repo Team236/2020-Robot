@@ -14,7 +14,6 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ShooterConstants.*;
@@ -23,7 +22,7 @@ public class Shooter extends SubsystemBase {
 
   private CANSparkMax master, follower;
 
-  private VictorSPX hood;
+  private TalonSRX hood;
 
   private CANPIDController pidController;
   private CANEncoder encoder;
@@ -36,7 +35,7 @@ public class Shooter extends SubsystemBase {
     master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
     follower = new CANSparkMax(ID_FOLLOWER, MotorType.kBrushless);
 
-    hood = new VictorSPX(ID_HOOD);
+    hood = new TalonSRX(ID_HOOD);
     
     master.restoreFactoryDefaults();
 

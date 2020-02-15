@@ -9,8 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,7 +17,8 @@ import static frc.robot.Constants.ClimberConstants.*;
 
 public class Climber extends SubsystemBase {
 
-  private TalonSRX master, follower;
+  private TalonSRX master;
+  private VictorSPX follower;
   private DigitalInput topLimit, bottomLimit;
 
   /**
@@ -27,7 +27,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
 
     master = new TalonSRX(ID_MASTER);
-    follower = new TalonSRX(ID_FOLLOWER);
+    follower = new VictorSPX(ID_FOLLOWER);
 
     follower.follow(master);
 
