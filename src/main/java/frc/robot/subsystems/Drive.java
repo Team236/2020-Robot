@@ -44,6 +44,8 @@ public class Drive extends SubsystemBase implements TurnInterface {
     leftRear.follow(leftFront, false);
     rightRear.follow(rightFront, false);
 
+    leftFront.setInverted(true);
+
     leftPID = leftFront.getPIDController();
     rightPID = rightFront.getPIDController();
 
@@ -58,7 +60,7 @@ public class Drive extends SubsystemBase implements TurnInterface {
    * @param speed
    */
   public void setLeftSpeed(double speed) {
-    leftFront.set(-speed);
+    leftFront.set(speed);
   }
 
   /**

@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Auto.SparkControlwDash;
 import frc.robot.commands.Carousel.SpinCarousel;
 import frc.robot.commands.Climber.SetClimbSpeed;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
@@ -17,6 +18,7 @@ import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
 import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
+import frc.robot.commands.Intake.TargetAndIntake;
 import frc.robot.commands.Shooter.ShooterSparkControl;
 import frc.robot.commands.Shooter.SparkShoot2;
 import frc.robot.commands.Shooter.TriggerHood;
@@ -64,17 +66,19 @@ public class RobotContainer {
   Thrustmaster rightStick = new Thrustmaster(Constants.ControllerConstants.USB_RIGHT_STICK);
 
   // **COMMANDS**
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ExampleCommand exampleCmd = new ExampleCommand(m_exampleSubsystem);
 
   // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
   private final Turn turn90 = new Turn(drive, 90, 5, Constants.AutoConstants.TURN_PARAMS);
+  private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
 
   // INTAKE
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
   private final SetIntakeSpeed reverseIntakeSpeed = new SetIntakeSpeed(intake, -Constants.IntakeConstants.SPEED);
   private final IntakeWithAxis intakeWithAxis = new IntakeWithAxis(intake, controller);
   private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive, myLimelight, Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD, Constants.IntakeConstants.LIME_SPEED);
+  private final TargetAndIntake targetAndIntake = new TargetAndIntake(drive, intake, myLimelight);
 
   // TURRET
   private final LimeLightTurret limeLightTurret = new LimeLightTurret(myLimelight, turret, Constants.TurretConstants.TURRET_kP, 
@@ -133,7 +137,10 @@ public class RobotContainer {
     // INTAKE 
     controller.x.whileHeld(setIntakeSpeed);
     controller.lb.whileHeld(intakeWithAxis);
+
     leftStick.left.whileHeld(limeLightIntake);
+    // leftStick.left.whileHeld(targetAndIntake);
+    
     rightStick.middle.whileHeld(setIntakeSpeed);
     rightStick.trigger.whileHeld(reverseIntakeSpeed);
 
@@ -146,6 +153,7 @@ public class RobotContainer {
 
     // AUTO
     // controller.a.whenHeld(turn90);
+    controller.a.whenHeld(testingSparkTuning);
 
   }
 
@@ -179,6 +187,6 @@ public class RobotContainer {
     drive.resetEncoders();
     drive.resetAngle();
 
-    return m_autoCommand;
+    return exampleCmd;
   }
 }
