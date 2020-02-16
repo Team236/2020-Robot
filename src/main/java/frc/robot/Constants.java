@@ -57,10 +57,10 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-        public static final int DIO_SWITCH_1 = 1;
-        public static final int DIO_SWITCH_2 = 2;
-        public static final int DIO_SWITCH_3 = 3;
-        public static final int DIO_SWITCH_4 = 4;
+        public static final int DIO_SWITCH_1 = 6;
+        public static final int DIO_SWITCH_2 = 7;
+        public static final int DIO_SWITCH_3 = 8;
+        public static final int DIO_SWITCH_4 = 9;
 
         // TURN CONSTANTS
         public static final PIDParameters TURN_PARAMS = new PIDParameters(0.001, 0.0, 0.0, .02);
