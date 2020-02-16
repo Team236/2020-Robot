@@ -77,15 +77,10 @@ public class SparkControlwDash extends CommandBase {
     driveSub.setSetPoint(dist);
 
     // Prints useful info to dashboard
-    SmartDashboard.putNumber("Spark setPoint", (dist*Constants.DriveConstants.REV_TO_IN_K));
-    SmartDashboard.putNumber("Spark L encoder", driveSub.getLeftEncoder());
-
-    SmartDashboard.putNumber("Spark R encoder", driveSub.getRightEncoder());
-
-    error = Math.abs(dist*Constants.DriveConstants.REV_TO_IN_K - driveSub.getLeftEncoder());
-
+    SmartDashboard.putNumber("Spark setPoint", (dist));
     SmartDashboard.putNumber("error", error);
-    SmartDashboard.putNumber("margin", margin);
+
+    error = Math.abs(dist - driveSub.getLeftEncoder());
   }
 
   // Called once the command ends or is interrupted.

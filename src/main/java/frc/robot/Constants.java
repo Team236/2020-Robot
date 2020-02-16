@@ -36,9 +36,11 @@ public final class Constants {
         public static final double DIAMETER = 6.0;
         public static final double CIRCUMFERENCE = Math.PI * DIAMETER;
         // public static final double GEAR_RATIO = (46/11) * (52/20);
-        public static final double GEAR_RATIO = 5.98;
+        public static final double GEAR_RATIO = 8.71;
         // constant by which to multiply to convert revolutions to in
-        public static final double REV_TO_IN_K = GEAR_RATIO / CIRCUMFERENCE;
+        // public static final double REV_TO_IN_K = GEAR_RATIO / CIRCUMFERENCE;
+        public static final double REV_TO_IN_K = CIRCUMFERENCE / GEAR_RATIO;
+        public static final double IN_TO_REV_K = GEAR_RATIO / CIRCUMFERENCE;
 
         public static final double LEFT_DEADZONE = .1;
         public static final double RIGHT_DEADZONE = .1;

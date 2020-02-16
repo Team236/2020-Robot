@@ -16,6 +16,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import lib.turn.TurnInterface;
 
 import static frc.robot.Constants.DriveConstants.*;
@@ -44,7 +45,8 @@ public class Drive extends SubsystemBase implements TurnInterface {
     leftRear.follow(leftFront, false);
     rightRear.follow(rightFront, false);
 
-    leftFront.setInverted(true);
+    leftFront.setInverted(false);
+    rightFront.setInverted(true);
 
     leftPID = leftFront.getPIDController();
     rightPID = rightFront.getPIDController();
@@ -130,7 +132,7 @@ public class Drive extends SubsystemBase implements TurnInterface {
    * @return position of encoder
    */
   public double getLeftEncoder() {
-    return leftEncoder.getPosition();
+    return leftEncoder.getPosition() * Constants.DriveConstants.REV_TO_IN_K;
   }
 
   /**
@@ -140,7 +142,7 @@ public class Drive extends SubsystemBase implements TurnInterface {
    */
   public double getRightEncoder() {
     // rightFront.getEncoder().setPositionConversionFactor(-1);
-    return rightEncoder.getPosition();
+    return rightEncoder.getPosition() * Constants.DriveConstants.REV_TO_IN_K;
   }
 
   /**
@@ -210,11 +212,11 @@ public class Drive extends SubsystemBase implements TurnInterface {
   /**
    * Configures Spark Max to position-based closed-loop control mode and sets target distance
    * 
-   * @param dist the target distance
+   * @param dist the target distance in inches
    */
   public void setSetPoint(double dist) {
-    leftPID.setReference(dist, ControlType.kPosition);
-    rightPID.setReference(dist, ControlType.kPosition);
+    leftPID.setReference((dist * IN_TO_REV_K), ControlType.kPosition);
+    rightPID.setReference((dist * IN_TO_REV_K), ControlType.kPosition);
   }
 
   @Override
