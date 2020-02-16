@@ -145,6 +145,14 @@ public class Drive extends SubsystemBase implements TurnInterface {
     return rightEncoder.getPosition() * Constants.DriveConstants.REV_TO_IN_K;
   }
 
+  public double getRightDistance() {
+    return getRightEncoder() * REV_TO_IN_K;
+  }
+
+  public double getLeftDistance() {
+    return getLeftEncoder() * REV_TO_IN_K;
+  }
+
   /**
    * Resets Neo drive motor encoders
    */
