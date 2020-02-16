@@ -177,14 +177,13 @@ public class RobotContainer {
   }
 
   public void doInPeriodic() {
-    try {
-      SmartDashboard.putBoolean("switch1", autoSwitch1.get());
-      SmartDashboard.putBoolean("switch2", autoSwitch2.get());
-      SmartDashboard.putBoolean("switch3", autoSwitch3.get());
-      SmartDashboard.putBoolean("switch4", autoSwitch4.get());
-    } catch (Exception e) {
-      System.out.println("switches bad");
-    }
+    /*
+     * try { SmartDashboard.putBoolean("switch1", autoSwitch1.get());
+     * SmartDashboard.putBoolean("switch2", autoSwitch2.get());
+     * SmartDashboard.putBoolean("switch3", autoSwitch3.get());
+     * SmartDashboard.putBoolean("switch4", autoSwitch4.get()); } catch (Exception
+     * e) { System.out.println("switches bad"); }
+     */
 
   }
 

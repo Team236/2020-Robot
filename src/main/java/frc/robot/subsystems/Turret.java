@@ -24,33 +24,31 @@ import frc.robot.Constants;
 
 public class Turret extends SubsystemBase {
   public CANSparkMax turretSpinner;
-  //private Counter counter;
+  // private Counter counter;
   private DigitalInput leftLimit, rightLimit;
-  //private CANEncoder encoder;
+  // private CANEncoder encoder;
 
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
-    //counter = new Counter(Constants.TurretConstants.DIO_TURRET);
+    // counter = new Counter(Constants.TurretConstants.DIO_TURRET);
     // leftLimit = new DigitalInput(0);
     // rightLimit = new DigitalInput(1);
-    //turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-    //turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 1);
+    // turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
+    // LimitSwitchNormal.NormallyOpen, 0);
+    // turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
+    // LimitSwitchNormal.NormallyOpen, 1);
 
   }
+
   public void setTurretSpeed(double speed) {
     turretSpinner.set(speed);
   }
 
   /*
-  public void resetEncoders() {
-    counter.reset();
-    encoder.setPosition(0);
-  }
-  
-  public double getEncoder() {
-    return encoder.getPosition();
-  }
-  */
+   * public void resetEncoders() { counter.reset(); encoder.setPosition(0); }
+   * 
+   * public double getEncoder() { return encoder.getPosition(); }
+   */
   public double getRawSpeed() {
     return turretSpinner.getEncoder().getVelocity();
   }
@@ -58,15 +56,16 @@ public class Turret extends SubsystemBase {
   public boolean isLeftLimit() {
     // return leftLimit.get();
     return false;
-    //return turretSpinner.getSensorCollection().isRevLimitSwitchClosed();
+    // return turretSpinner.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   public boolean isRightLimit() {
     // return rightLimit.get();
     return false;
-    //return turretSpinner.getSensorCollection().isFwdLimitSwitchClosed();
+    // return turretSpinner.getSensorCollection().isFwdLimitSwitchClosed();
 
   }
+
   public void setSpeed(double speed) {
     if (!isLeftLimit() && !isRightLimit()) {
       setTurretSpeed(speed);
@@ -74,12 +73,13 @@ public class Turret extends SubsystemBase {
       stop();
     }
   }
+
   public void stop() {
     turretSpinner.set(0);
   }
 
-    @Override
-    public void periodic() {
-      // This method will be called once per scheduler run
-    }
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
+}
