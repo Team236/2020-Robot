@@ -121,6 +121,14 @@ public class Shooter extends SubsystemBase {
     
   }
 
+  public double getHoodEncoder() {
+    return hood.getSelectedSensorPosition();
+  }
+
+  public void resetHoodEncoder() {
+    hood.setSelectedSensorPosition(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
