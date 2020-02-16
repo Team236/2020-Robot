@@ -34,6 +34,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Limelight;
+import lib.motionProfile.TrapProfile;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
 import lib.turn.Turn;
@@ -72,6 +73,7 @@ public class RobotContainer {
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
   private final Turn turn90 = new Turn(drive, 90, 5, Constants.AutoConstants.TURN_PARAMS);
   private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
+  public TrapProfile testProfile;
 
   // INTAKE
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
@@ -173,7 +175,7 @@ public class RobotContainer {
     autoSwitch4 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_4);
 
     // TODO generate trapezoidal profiles (if using)
-
+    testProfile = new TrapProfile(-24, 100, 100, 0, 3);
   }
 
   public void doInPeriodic() {

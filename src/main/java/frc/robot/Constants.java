@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import lib.motionProfile.DriveParameters;
 import lib.pid.PIDParameters;
 
 /**
@@ -54,6 +55,8 @@ public final class Constants {
         public static final double MAX_OUTPUT = 1.0;
 
         public static final boolean IS_DEADZONE = true;
+
+        public static final DriveParameters DRIVE_PARAMS = new DriveParameters(0.0, 0.0, 0.0, 0.0, -0.0);
     }
 
     public static class AutoConstants {
@@ -129,7 +132,9 @@ public final class Constants {
 
     public static class TurretConstants {
         public static final int ID_TURRET = 12;
-        public static final int DIO_TURRET = 0;
+        // public static final int DIO_TURRET = 0;
+        public static final int DIO_LEFT_LIMIT = 4;
+        public static final int DIO_RIGHT_LIMIT = 5;
 
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
