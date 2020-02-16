@@ -31,8 +31,9 @@ public class Turret extends SubsystemBase {
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
     // counter = new Counter(Constants.TurretConstants.DIO_TURRET);
-    // leftLimit = new DigitalInput(0);
-    // rightLimit = new DigitalInput(1);
+    // leftLimit = new DigitalInput(Constants.TurretConstants.DIO_LEFT_LIMIT);
+    // rightLimit = new DigitalInput(Constants.TurretConstants.DIO_RIGHT_LIMIT);
+    
     // turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
     // LimitSwitchNormal.NormallyOpen, 0);
     // turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
