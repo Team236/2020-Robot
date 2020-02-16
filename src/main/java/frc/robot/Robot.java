@@ -73,6 +73,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Angle to:", RobotContainer.myLimelight.getAngleOffset());
     SmartDashboard.putNumber("Angle Vertical to:", RobotContainer.myLimelight.getVertOffset());
 
+    // robotContainer.doInPeriodic();
+
     //
     // SmartDashboard.putNumber("Turret Motor Speed", turret.getRawSpeed());
     // SmartDashboard.putNumber("Turret Spin Speed", turret.getRawSpeed() / 75);
@@ -118,6 +120,8 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+
+    robotContainer.doInPeriodic();
   }
 
   /**

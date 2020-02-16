@@ -38,6 +38,7 @@ import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
 import lib.turn.Turn;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -59,7 +60,6 @@ public class RobotContainer {
   public final static Limelight myLimelight = new Limelight();
   private final Climber climber = new Climber();
 
-
   // **JOYSTICKS**
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
   Thrustmaster leftStick = new Thrustmaster(Constants.ControllerConstants.USB_LEFT_STICK);
@@ -77,12 +77,14 @@ public class RobotContainer {
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
   private final SetIntakeSpeed reverseIntakeSpeed = new SetIntakeSpeed(intake, -Constants.IntakeConstants.SPEED);
   private final IntakeWithAxis intakeWithAxis = new IntakeWithAxis(intake, controller);
-  private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive, myLimelight, Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD, Constants.IntakeConstants.LIME_SPEED);
+  private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive, myLimelight,
+      Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD,
+      Constants.IntakeConstants.LIME_SPEED);
   private final TargetAndIntake targetAndIntake = new TargetAndIntake(drive, intake, myLimelight);
 
   // TURRET
-  private final LimeLightTurret limeLightTurret = new LimeLightTurret(myLimelight, turret, Constants.TurretConstants.TURRET_kP, 
-  Constants.TurretConstants.TURRET_kI, Constants.TurretConstants.TURRET_kD);
+  private final LimeLightTurret limeLightTurret = new LimeLightTurret(myLimelight, turret,
+      Constants.TurretConstants.TURRET_kP, Constants.TurretConstants.TURRET_kI, Constants.TurretConstants.TURRET_kD);
   private final TriggerTurret triggerTurretZero = new TriggerTurret(turret, 0);
   private final TriggerTurret triggerTurretOne = new TriggerTurret(turret, 1);
 
@@ -93,7 +95,8 @@ public class RobotContainer {
   private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
 
   // SHOOTER
-  // private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
+  // private final ShooterSparkControl shooterSparkControl = new
+  // ShooterSparkControl(shooter, 4000);
   private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
@@ -103,7 +106,6 @@ public class RobotContainer {
 
   // CLIMBER
   private final SetClimbSpeed setClimbSpeed = new SetClimbSpeed(climber);
-
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
@@ -117,8 +119,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    drive.resetEncoders();
+    // drive.resetAngle();
+
     // Sets up auto stuff
-    // configAutos();
+    configAutos();
   }
 
   private void configureButtonBindings() {
@@ -134,13 +139,13 @@ public class RobotContainer {
     rightStick.right.whileHeld(triggerHoodOne);
     leftStick.left.whileHeld(triggerHoodOne);
 
-    // INTAKE 
+    // INTAKE
     controller.x.whileHeld(setIntakeSpeed);
     controller.lb.whileHeld(intakeWithAxis);
 
     leftStick.left.whileHeld(limeLightIntake);
     // leftStick.left.whileHeld(targetAndIntake);
-    
+
     rightStick.middle.whileHeld(setIntakeSpeed);
     rightStick.trigger.whileHeld(reverseIntakeSpeed);
 
@@ -171,6 +176,18 @@ public class RobotContainer {
 
   }
 
+  public void doInPeriodic() {
+    try {
+      SmartDashboard.putBoolean("switch1", autoSwitch1.get());
+      SmartDashboard.putBoolean("switch2", autoSwitch2.get());
+      SmartDashboard.putBoolean("switch3", autoSwitch3.get());
+      SmartDashboard.putBoolean("switch4", autoSwitch4.get());
+    } catch (Exception e) {
+      System.out.println("switches bad");
+    }
+
+  }
+
   // TODO auto switches
   /*
    * private Command getAutoFromSwitches() {
@@ -181,6 +198,7 @@ public class RobotContainer {
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    * (runs in autoInit)
+   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
