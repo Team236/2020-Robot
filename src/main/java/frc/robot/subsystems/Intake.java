@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,8 +23,10 @@ public class Intake extends SubsystemBase {
 
   private VictorSPX intakeMotor;
   private TalonSRX raiseLowerMotor;
+  private DigitalInput upperLimit, lowerLimit;
 
   private Counter ballCounter;
+  private boolean limitsUnplugged = false;
 
   /**
    * Creates a new Intake.
@@ -30,6 +34,14 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intakeMotor = new VictorSPX(ID_MOTOR);
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
+
+    try {
+      upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
+      lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
+
+    } catch (Exception e) {
+      limitsUnplugged = true;
+    }
 
     this.ballCounter = new Counter();
     this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
@@ -61,6 +73,23 @@ public class Intake extends SubsystemBase {
     ballCounter.reset();
   }
 
+  public boolean getUpperLimit() {
+    if (limitsUnplugged) {
+      return false;
+    } else {
+      return upperLimit.get();
+    }
+
+  }
+
+  public boolean getLowerLimit() {
+    if (limitsUnplugged) {
+      return false;
+    } else {
+      return lowerLimit.get();
+    }
+  }
+
   /**
    * Sets speed of motor that positions intake up/down
    * 
@@ -85,5 +114,6 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("intake upper", getUpperLimit());
   }
 }

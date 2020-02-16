@@ -70,16 +70,18 @@ public final class Constants {
         public static final int ID_MOTOR = 24;
         public static final int ID_POSITION_MOTOR = 99;
         public static final int DIO_INTAKE_COUNTER = 0;
+        public static final int DIO_UPPER_LIMIT = 13;
+        public static final int DIO_LOWER_LIMIT = 13;
 
         public static final double LIME_KP = .005;
         public static final double LIME_KI = .0;
         public static final double LIME_KD = .005;
         public static final double LIME_SPEED = 0.2;
-        
+
         public static final double SPEED = .75;
         public static final double RAISE_SPEED = 1.0;
         public static final double LOWER_SPEED = -RAISE_SPEED;
-        
+
         public static final boolean CONSIDER_COUNT = false;
         public static final int MAX_COUNT = 6;
 
@@ -128,7 +130,7 @@ public final class Constants {
     public static class TurretConstants {
         public static final int ID_TURRET = 12;
         public static final int DIO_TURRET = 0;
-        
+
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.03;
