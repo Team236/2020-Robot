@@ -66,7 +66,7 @@ public final class Constants {
         public static final int DIO_SWITCH_4 = 9;
 
         // TURN CONSTANTS
-        public static final PIDParameters TURN_PARAMS = new PIDParameters(0.001, 0.0, 0.0, .02);
+        public static final PIDParameters TURN_PARAMS = new PIDParameters(0.0075, 0.0, 0.0, .02);
     }
 
     public static class IntakeConstants {
