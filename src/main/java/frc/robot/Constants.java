@@ -121,8 +121,13 @@ public final class Constants {
 
         public static final int COLOR_COUNT = 32;
 
+        // Exten/retract servo position values
         public static final double EXTEND_VALUE = 1.0; // .8
         public static final double RETRACT_VALUE = 0.0; // .2
+
+        // Extend/retract servo run-times
+        public static final double EXTEND_TIME = 1.4;
+        public static final double RETRACT_TIME = 0.6;
     }
 
     public static class CarouselConstants {
