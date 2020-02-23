@@ -15,6 +15,8 @@ import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
 import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRetract;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
+import frc.robot.commands.ColorSpinner.ExtendCSgroup;
+import frc.robot.commands.ColorSpinner.RetractCSgroup;
 import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
@@ -61,6 +63,7 @@ public class RobotContainer {
   public final static Limelight myLimelight = new Limelight();
   private final Climber climber = new Climber();
 
+
   // **JOYSTICKS**
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
   Thrustmaster leftStick = new Thrustmaster(Constants.ControllerConstants.USB_LEFT_STICK);
@@ -96,6 +99,8 @@ public class RobotContainer {
   private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
   private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
   private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
+  private final ExtendCSgroup extendCSgroup = new ExtendCSgroup(colorSpinner);
+  private final RetractCSgroup retractCSgroup = new RetractCSgroup(colorSpinner);
 
   // SHOOTER
   // private final ShooterSparkControl shooterSparkControl = new
@@ -133,8 +138,11 @@ public class RobotContainer {
     // COLOR SPINNER
     // leftStick.left.whenPressed(colorSpinnerRotation);
     // leftStick.right.whenPressed(colorSpinnerPosition);
-    // rightStick.right.whileHeld(colorSpinnerExtend);
-    // rightStick.left.whileHeld(colorSpinnerRetract);
+
+    // controller.a.whileHeld(colorSpinnerExtend);
+    controller.a.whenHeld(extendCSgroup); //up
+    // controller.b.whileHeld(colorSpinnerRetract);
+    controller.b.whenHeld(retractCSgroup);
 
     // SHOOTER
     leftStick.middle.whileHeld(shoot);
@@ -143,14 +151,14 @@ public class RobotContainer {
     leftStick.left.whileHeld(triggerHoodOne);
 
     // INTAKE
-    // controller.x.whileHeld(setIntakeSpeed);
-    // controller.lb.whileHeld(intakeWithAxis);
+    controller.x.whileHeld(setIntakeSpeed);
+    controller.lb.whileHeld(intakeWithAxis);
 
-    leftStick.left.whileHeld(limeLightIntake);
+    // leftStick.left.whileHeld(limeLightIntake);
     // leftStick.left.whileHeld(targetAndIntake);
 
-    rightStick.middle.whileHeld(setIntakeSpeed);
-    rightStick.trigger.whileHeld(reverseIntakeSpeed);
+    rightStick.trigger.whileHeld(setIntakeSpeed);
+    rightStick.middle.whileHeld(reverseIntakeSpeed);
 
     // TURRET
     rightStick.left.whileHeld(limeLightTurret);
@@ -160,9 +168,9 @@ public class RobotContainer {
     // CLIMBER
 
     // AUTO
-    controller.x.whenHeld(turn90);
-    controller.a.whenHeld(testingSparkTuning);
-    controller.b.whenHeld(turn45);
+    // controller.x.whenHeld(turn90);
+    // controller.a.whenHeld(testingSparkTuning);
+    // controller.b.whenHeld(turn45);
 
   }
 

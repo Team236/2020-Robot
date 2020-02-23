@@ -24,6 +24,8 @@ import static frc.robot.Constants.ColorSpinnerConstants.*;
 
 public class ColorSpinner extends SubsystemBase {
 
+  // Vex servos- about 76 rpm
+
   private CANSparkMax spinnerMotor;
   private Servo servo;
   private Servo servo2;
@@ -184,16 +186,21 @@ public class ColorSpinner extends SubsystemBase {
    * Extends both color spinner servos (folds down mechanism)
    */
   public void extend() {
-    servo.set(EXTEND_VALUE);
-    servo2.set(EXTEND_VALUE);
+    servo.set(0.0);
+    servo2.set(1.0);
   }
 
   /**
    * Retracts both color spinner servos (pops up mechanism)
    */
   public void retract() {
-    servo.set(RETRACT_VALUE);
-    servo2.set(RETRACT_VALUE);
+    servo.set(1.0);
+    servo2.set(0.0);
+  }
+
+  public void stopServo() {
+    servo.set(0.5);
+    servo2.set(0.5);
   }
 
   /**
