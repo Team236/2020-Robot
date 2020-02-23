@@ -81,7 +81,7 @@ public final class Constants {
         public static final double LIME_KD = .005;
         public static final double LIME_SPEED = 0.2;
 
-        public static final double SPEED = .75;
+        public static final double SPEED = 0.60;
         public static final double RAISE_SPEED = 1.0;
         public static final double LOWER_SPEED = -RAISE_SPEED;
 
@@ -120,8 +120,8 @@ public final class Constants {
 
         public static final int COLOR_COUNT = 32;
 
-        public static final double EXTEND_VALUE = 0.8;
-        public static final double RETRACT_VALUE = 0.2;
+        public static final double EXTEND_VALUE = 1.0; // .8
+        public static final double RETRACT_VALUE = 0.0; // .2
     }
 
     public static class CarouselConstants {
