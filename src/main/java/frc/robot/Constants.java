@@ -97,6 +97,7 @@ public final class Constants {
         public static final int ID_HOOD = 30;
 
         public static final int DIO_SHOOT_COUNTER = 5;
+        public static final int DIO_HOOD_LIMIT = 99;
 
         public static final double SPEED_RPM = 500;
         public static final double HOOD_SPEED = 1.0;
@@ -126,6 +127,9 @@ public final class Constants {
 
     public static class CarouselConstants {
         public static final int ID_MOTOR = 25;
+
+        public static final int PWM_TO_SHOOT_SERVO = 99;
+        public static final int PWM_TO_SHOOT_SERVO_2 = 99;
 
         public static final double SPEED = .5;
     }
