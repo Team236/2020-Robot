@@ -17,15 +17,20 @@ import static frc.robot.Constants.CarouselConstants.*;
 public class Carousel extends SubsystemBase {
 
   private VictorSPX carouselMotor;
+  private VictorSPX rollerMotor;
 
   private Servo toShootServo;
+  private Servo toShootServo2;
 
   /**
    * Creates a new Carousel.
    */
   public Carousel() {
     carouselMotor = new VictorSPX(ID_MOTOR);
+    rollerMotor = new VictorSPX(ID_ROLLER_MOTOR);
+
     toShootServo = new Servo(PWM_TO_SHOOT_SERVO);
+    toShootServo2 = new Servo(PWM_TO_SHOOT_SERVO_2);
   }
 
   /**
@@ -41,11 +46,38 @@ public class Carousel extends SubsystemBase {
   }
 
   /**
-   * Sets servo that pushes ball to shooter (from carousel)
+   * Spins rollers that push ball to shooter
+   * @param speed
+   */
+  public void setRollerSpeed(double speed) {
+    rollerMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void stopRoller() {
+    setRollerSpeed(0);
+  }
+
+  /**
+   * Sets both servos that push ball to shooter (green wheel)
    * @param position desired position of servo
    */
-  public void setToShootServo(double position) {
+  public void setToShootServos(double position) {
     toShootServo.setPosition(position);
+    toShootServo2.setPosition(position);
+  }
+
+  /**
+   * Extends green wheel to bump ball to rollers
+   */
+  public void extendBumpWheel() {
+    setToShootServos(EXTEND_POS);
+  }
+
+  /**
+   * Retracts green wheel
+   */
+  public void retractBumpWheel() {
+    setToShootServos(RETRACT_POS);
   }
 
   @Override

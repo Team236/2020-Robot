@@ -127,11 +127,15 @@ public final class Constants {
 
     public static class CarouselConstants {
         public static final int ID_MOTOR = 25;
+        public static final int ID_ROLLER_MOTOR = 99;
 
-        public static final int PWM_TO_SHOOT_SERVO = 99;
-        public static final int PWM_TO_SHOOT_SERVO_2 = 99;
+        public static final int PWM_TO_SHOOT_SERVO = 2;
+        public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
         public static final double SPEED = .5;
+
+        public static final double EXTEND_POS = 1.0;
+        public static final double RETRACT_POS = 0.0;
     }
 
     public static class TurretConstants {
