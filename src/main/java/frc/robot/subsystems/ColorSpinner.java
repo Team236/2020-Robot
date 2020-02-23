@@ -63,11 +63,19 @@ public class ColorSpinner extends SubsystemBase {
 
   }
 
-  public void startMotor(double speed) {
+  /**
+   * Sets speed to turn mechanism's wheel
+   * 
+   * @param speed
+   */
+  public void setSpeed(double speed) {
     spinnerMotor.set(speed);
   }
 
-  public void stopMotor() {
+  /**
+   * Stops mechanism wheel
+   */
+  public void stop() {
     spinnerMotor.set(0);
   }
 
@@ -172,11 +180,17 @@ public class ColorSpinner extends SubsystemBase {
     return servo.get();
   }
 
+  /**
+   * Extends both color spinner servos (folds down mechanism)
+   */
   public void extend() {
     servo.set(EXTEND_VALUE);
     servo2.set(EXTEND_VALUE);
   }
 
+  /**
+   * Retracts both color spinner servos (pops up mechanism)
+   */
   public void retract() {
     servo.set(RETRACT_VALUE);
     servo2.set(RETRACT_VALUE);

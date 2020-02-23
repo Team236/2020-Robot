@@ -41,7 +41,7 @@ public class Turret extends SubsystemBase {
 
   }
 
-  public void setTurretSpeed(double speed) {
+  public void setSpeedRaw(double speed) {
     turretSpinner.set(speed);
   }
 
@@ -69,7 +69,7 @@ public class Turret extends SubsystemBase {
 
   public void setSpeed(double speed) {
     if (!isLeftLimit() && !isRightLimit()) {
-      setTurretSpeed(speed);
+      setSpeedRaw(speed);
     } else {
       stop();
     }

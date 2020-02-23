@@ -39,7 +39,7 @@ public class ColorSpinnerRotation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    colorSpinner.startMotor(Constants.ColorSpinnerConstants.SPEED);
+    colorSpinner.setSpeed(Constants.ColorSpinnerConstants.SPEED);
     nextColor = colorSpinner.getCurrentColor();
 
     // Increments count if color has changed
@@ -54,7 +54,7 @@ public class ColorSpinnerRotation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    colorSpinner.stopMotor();
+    colorSpinner.stop();
   }
 
   // Returns true when number of colors changed is greater than desired

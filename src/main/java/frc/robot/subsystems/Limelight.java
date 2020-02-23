@@ -33,10 +33,9 @@ public class Limelight extends SubsystemBase {
     limelight = new TheLimeLight("limelight");
   }
 
-  // @Override
-  public void initDefaultCommand() {
-    // setDefaultCommand(new )
-  }
+  /*
+   * // @Override public void initDefaultCommand() { // setDefaultCommand(new ) }
+   */
 
   public TheLimeLight getLimeLight() {
     return limelight;
