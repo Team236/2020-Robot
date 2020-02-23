@@ -26,6 +26,7 @@ public class ColorSpinner extends SubsystemBase {
 
   private CANSparkMax spinnerMotor;
   private Servo servo;
+  private Servo servo2;
 
   private ColorSensorV3 colorSensor;
   private ColorMatch colorMatcher;
@@ -41,6 +42,10 @@ public class ColorSpinner extends SubsystemBase {
   public ColorSpinner() {
     spinnerMotor = new CANSparkMax(ID_MOTOR, MotorType.kBrushless);
     servo = new Servo(PWM_SERVO);
+    servo2 = new Servo(1);
+
+    servo.setBounds(2.1, 2.1, 1.5, .95, .95);
+    servo2.setBounds(2.1, 2.1, 1.5, .95, .95);
 
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
@@ -169,10 +174,12 @@ public class ColorSpinner extends SubsystemBase {
 
   public void extend() {
     servo.set(EXTEND_VALUE);
+    servo2.set(EXTEND_VALUE);
   }
 
   public void retract() {
     servo.set(RETRACT_VALUE);
+    servo2.set(RETRACT_VALUE);
   }
 
   /**
@@ -192,6 +199,8 @@ public class ColorSpinner extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("CS servo pos", getServoPos());
+    // SmartDashboard.putNumber("cs servo", getServoPos());
+    // SmartDashboard.putNumber("bounds", servo.getRawBounds());
+    // System.out.println(servo.getRawBounds());
   }
 }
