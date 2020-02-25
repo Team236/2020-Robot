@@ -16,11 +16,10 @@ import static frc.robot.Constants.CarouselConstants.*;
 
 public class Carousel extends SubsystemBase {
 
-  private VictorSPX carouselMotor;
-  private VictorSPX rollerMotor;
+  private VictorSPX carouselMotor, rollerMotor, greenWheel;
 
   private Servo toShootServo;
-  private Servo toShootServo2;
+  // private Servo toShootServo2;
 
   /**
    * Creates a new Carousel.
@@ -28,9 +27,10 @@ public class Carousel extends SubsystemBase {
   public Carousel() {
     carouselMotor = new VictorSPX(ID_MOTOR);
     rollerMotor = new VictorSPX(ID_ROLLER_MOTOR);
+    greenWheel = new VictorSPX(ID_GREEN_WHEEL);
 
     toShootServo = new Servo(PWM_TO_SHOOT_SERVO);
-    toShootServo2 = new Servo(PWM_TO_SHOOT_SERVO_2);
+    // toShootServo2 = new Servo(PWM_TO_SHOOT_SERVO_2);
   }
 
   /**
@@ -53,6 +53,13 @@ public class Carousel extends SubsystemBase {
     rollerMotor.set(ControlMode.PercentOutput, speed);
   }
 
+  /**
+   * Sets roller to predetermined speed
+   */
+  public void spinRoller() {
+    setRollerSpeed(ROLLER_SPEED);
+  }
+
   public void stopRoller() {
     setRollerSpeed(0);
   }
@@ -63,7 +70,7 @@ public class Carousel extends SubsystemBase {
    */
   public void setToShootServos(double position) {
     toShootServo.setPosition(position);
-    toShootServo2.setPosition(position);
+    // toShootServo2.setPosition(position);
   }
 
   /**
@@ -78,6 +85,17 @@ public class Carousel extends SubsystemBase {
    */
   public void retractBumpWheel() {
     setToShootServos(RETRACT_POS);
+  }
+
+  /**
+   * Spins the green wheel at predetermined speed
+   */
+  public void spinGreenWheel() {
+    greenWheel.set(ControlMode.PercentOutput, GREEN_SPEED);
+  }
+
+  public void stopGreenWheel() {
+    greenWheel.set(ControlMode.PercentOutput, 0);
   }
 
   @Override
