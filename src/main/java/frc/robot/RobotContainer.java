@@ -122,7 +122,6 @@ public class RobotContainer {
     leftStick.middle.whileHeld(shoot4000);
     leftStick.right.whileHeld(triggerHoodZero);
     rightStick.right.whileHeld(triggerHoodOne);
-    leftStick.left.whileHeld(triggerHoodOne);
 
     // INTAKE 
     controller.x.whileHeld(setIntakeSpeed);

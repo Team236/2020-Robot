@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,20 +21,30 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase {
 
-  private TalonSRX intakeMotor;
-  private VictorSPX raiseLowerMotor;
+  private VictorSPX intakeMotor;
+  private TalonSRX raiseLowerMotor;
+  private DigitalInput upperLimit, lowerLimit;
 
   private Counter ballCounter;
+  private boolean limitsUnplugged = false;
 
   /**
    * Creates a new Intake.
    */
   public Intake() {
-    intakeMotor = new TalonSRX(ID_MOTOR);
-    raiseLowerMotor = new VictorSPX(ID_POSITION_MOTOR);
+    intakeMotor = new VictorSPX(ID_MOTOR);
+    raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
+
+    try {
+      upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
+      lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
+
+    } catch (Exception e) {
+      limitsUnplugged = true;
+    }
 
     this.ballCounter = new Counter();
-    this.ballCounter.setUpSource(DIO_INTAKE_SENSOR);
+    this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
     this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
 
   }
@@ -54,14 +66,6 @@ public class Intake extends SubsystemBase {
     return ballCounter.get();
   }
 
-  public void setPositionSpeed(double speed) {
-    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
-  }
-
-  public void stopPositionMotor() {
-    setPositionSpeed(0);
-  }
-
   /**
    * Resets intake counter to 0
    */
@@ -69,8 +73,47 @@ public class Intake extends SubsystemBase {
     ballCounter.reset();
   }
 
+  public boolean getUpperLimit() {
+    if (limitsUnplugged) {
+      return false;
+    } else {
+      return upperLimit.get();
+    }
+
+  }
+
+  public boolean getLowerLimit() {
+    if (limitsUnplugged) {
+      return false;
+    } else {
+      return lowerLimit.get();
+    }
+  }
+
+  /**
+   * Sets speed of motor that positions intake up/down
+   * 
+   * @param speed
+   */
+  public void setPositionSpeed(double speed) {
+    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void raise() {
+
+  }
+
+  public void lower() {
+
+  }
+
+  public void stopPositionMotor() {
+    setPositionSpeed(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("intake upper", getUpperLimit());
   }
 }

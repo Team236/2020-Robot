@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import lib.motionProfile.DriveParameters;
+import lib.pid.PIDParameters;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -31,24 +34,57 @@ public final class Constants {
         public static final int ID_RIGHT_FRONT = 4;
         public static final int ID_RIGHT_REAR = 6;
 
+        public static final double DIAMETER = 6.0;
+        public static final double CIRCUMFERENCE = Math.PI * DIAMETER;
+        // public static final double GEAR_RATIO = (46/11) * (52/20);
+        public static final double GEAR_RATIO = 8.71;
+        // constant by which to multiply to convert revolutions to in
+        // public static final double REV_TO_IN_K = GEAR_RATIO / CIRCUMFERENCE;
+        public static final double REV_TO_IN_K = CIRCUMFERENCE / GEAR_RATIO;
+        public static final double IN_TO_REV_K = GEAR_RATIO / CIRCUMFERENCE;
+
         public static final double LEFT_DEADZONE = .1;
         public static final double RIGHT_DEADZONE = .1;
 
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kF = 0.0;
+
+        public static final double MIN_OUTPUT = 0.0;
+        public static final double MAX_OUTPUT = 1.0;
+
         public static final boolean IS_DEADZONE = true;
+
+        public static final DriveParameters DRIVE_PARAMS = new DriveParameters(0.0, 0.0, 0.0, 0.0, -0.0);
+    }
+
+    public static class AutoConstants {
+        public static final int DIO_SWITCH_1 = 6;
+        public static final int DIO_SWITCH_2 = 7;
+        public static final int DIO_SWITCH_3 = 8;
+        public static final int DIO_SWITCH_4 = 9;
+
+        // TURN CONSTANTS
+        public static final PIDParameters TURN_PARAMS = new PIDParameters(0.001, 0.0, 0.0, .02);
     }
 
     public static class IntakeConstants {
         public static final int ID_MOTOR = 24;
         public static final int ID_POSITION_MOTOR = 99;
-        public static final int DIO_INTAKE_SENSOR = 0;
+        public static final int DIO_INTAKE_COUNTER = 0;
+        public static final int DIO_UPPER_LIMIT = 13;
+        public static final int DIO_LOWER_LIMIT = 13;
 
         public static final double LIME_KP = .005;
         public static final double LIME_KI = .0;
         public static final double LIME_KD = .005;
         public static final double LIME_SPEED = 0.2;
-        
+
         public static final double SPEED = .75;
-        
+        public static final double RAISE_SPEED = 1.0;
+        public static final double LOWER_SPEED = -RAISE_SPEED;
+
         public static final boolean CONSIDER_COUNT = false;
         public static final int MAX_COUNT = 6;
 
@@ -60,7 +96,7 @@ public final class Constants {
         public static final int ID_FOLLOWER = 9;
         public static final int ID_HOOD = 30;
 
-        public static final int DIO_SHOOT_COUNTER = 1;
+        public static final int DIO_SHOOT_COUNTER = 5;
 
         public static final double SPEED_RPM = 500;
         public static final double HOOD_SPEED = 1.0;
@@ -96,8 +132,10 @@ public final class Constants {
 
     public static class TurretConstants {
         public static final int ID_TURRET = 12;
-        public static final int DIO_TURRET = 0;
-        
+        // public static final int DIO_TURRET = 0;
+        public static final int DIO_LEFT_LIMIT = 4;
+        public static final int DIO_RIGHT_LIMIT = 5;
+
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.03;

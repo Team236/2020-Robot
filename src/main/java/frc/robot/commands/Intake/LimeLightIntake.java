@@ -1,7 +1,6 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Drive;
@@ -30,6 +29,18 @@ public class LimeLightIntake extends CommandBase {
     this.speed = _speed;
     addRequirements(myLimelightLocal);
     addRequirements(drive);
+  }
+
+  public LimeLightIntake(Drive driveSub, Limelight limeSub) {
+    this.kP = Constants.IntakeConstants.LIME_KP;
+    this.kI = Constants.IntakeConstants.LIME_KI;
+    this.kD = Constants.IntakeConstants.LIME_KD;
+    this.speed = Constants.IntakeConstants.LIME_SPEED;
+    
+    this.drive = driveSub;
+    this.myLimelightLocal = limeSub;
+
+    addRequirements(myLimelightLocal, driveSub);
   }
 
   @Override

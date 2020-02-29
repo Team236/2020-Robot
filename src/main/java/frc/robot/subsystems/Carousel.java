@@ -8,20 +8,20 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.CarouselConstants.*;
 
 public class Carousel extends SubsystemBase {
 
-  private TalonSRX carouselMotor;
+  private VictorSPX carouselMotor;
 
   /**
    * Creates a new Carousel.
    */
   public Carousel() {
-    carouselMotor = new TalonSRX(ID_MOTOR);
+    carouselMotor = new VictorSPX(ID_MOTOR);
   }
 
   public void setSpeed(double speed) {

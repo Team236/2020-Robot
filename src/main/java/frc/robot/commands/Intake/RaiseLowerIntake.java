@@ -11,27 +11,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
-public class SetIntakeSpeed extends CommandBase {
+public class RaiseLowerIntake extends CommandBase {
 
   private Intake intake;
-  private double speed;
+  private boolean isRaise;
 
   /**
-   * Sets intake speed
+   * @param direction set to True to raise
    */
-  public SetIntakeSpeed(Intake intake, double speed) {
+  public RaiseLowerIntake(Intake intake, boolean direction) {
     this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.intake);
-
-    this.speed = speed;
-  }
-
-  public SetIntakeSpeed(Intake intake) {
-    this.intake = intake;
-    addRequirements(this.intake);
-
-    this.speed = Constants.IntakeConstants.SPEED;
+    this.isRaise = direction;
   }
 
   // Called when the command is initially scheduled.
@@ -42,28 +34,23 @@ public class SetIntakeSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // If considering count, only sets speed when count < max
-    if (Constants.IntakeConstants.CONSIDER_COUNT) {
-      if (intake.getBallCount() < Constants.IntakeConstants.MAX_COUNT) {
-        intake.setSpeed(speed);
-      } else {
-        intake.stop();
-      }
+    if (isRaise) {
+      intake.setPositionSpeed(Constants.IntakeConstants.RAISE_SPEED);
     } else {
-      intake.setSpeed(speed);
+      intake.setPositionSpeed(Constants.IntakeConstants.LOWER_SPEED);
     }
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.stop();
+    intake.stopPositionMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // TODO run on whenHeld and have it finish when limit is hit or current spikes
     return false;
   }
 }
