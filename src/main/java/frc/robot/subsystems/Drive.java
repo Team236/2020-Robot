@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -42,11 +43,13 @@ public class Drive extends SubsystemBase implements TurnInterface {
     rightFront = new CANSparkMax(ID_RIGHT_FRONT, MotorType.kBrushless);
     rightRear = new CANSparkMax(ID_RIGHT_REAR, MotorType.kBrushless);
 
-    leftRear.follow(leftFront, false);
-    rightRear.follow(rightFront, false);
+    navx = new AHRS(Port.kMXP);
 
     leftFront.setInverted(false);
     rightFront.setInverted(true);
+
+    leftRear.follow(leftFront, false);
+    rightRear.follow(rightFront, false);
 
     leftPID = leftFront.getPIDController();
     rightPID = rightFront.getPIDController();
@@ -177,8 +180,8 @@ public class Drive extends SubsystemBase implements TurnInterface {
 
   @Override
   public void pidSet(double speed) {
-    setRightSpeed(speed);
-    setLeftSpeed(-speed);
+    setRightSpeed(-speed);
+    setLeftSpeed(speed);
   }
 
   // SPARK MOTION CONTROL
@@ -232,5 +235,7 @@ public class Drive extends SubsystemBase implements TurnInterface {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Left", getLeftEncoder());
     SmartDashboard.putNumber("Right", getRightEncoder());
+
+    SmartDashboard.putNumber("navx angle", getGyroAngle());
   }
 }

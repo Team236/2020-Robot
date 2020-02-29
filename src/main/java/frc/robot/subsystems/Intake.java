@@ -21,7 +21,7 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase {
 
-  private VictorSPX intakeMotor;
+  private TalonSRX intakeMotor;
   private TalonSRX raiseLowerMotor;
   private DigitalInput upperLimit, lowerLimit;
 
@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
   public Intake() {
-    intakeMotor = new VictorSPX(ID_MOTOR);
+    intakeMotor = new TalonSRX(24);
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
 
     try {
@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    intakeMotor.set(ControlMode.PercentOutput, speed);
+    intakeMotor.set(ControlMode.PercentOutput, -speed);
   }
 
   public void stop() {

@@ -83,7 +83,7 @@ public class LimeLightTurret extends CommandBase {
     speed = (proportional + integral + derivative);
     // negative -= (proportional + integral + derivative);
 
-    turret.setTurretSpeed(speed);
+    turret.setSpeedRaw(speed);
   }
 
   // Called once the command ends or is interrupted.

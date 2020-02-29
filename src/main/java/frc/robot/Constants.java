@@ -66,7 +66,7 @@ public final class Constants {
         public static final int DIO_SWITCH_4 = 9;
 
         // TURN CONSTANTS
-        public static final PIDParameters TURN_PARAMS = new PIDParameters(0.001, 0.0, 0.0, .02);
+        public static final PIDParameters TURN_PARAMS = new PIDParameters(0.0075, 0.0, 0.0, .02);
     }
 
     public static class IntakeConstants {
@@ -81,7 +81,7 @@ public final class Constants {
         public static final double LIME_KD = .005;
         public static final double LIME_SPEED = 0.2;
 
-        public static final double SPEED = .75;
+        public static final double SPEED = 0.60;
         public static final double RAISE_SPEED = 1.0;
         public static final double LOWER_SPEED = -RAISE_SPEED;
 
@@ -97,6 +97,7 @@ public final class Constants {
         public static final int ID_HOOD = 30;
 
         public static final int DIO_SHOOT_COUNTER = 5;
+        public static final int DIO_HOOD_LIMIT = 99;
 
         public static final double SPEED_RPM = 500;
         public static final double HOOD_SPEED = 1.0;
@@ -120,14 +121,29 @@ public final class Constants {
 
         public static final int COLOR_COUNT = 32;
 
-        public static final double EXTEND_VALUE = 0.8;
-        public static final double RETRACT_VALUE = 0.2;
+        // Exten/retract servo position values
+        public static final double EXTEND_VALUE = 1.0; // .8
+        public static final double RETRACT_VALUE = 0.0; // .2
+
+        // Extend/retract servo run-times
+        public static final double EXTEND_TIME = 1.4;
+        public static final double RETRACT_TIME = 0.6;
     }
 
     public static class CarouselConstants {
         public static final int ID_MOTOR = 25;
+        public static final int ID_ROLLER_MOTOR = 99;
+        public static final int ID_GREEN_WHEEL = 99;
+
+        public static final int PWM_TO_SHOOT_SERVO = 2;
+        public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
         public static final double SPEED = .5;
+        public static final double GREEN_SPEED = .5;
+        public static final double ROLLER_SPEED = .5;
+
+        public static final double EXTEND_POS = 1.0;
+        public static final double RETRACT_POS = 0.0;
     }
 
     public static class TurretConstants {

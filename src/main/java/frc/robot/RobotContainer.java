@@ -8,12 +8,15 @@
 package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Auto.SparkControlwDash;
 import frc.robot.commands.Carousel.SpinCarousel;
 import frc.robot.commands.Climber.SetClimbSpeed;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
 import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRetract;
 import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
+import frc.robot.commands.ColorSpinner.ExtendCSgroup;
+import frc.robot.commands.ColorSpinner.RetractCSgroup;
 import frc.robot.commands.Drive.DriveWithJoysticks;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
@@ -34,6 +37,7 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Limelight;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
+import lib.turn.Turn;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -67,6 +71,10 @@ public class RobotContainer {
 
   // DRIVE
   private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
+  private final Turn turn90 = new Turn(drive, 90, 3, Constants.AutoConstants.TURN_PARAMS);
+  private final Turn turn45 = new Turn(drive, 45, 3, Constants.AutoConstants.TURN_PARAMS);
+  private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
+  // public TrapProfile testProfile;
 
   // INTAKE
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
@@ -85,6 +93,8 @@ public class RobotContainer {
   private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
   private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
   private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
+  private final ExtendCSgroup extendCSgroup = new ExtendCSgroup(colorSpinner);
+  private final RetractCSgroup retractCSgroup = new RetractCSgroup(colorSpinner);
 
   // SHOOTER
   // private final ShooterSparkControl shooterSparkControl = new ShooterSparkControl(shooter, 4000);
@@ -115,8 +125,11 @@ public class RobotContainer {
     // COLOR SPINNER
     // leftStick.left.whenPressed(colorSpinnerRotation);
     // leftStick.right.whenPressed(colorSpinnerPosition);
-    // rightStick.right.whileHeld(colorSpinnerExtend);
-    // rightStick.left.whileHeld(colorSpinnerRetract);
+
+    // controller.a.whileHeld(colorSpinnerExtend);
+    controller.a.whenHeld(extendCSgroup); //up
+    // controller.b.whileHeld(colorSpinnerRetract);
+    controller.b.whenHeld(retractCSgroup);
 
     // SHOOTER
     leftStick.middle.whileHeld(shoot4000);
@@ -126,9 +139,12 @@ public class RobotContainer {
     // INTAKE 
     controller.x.whileHeld(setIntakeSpeed);
     controller.lb.whileHeld(intakeWithAxis);
-    leftStick.left.whileHeld(limeLightIntake);
-    rightStick.middle.whileHeld(setIntakeSpeed);
-    rightStick.trigger.whileHeld(reverseIntakeSpeed);
+
+    // leftStick.left.whileHeld(limeLightIntake);
+    // leftStick.left.whileHeld(targetAndIntake);
+
+    rightStick.trigger.whileHeld(setIntakeSpeed);
+    rightStick.middle.whileHeld(reverseIntakeSpeed);
 
     // TURRET
     rightStick.left.whileHeld(limeLightTurret);
@@ -136,6 +152,11 @@ public class RobotContainer {
     rightStick.trigger.whileHeld(triggerTurretOne);
 
     // CLIMBER
+
+    // AUTO
+    // controller.x.whenHeld(turn90);
+    // controller.a.whenHeld(testingSparkTuning);
+    // controller.b.whenHeld(turn45);
 
   }
 
@@ -145,8 +166,24 @@ public class RobotContainer {
   private void configAutos() {
     // TODO create auto switches
 
-    // TODO generate trapezoidal profiles
+    // TODO generate trapezoidal profiles (if using)
+    // testProfile = new TrapProfile(-24, 100, 100, 0, 3);
+  }
 
+  public void doInPeriodic() {
+    /*
+     * try { SmartDashboard.putBoolean("switch1", autoSwitch1.get());
+     * SmartDashboard.putBoolean("switch2", autoSwitch2.get());
+     * SmartDashboard.putBoolean("switch3", autoSwitch3.get());
+     * SmartDashboard.putBoolean("switch4", autoSwitch4.get()); } catch (Exception
+     * e) { System.out.println("switches bad"); }
+     */
+
+  }
+
+  public void doOnRobotInit() {
+    drive.resetAngle();
+    drive.resetEncoders();
   }
 
   // TODO auto switches

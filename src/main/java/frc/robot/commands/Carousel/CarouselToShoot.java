@@ -5,54 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Drive;
+package frc.robot.commands.Carousel;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Carousel;
 
-public class DriveWithJoysticks extends CommandBase {
+public class CarouselToShoot extends CommandBase {
 
-  private Drive drive;
-  private Joystick leftStick, rightStick;
+  private Carousel carousel;
 
   /**
-   * Creates a new DriveWithJoysticks.
+   * Creates a new CarouselToShoot.
    */
-  public DriveWithJoysticks(Drive drive, Joystick leftStick, Joystick rightStick) {
-
-    this.drive = drive;
-    this.leftStick = leftStick;
-    this.rightStick = rightStick;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.drive);
+  public CarouselToShoot(Carousel carousel) {
+    this.carousel = carousel;
+    addRequirements(this.carousel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    carousel.spinRoller();
+    carousel.spinGreenWheel();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // IS_DEADZONE determines whether joystick deadzone is considered
-    if (Constants.DriveConstants.IS_DEADZONE) {
-      drive.setLeftSpeedWithDeadzone(Math.pow(-leftStick.getY(), 1));
-      drive.setRightSpeedWithDeadzone(Math.pow(-rightStick.getY(), 1));
-    } else {
-      drive.setLeftSpeed(Math.pow(-leftStick.getY(), 1));
-      drive.setRightSpeed(Math.pow(-rightStick.getY(), 1));
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.stop();
+    carousel.stopGreenWheel();
+    carousel.stopRoller();
   }
 
   // Returns true when the command should end.

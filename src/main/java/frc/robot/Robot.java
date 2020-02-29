@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     // turret = new Turret();
 
+    robotContainer.doOnRobotInit();
+    
     // USB CAMERA TRY-CATCH
     try {
       usbCamera0 = CameraServer.getInstance().startAutomaticCapture(0);

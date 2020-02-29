@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ShooterConstants.*;
 
@@ -26,6 +27,9 @@ public class Shooter extends SubsystemBase {
 
   private CANPIDController pidController;
   private CANEncoder encoder;
+
+  private DigitalInput hoodLimit;
+  private boolean isLimitThere;
 
   /**
    * Creates a new Shooter.
@@ -47,6 +51,12 @@ public class Shooter extends SubsystemBase {
 
     pidController = master.getPIDController();
     encoder = master.getEncoder();
+
+    try {
+      hoodLimit = new DigitalInput(DIO_HOOD_LIMIT);
+    } catch (Exception e) {
+      isLimitThere = false;
+    }
   }
 
   /**
@@ -127,6 +137,22 @@ public class Shooter extends SubsystemBase {
 
   public void resetHoodEncoder() {
     hood.setSelectedSensorPosition(0);
+  }
+
+  public boolean getHoodLimit() {
+    if (isLimitThere) {
+      return hoodLimit.get();
+    } else {
+      return false;
+    }
+  }
+
+  public void setHoodSpeed(double speed) {
+    if (getHoodLimit() && speed < 0) {
+      setHoodRaw(speed);
+    } else {
+      resetHoodEncoder();
+    }
   }
 
   @Override
