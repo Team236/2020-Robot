@@ -5,39 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Shooter;
+import static frc.robot.Constants.ShooterConstants.*;
 
-public class LimeLightTurret extends CommandBase {
+public class LimeLightVerticalZero extends CommandBase {
   private Limelight lime;
-  private Turret turret;
-  private double kP;
-  private double kI;
-  private double kD;
+  private Shooter shooter;
+  private double error;
   private double proportional;
   private double integral;
   private double derivative;
-  private double speed;
-  private double error;
   private double errorT;
   private double lastError;
+  private double speed;
+  private double kP;
+  private double kI;
+  private double kD;
+  private double direct;
 
   /**
-   * Creates a new LimeLightShooter.
+   * Creates a new LimeLightVerticalZero.
    */
-  public LimeLightTurret(Limelight limeSub, Turret turretSub, double _kP, double _kI, double _kD) {
+  public LimeLightVerticalZero(Limelight limeSub, Shooter shooterSub, double _kP, double _kI, double _kD) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.lime = limeSub;
-    this.turret = turretSub;
+    this.shooter = shooterSub;
     this.kP = _kP;
     this.kI = _kI;
     this.kD = _kD;
     
-    addRequirements(turret);
+    addRequirements(shooter); 
   }
 
   // Called when the command is initially scheduled.
@@ -49,8 +51,8 @@ public class LimeLightTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double integralActiveZone = Constants.TurretConstants.I_ACTIVE_ZONE;
-    double ang = lime.getLimeLight().getdegRotationToTarget();
+    double integralActiveZone = HOOD_ACTIVE_ZONE;
+    double ang = lime.getVertOffset();
 
     error = ang;
 
@@ -85,30 +87,32 @@ public class LimeLightTurret extends CommandBase {
 
     speed = (proportional + integral + derivative);
     //negative -= (proportional + integral + derivative);
-/*
-    if(speed >= 0)  {
-      turret.wasHitLeft = false;
-      turret.wasHitRight = false;
-      turret.set(speed, 0);
-    }
-    else if(speed < 0)  {
-      turret.wasHitLeft = false;
-      turret.wasHitRight = false;
-      turret.set(speed, 1);
-    }
-    */
-    turret.setTurretSpeed(-speed);
+    shooter.setHoodRaw(-speed);
+
+
+    direct = shooter.getHoodEncoder();
+    shooter.setDirect(direct);
+    System.out.println(error);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    turret.stop();
+    shooter.stopHood();
   }
 
+  public double getDirect()  {
+    return direct;
+  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(error <= 1.5)  {
+      return true;
+
+    }
+    else  {
+      return false;
+    }
   }
 }

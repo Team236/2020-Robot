@@ -15,6 +15,7 @@ import static frc.robot.Constants.ShooterConstants.*;
 public class TriggerHood extends CommandBase {
   private Shooter hood;
   private int spinCase;
+  private int trip;
   /**
    * Creates a new TriggerHood.
    */
@@ -28,7 +29,6 @@ public class TriggerHood extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,10 +36,18 @@ public class TriggerHood extends CommandBase {
   public void execute() {
     if(spinCase == 0) {
       hood.setHoodRaw(HOOD_SPEED);
+
     }
     else if(spinCase == 1)  {
       hood.setHoodRaw(-HOOD_SPEED);
     }
+/*
+    if(hood.getHoodLimit() == 1 && trip != 1)  {
+      hood.stopHood();
+      trip = 1;
+    }
+*/
+    //hood.resetHoodEncoder();
   }
 
   // Called once the command ends or is interrupted.

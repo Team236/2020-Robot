@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------------*/
+ /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -7,24 +7,25 @@
 
 package frc.robot.commands.Turret;
 
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Turret;
 import frc.robot.Constants;
 
+
 public class TriggerTurret extends CommandBase {
   private Turret turret;
   private int spinCase;
   private boolean wasHitRight, wasHitLeft;
-  private boolean smack;
-
+  
   /**
    * Creates a new ReplaceMeCommand.
    */
   public TriggerTurret(Turret _turret, int _case) {
     this.turret = _turret;
     this.spinCase = _case;
-
+    
     addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -32,8 +33,6 @@ public class TriggerTurret extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //turret.resetEncoders();
-    smack = false;
     wasHitLeft = false;
     wasHitRight = false;
   }
@@ -49,14 +48,14 @@ public class TriggerTurret extends CommandBase {
     }
     
     if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != true)) {
-      turret.setSpeedRaw(-Constants.TurretConstants.TURRET_SPEED);
+      turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitLeft == true && spinCase == 0) {
       wasHitRight = false;
       turret.stop();
     }
     
     if (spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != true)) {
-      turret.setSpeedRaw(Constants.TurretConstants.TURRET_SPEED);
+      turret.setTurretSpeed(Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitRight == true && spinCase == 1) {
       wasHitLeft = false;
       turret.stop();
@@ -67,7 +66,7 @@ public class TriggerTurret extends CommandBase {
 
     SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
     SmartDashboard.putBoolean("wasHitRight", wasHitRight);
-    SmartDashboard.putBoolean("smack", smack);
+    //SmartDashboard.putBoolean("smack", smack);
 
     //SmartDashboard.putNumber("Encoder Position", turret.getEncoder());
   }

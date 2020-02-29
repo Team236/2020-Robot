@@ -30,6 +30,7 @@ public class Shooter extends SubsystemBase {
 
   private DigitalInput hoodLimit;
   private boolean isLimitThere;
+  private double save;
 
   /**
    * Creates a new Shooter.
@@ -145,6 +146,14 @@ public class Shooter extends SubsystemBase {
     } else {
       return false;
     }
+  }
+
+  public void setDirect(double direct) {
+    save = direct;
+  }
+
+  public double getDirect()  {
+    return save;
   }
 
   public void setHoodSpeed(double speed) {

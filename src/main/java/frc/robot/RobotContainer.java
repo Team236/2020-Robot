@@ -24,6 +24,10 @@ import frc.robot.commands.Intake.TargetAndIntake;
 import frc.robot.commands.Shooter.ShooterSparkControl;
 import frc.robot.commands.Shooter.SparkShoot2;
 import frc.robot.commands.Shooter.TriggerHood;
+import frc.robot.commands.Shooter.LimeLightVerticalZero;
+import frc.robot.commands.Shooter.LimeLightHoodOffset;
+import frc.robot.commands.Shooter.LimeSequentialShooter;
+import frc.robot.commands.Shooter.CombinedShoot;
 import frc.robot.commands.Intake.LimeLightIntake;
 import frc.robot.commands.Turret.LimeLightTurret;
 import frc.robot.commands.Turret.TriggerTurret;
@@ -36,6 +40,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Limelight;
+import static frc.robot.Constants.TurretConstants.*;
+import static frc.robot.Constants.ShooterConstants.*;
 import lib.motionProfile.TrapProfile;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
@@ -43,6 +49,9 @@ import lib.turn.Turn;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -106,9 +115,12 @@ public class RobotContainer {
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
   private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
+  private final LimeLightVerticalZero limeLightVerticalZero = new LimeLightVerticalZero(myLimelight, shooter, HOOD_kP, HOOD_kI, HOOD_kD);
+  private final LimeLightHoodOffset limeLightHoodOffset = new LimeLightHoodOffset(myLimelight, shooter, HOOD_kP, HOOD_kI, HOOD_kD);
+  private final LimeSequentialShooter limeSequentialShooter = new LimeSequentialShooter(shooter, myLimelight, HOOD_kP, HOOD_kI, HOOD_kD);
+  private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD, TURRET_kP, TURRET_kI, TURRET_kD);
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
-
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
 
@@ -117,6 +129,19 @@ public class RobotContainer {
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
+
+  //BUTTONS
+  JoystickButton limeBallBtn = new JoystickButton(leftStick, 3);
+  JoystickButton limeShooterBtn = new JoystickButton(rightStick, 3);
+  JoystickButton turretLeftBtn = new JoystickButton(leftStick, 1);
+  JoystickButton turretRightBtn = new JoystickButton(rightStick, 1);
+  JoystickButton intakeBtn = new JoystickButton(rightStick, 2);
+  JoystickButton hoodToZeroBtn = new JoystickButton(leftStick, 5);
+  JoystickButton hoodToOffsetBtn = new JoystickButton(leftStick, 6);
+  JoystickButton hoodCombinedBtn = new JoystickButton(leftStick, 7);
+  JoystickButton combinedShooterBtn = new JoystickButton(leftStick, 8);
+  JoystickButton triggerHoodZeroBtn = new JoystickButton(leftStick, 4);
+  JoystickButton triggerHoodOneBtn = new JoystickButton(rightStick, 4);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -171,7 +196,16 @@ public class RobotContainer {
     // controller.x.whenHeld(turn90);
     // controller.a.whenHeld(testingSparkTuning);
     // controller.b.whenHeld(turn45);
-
+    limeBallBtn.whileHeld(limeLightIntake);
+    limeShooterBtn.whileHeld(limeLightTurret);
+    turretLeftBtn.whileHeld(triggerHoodZero);
+    turretRightBtn.whileHeld(triggerHoodOne);
+    hoodToZeroBtn.whileHeld(limeLightVerticalZero);
+    hoodToOffsetBtn.whileHeld(limeLightHoodOffset);
+    hoodCombinedBtn.whileHeld(limeSequentialShooter);
+    combinedShooterBtn.whileHeld(combinedShoot);
+    triggerHoodZeroBtn.whileHeld(triggerHoodZero);
+    triggerHoodOneBtn.whileHeld(triggerHoodOne);
   }
 
   /**

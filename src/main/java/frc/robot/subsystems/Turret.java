@@ -14,9 +14,12 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,8 +28,10 @@ import frc.robot.Constants;
 public class Turret extends SubsystemBase {
   public CANSparkMax turretSpinner;
   // private Counter counter;
-  private DigitalInput leftLimit, rightLimit;
+  private CANDigitalInput limitLeft, limitRight;
   // private CANEncoder encoder;
+  public boolean wasHitLeft;
+  public boolean wasHitRight;
 
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
@@ -38,10 +43,12 @@ public class Turret extends SubsystemBase {
     // LimitSwitchNormal.NormallyOpen, 0);
     // turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
     // LimitSwitchNormal.NormallyOpen, 1);
+    limitLeft = turretSpinner.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+    limitRight = turretSpinner.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
 
   }
 
-  public void setSpeedRaw(double speed) {
+  public void setTurretSpeed(double speed) {
     turretSpinner.set(speed);
   }
 
@@ -55,22 +62,51 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isLeftLimit() {
-    // return leftLimit.get();
-    return false;
-    // return turretSpinner.getSensorCollection().isRevLimitSwitchClosed();
+    limitLeft.enableLimitSwitch(false);
+    return limitLeft.get();
   }
 
   public boolean isRightLimit() {
-    // return rightLimit.get();
-    return false;
-    // return turretSpinner.getSensorCollection().isFwdLimitSwitchClosed();
-
+    limitRight.enableLimitSwitch(false);
+    return limitRight.get();
   }
 
   public void setSpeed(double speed) {
     if (!isLeftLimit() && !isRightLimit()) {
-      setSpeedRaw(speed);
+      setTurretSpeed(speed);
     } else {
+      stop();
+    }
+  }
+
+  public void set(double speed, int spinCase) {
+    if(isLeftLimit() == false)
+    {
+      wasHitLeft = true;
+    }
+    if(isRightLimit() == false)
+    {
+      wasHitRight = true;
+    }
+
+    if(spinCase == 1 && (wasHitRight == false || isRightLimit() != true))
+    {
+      setTurretSpeed(speed);
+    }
+    else if(wasHitRight == true && spinCase == 1)
+    {
+      wasHitLeft = false;
+      stop();
+    }
+
+    if(spinCase == 0 && (wasHitLeft == false || isLeftLimit() != true))
+    {
+      setTurretSpeed(-speed);
+
+    }
+    else if(wasHitLeft == true && spinCase == 0)
+    {
+      wasHitRight = false;
       stop();
     }
   }
@@ -80,7 +116,12 @@ public class Turret extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    public void periodic() {
+      // This method will be called once per scheduler run1
+      SmartDashboard.putBoolean("isLeftLimit", isLeftLimit());
+      SmartDashboard.putBoolean("isRightLimit", isRightLimit());
+
+      SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
+      SmartDashboard.putBoolean("wasHitRight", wasHitRight);
+    }
   }
-}
