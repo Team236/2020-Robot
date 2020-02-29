@@ -41,11 +41,11 @@ public class DriveWithJoysticks extends CommandBase {
 
     // IS_DEADZONE determines whether joystick deadzone is considered
     if (Constants.DriveConstants.IS_DEADZONE) {
-      drive.setLeftSpeedWithDeadzone(-leftStick.getY());
-      drive.setRightSpeedWithDeadzone(-rightStick.getY());
+      drive.setLeftSpeedWithDeadzone(Math.pow(-leftStick.getY(), 1));
+      drive.setRightSpeedWithDeadzone(Math.pow(-rightStick.getY(), 1));
     } else {
-      drive.setLeftSpeed(leftStick.getY());
-      drive.setRightSpeed(rightStick.getY());
+      drive.setLeftSpeed(Math.pow(-leftStick.getY(), 1));
+      drive.setRightSpeed(Math.pow(-rightStick.getY(), 1));
     }
   }
 
