@@ -19,7 +19,7 @@ public class Climber extends SubsystemBase {
 
   private TalonSRX master;
   private VictorSPX follower;
-  private DigitalInput topLimit, bottomLimit;
+  private DigitalInput bottomLimit;
 
   /**
    * Creates a new Climber.
@@ -31,7 +31,6 @@ public class Climber extends SubsystemBase {
 
     follower.follow(master);
 
-    // topLimit = new DigitalInput(DIO_TOP_LIMIT);
     // bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
 
   }
@@ -42,11 +41,6 @@ public class Climber extends SubsystemBase {
 
   public void stop() {
     setSpeedRaw(0);
-  }
-
-  public boolean isTopLimit() {
-    // return topLimit.get();
-    return false;
   }
 
   public boolean isBottomLimit() {
@@ -66,7 +60,7 @@ public class Climber extends SubsystemBase {
    * Sets pre-determined speed, takes into account limits
    */
   public void setSpeed(double speed) {
-    if (isTopLimit() || isBottomLimit()) {
+    if (isBottomLimit()) {
       stop();
     } else {
       setSpeedRaw(speed);
