@@ -29,10 +29,10 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static final int ID_LEFT_FRONT = 7;
-        public static final int ID_LEFT_REAR = 8;
-        public static final int ID_RIGHT_FRONT = 4;
-        public static final int ID_RIGHT_REAR = 6;
+        public static final int ID_LEFT_FRONT = 10;//7
+        public static final int ID_LEFT_REAR = 11;//8
+        public static final int ID_RIGHT_FRONT = 15;//4
+        public static final int ID_RIGHT_REAR = 16;//6
 
         public static final double DIAMETER = 6.0;
         public static final double CIRCUMFERENCE = Math.PI * DIAMETER;
@@ -70,8 +70,8 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
-        public static final int ID_MOTOR = 24;
-        public static final int ID_POSITION_MOTOR = 99;
+        public static final int ID_MOTOR = 2;
+        public static final int ID_POSITION_MOTOR = 3;
         public static final int DIO_INTAKE_COUNTER = 0;
         public static final int DIO_UPPER_LIMIT = 13;
         public static final int DIO_LOWER_LIMIT = 13;
@@ -82,8 +82,8 @@ public final class Constants {
         public static final double LIME_SPEED = 0.2;
 
         public static final double SPEED = 0.60;
-        public static final double RAISE_SPEED = 1.0;
-        public static final double LOWER_SPEED = -RAISE_SPEED;
+        public static final double RAISE_SPEED = 0.5;
+        public static final double LOWER_SPEED = -0.5;
 
         public static final boolean CONSIDER_COUNT = false;
         public static final int MAX_COUNT = 6;
@@ -102,7 +102,7 @@ public final class Constants {
         public static final double SPEED_RPM = 500;
         public static final double HOOD_SPEED = 1.0;
 
-        public static final double kP = 0.0;
+        public static final double kP = 0.0001;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double kFF = 0.0002;
@@ -131,9 +131,9 @@ public final class Constants {
     }
 
     public static class CarouselConstants {
-        public static final int ID_MOTOR = 25;
-        public static final int ID_ROLLER_MOTOR = 99;
-        public static final int ID_GREEN_WHEEL = 99;
+        public static final int ID_MOTOR = 1;
+        public static final int ID_ROLLER_MOTOR = 15;
+        public static final int ID_GREEN_WHEEL = 30;
 
         public static final int PWM_TO_SHOOT_SERVO = 2;
         public static final int PWM_TO_SHOOT_SERVO_2 = 3;
@@ -168,5 +168,6 @@ public final class Constants {
 
         public static final double SPEED = 1.0;
         public static final double ENC_LIMIT = 1000;
+        public static final double ENC_TOP_VAL = 1000;
     }
 }
