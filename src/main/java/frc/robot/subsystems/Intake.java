@@ -21,9 +21,9 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase {
 
-  private TalonSRX intakeMotor;
+  private VictorSPX intakeMotor;
   private TalonSRX raiseLowerMotor;
-  private DigitalInput upperLimit, lowerLimit;
+  // private DigitalInput upperLimit, lowerLimit;
 
   private Counter ballCounter;
   private boolean limitsUnplugged = false;
@@ -32,16 +32,17 @@ public class Intake extends SubsystemBase {
    * Creates a new Intake.
    */
   public Intake() {
-    intakeMotor = new TalonSRX(24);
+    intakeMotor = new VictorSPX(ID_MOTOR);
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
+    raiseLowerMotor.setInverted(true);
 
-    try {
+    /* try {
       upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
       lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
 
     } catch (Exception e) {
       limitsUnplugged = true;
-    }
+    } */
 
     this.ballCounter = new Counter();
     this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
@@ -74,20 +75,22 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean getUpperLimit() {
-    if (limitsUnplugged) {
+    /* if (limitsUnplugged) {
       return false;
     } else {
       return upperLimit.get();
-    }
+    } */
+    return false;
 
   }
 
   public boolean getLowerLimit() {
-    if (limitsUnplugged) {
+    /* if (limitsUnplugged) {
       return false;
     } else {
       return lowerLimit.get();
-    }
+    } */
+    return false;
   }
 
   /**
