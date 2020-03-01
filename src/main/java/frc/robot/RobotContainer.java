@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Auto.SparkControlwDash;
+import frc.robot.commands.Carousel.CarouselToShoot;
 import frc.robot.commands.Carousel.SpinCarousel;
 import frc.robot.commands.Climber.SetClimbSpeed;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
@@ -25,6 +26,7 @@ import frc.robot.commands.Shooter.ShooterSparkControl;
 import frc.robot.commands.Shooter.SparkShoot2;
 import frc.robot.commands.Shooter.TriggerHood;
 import frc.robot.commands.Intake.LimeLightIntake;
+import frc.robot.commands.Intake.RaiseLowerIntake;
 import frc.robot.commands.Turret.LimeLightTurret;
 import frc.robot.commands.Turret.TriggerTurret;
 import frc.robot.subsystems.Carousel;
@@ -87,6 +89,8 @@ public class RobotContainer {
       Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD,
       Constants.IntakeConstants.LIME_SPEED);
   private final TargetAndIntake targetAndIntake = new TargetAndIntake(drive, intake, myLimelight);
+  private final RaiseLowerIntake raiseIntake = new RaiseLowerIntake(intake, true);
+  private final RaiseLowerIntake lowerIntake = new RaiseLowerIntake(intake, false);
 
   // TURRET
   private final LimeLightTurret limeLightTurret = new LimeLightTurret(myLimelight, turret,
@@ -111,6 +115,7 @@ public class RobotContainer {
 
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
+  private final CarouselToShoot feed = new CarouselToShoot(carousel);
 
   // CLIMBER
   private final SetClimbSpeed setClimbSpeed = new SetClimbSpeed(climber);
@@ -130,6 +135,8 @@ public class RobotContainer {
     drive.resetEncoders();
     // drive.resetAngle();
 
+    climber.relayOn();
+
     // Sets up auto stuff
     configAutos();
   }
@@ -140,30 +147,33 @@ public class RobotContainer {
     // leftStick.right.whenPressed(colorSpinnerPosition);
 
     // controller.a.whileHeld(colorSpinnerExtend);
-    controller.a.whenHeld(extendCSgroup); //up
+    // controller.a.whenHeld(extendCSgroup); //up
     // controller.b.whileHeld(colorSpinnerRetract);
-    controller.b.whenHeld(retractCSgroup);
+    // controller.b.whenHeld(retractCSgroup);
 
     // SHOOTER
-    leftStick.middle.whileHeld(shoot);
-    leftStick.right.whileHeld(triggerHoodZero);
-    rightStick.right.whileHeld(triggerHoodOne);
-    leftStick.left.whileHeld(triggerHoodOne);
+    // leftStick.middle.whileHeld(shoot);
+    // leftStick.right.whileHeld(triggerHoodZero);
+    // rightStick.right.whileHeld(triggerHoodOne);
+    // leftStick.left.whileHeld(triggerHoodOne);
 
     // INTAKE
-    controller.x.whileHeld(setIntakeSpeed);
-    controller.lb.whileHeld(intakeWithAxis);
+    // controller.x.whileHeld(setIntakeSpeed);
+    // controller.lb.whileHeld(intakeWithAxis);
 
     // leftStick.left.whileHeld(limeLightIntake);
     // leftStick.left.whileHeld(targetAndIntake);
 
-    rightStick.trigger.whileHeld(setIntakeSpeed);
-    rightStick.middle.whileHeld(reverseIntakeSpeed);
+    controller.a.whileHeld(raiseIntake);
+    controller.b.whileHeld(lowerIntake);
+
+    // rightStick.trigger.whileHeld(setIntakeSpeed);
+    // rightStick.middle.whileHeld(reverseIntakeSpeed);
 
     // TURRET
-    rightStick.left.whileHeld(limeLightTurret);
-    leftStick.trigger.whileHeld(triggerTurretZero);
-    rightStick.trigger.whileHeld(triggerTurretOne);
+    // rightStick.left.whileHeld(limeLightTurret);
+    // leftStick.trigger.whileHeld(triggerTurretZero);
+    // rightStick.trigger.whileHeld(triggerTurretOne);
 
     // CLIMBER
 
@@ -171,6 +181,10 @@ public class RobotContainer {
     // controller.x.whenHeld(turn90);
     // controller.a.whenHeld(testingSparkTuning);
     // controller.b.whenHeld(turn45);
+
+    // CAROUSEL
+    // controller.a.whileHeld(spinCarousel);
+    // controller.x.whileHeld(feed);
 
   }
 

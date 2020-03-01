@@ -40,6 +40,7 @@ public class SetClimbSpeed extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     climber.stop();
+    climber.relayOff();
   }
 
   // Returns true when the command should end.

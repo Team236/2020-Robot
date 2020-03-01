@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ClimberConstants.*;
 
@@ -20,6 +22,8 @@ public class Climber extends SubsystemBase {
   private TalonSRX master;
   private VictorSPX follower;
   private DigitalInput bottomLimit;
+
+  private Relay lockRelay;
 
   /**
    * Creates a new Climber.
@@ -31,7 +35,9 @@ public class Climber extends SubsystemBase {
 
     follower.follow(master);
 
-    // bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
+    lockRelay = new Relay(PWM_RELAY);
+
+    bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
 
   }
 
@@ -76,6 +82,14 @@ public class Climber extends SubsystemBase {
     } else {
       setSpeed(0.2);
     }
+  }
+
+  public void relayOn() {
+    lockRelay.set(Value.kForward);
+  }
+
+  public void relayOff() {
+    lockRelay.set(Value.kReverse);
   }
 
   @Override
