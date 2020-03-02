@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.revrobotics.ColorMatch;
+
+import edu.wpi.first.wpilibj.util.Color;
 import lib.motionProfile.DriveParameters;
 import lib.pid.PIDParameters;
 
@@ -116,6 +119,7 @@ public final class Constants {
     public static class ColorSpinnerConstants {
         public static final int ID_MOTOR = 14;
         public static final int PWM_SERVO = 1;
+        public static final int PWM_SERVO_2 = 2;
 
         public static final double SPEED = 0.05;
 
@@ -128,6 +132,11 @@ public final class Constants {
         // Extend/retract servo run-times
         public static final double EXTEND_TIME = 1.4;
         public static final double RETRACT_TIME = 0.6;
+
+        public static final Color BLUE = ColorMatch.makeColor(0.143, 0.427, 0.429);
+        public static final Color GREEN = ColorMatch.makeColor(0.197, 0.561, 0.240);
+        public static final Color RED = ColorMatch.makeColor(0.561, 0.232, 0.114);
+        public static final Color YELLOW = ColorMatch.makeColor(0.361, 0.524, 0.113);
     }
 
     public static class CarouselConstants {

@@ -44,7 +44,7 @@ public class ColorSpinner extends SubsystemBase {
   public ColorSpinner() {
     spinnerMotor = new CANSparkMax(ID_MOTOR, MotorType.kBrushless);
     servo = new Servo(PWM_SERVO);
-    servo2 = new Servo(1);
+    servo2 = new Servo(PWM_SERVO_2);
 
     servo.setBounds(2.1, 2.1, 1.5, .95, .95);
     servo2.setBounds(2.1, 2.1, 1.5, .95, .95);
@@ -53,10 +53,10 @@ public class ColorSpinner extends SubsystemBase {
     colorSensor = new ColorSensorV3(i2cPort);
     colorMatcher = new ColorMatch();
 
-    kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-    kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-    kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-    kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+    kBlueTarget = BLUE;
+    kGreenTarget = GREEN;
+    kRedTarget = RED;
+    kYellowTarget = YELLOW;
 
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kRedTarget);
@@ -78,7 +78,7 @@ public class ColorSpinner extends SubsystemBase {
    * Stops mechanism wheel
    */
   public void stop() {
-    spinnerMotor.set(0);
+    setSpeed(0);;
   }
 
   /**
@@ -186,16 +186,16 @@ public class ColorSpinner extends SubsystemBase {
    * Extends both color spinner servos (folds down mechanism)
    */
   public void extend() {
-    servo.set(0.0);
-    servo2.set(1.0);
+    servo.set(EXTEND_VALUE);
+    servo2.set(EXTEND_VALUE);
   }
 
   /**
    * Retracts both color spinner servos (pops up mechanism)
    */
   public void retract() {
-    servo.set(1.0);
-    servo2.set(0.0);
+    servo.set(RETRACT_VALUE);
+    servo2.set(RETRACT_VALUE);
   }
 
   public void stopServo() {
