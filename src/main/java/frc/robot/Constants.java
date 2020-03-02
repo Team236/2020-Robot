@@ -163,7 +163,7 @@ public final class Constants {
         public static final int ID_MASTER = 0;
         public static final int ID_FOLLOWER = 0;
 
-        public static final int DIO_RELAY = 0;
+        public static final int RELAY_PORT = 0;
 
         public static final int DIO_TOP_LIMIT = 11;
         public static final int DIO_BOT_LIMIT = 11;

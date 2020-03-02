@@ -35,7 +35,7 @@ public class Climber extends SubsystemBase {
 
     follower.follow(master);
 
-    lockRelay = new Relay(PWM_RELAY);
+    lockRelay = new Relay(RELAY_PORT);
 
     bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
 
