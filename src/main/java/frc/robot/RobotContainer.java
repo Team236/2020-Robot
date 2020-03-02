@@ -157,6 +157,9 @@ public class RobotContainer {
 
     // Sets up auto stuff
     configAutos();
+
+    //Sets LimeLight LEDs to off
+
   }
 
   private void configureButtonBindings() {

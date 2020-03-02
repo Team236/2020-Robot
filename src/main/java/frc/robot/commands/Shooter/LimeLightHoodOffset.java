@@ -13,6 +13,7 @@ import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.ShooterConstants.*;
 import frc.robot.commands.Shooter.LimeLightVerticalZero;
 import frc.robot.RobotContainer;
+import lib.limelightLib.ControlMode.LedMode;
 
 public class LimeLightHoodOffset extends CommandBase {
   private Limelight lime;
@@ -99,6 +100,7 @@ public class LimeLightHoodOffset extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopHood();
+    lime.setLEDMode(LedMode.kforceOff);
   }
 
   // Returns true when the command should end.

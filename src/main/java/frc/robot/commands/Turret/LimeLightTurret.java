@@ -12,6 +12,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Turret;
 
+import lib.limelightLib.ControlMode.LedMode;
+
 public class LimeLightTurret extends CommandBase {
   private Limelight lime;
   private Turret turret;
@@ -104,6 +106,7 @@ public class LimeLightTurret extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     turret.stop();
+    lime.setLEDMode(LedMode.kforceOff);
   }
 
   // Returns true when the command should end.

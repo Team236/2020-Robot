@@ -8,8 +8,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import lib.limelightLib.TheLimeLight;
+import lib.limelightLib.ControlMode.LedMode;
+import lib.limelightLib.ControlMode.StreamType;
+import lib.limelightLib.ControlMode;
 /**
  * Add your docs here.
  */
@@ -28,6 +32,10 @@ public class Limelight extends SubsystemBase {
   private double error;
   private double errorT;
   private double lastError;
+  
+  private StreamType stream;
+  private CameraServer limeStream;
+  private LedMode ledMode;
 
   public Limelight() {
     limelight = new TheLimeLight("limeight");
@@ -70,6 +78,16 @@ public class Limelight extends SubsystemBase {
     return getLimeLight().getIsTargetFound();
   }
 
+  public void setLEDMode(LedMode ledMode)  {
+    getLimeLight().setLEDMode(ledMode);
+  }
+  /*
+  public void putStream() {
+    getLimeLight().setStream(stream);
+    CameraServer.getInstance().addServer(name)
+    SmartDashboard.putData(value);
+  }
+  */
   public double doPID(Limelight limeSub, double _kP, double _kI, double _kD, double integralZone)
   {
     double integralActiveZone = integralZone;

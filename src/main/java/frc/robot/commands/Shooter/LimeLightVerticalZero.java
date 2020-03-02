@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import static frc.robot.Constants.ShooterConstants.*;
+import lib.limelightLib.ControlMode.LedMode;
 
 public class LimeLightVerticalZero extends CommandBase {
   private Limelight lime;
@@ -99,6 +100,7 @@ public class LimeLightVerticalZero extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopHood();
+    lime.setLEDMode(LedMode.kforceOff);
   }
 
   public double getDirect()  {
