@@ -36,6 +36,7 @@ public class Shooter extends SubsystemBase {
    */
   public Shooter() {
 
+    // master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
     master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
     follower = new CANSparkMax(ID_FOLLOWER, MotorType.kBrushless);
 
@@ -44,7 +45,7 @@ public class Shooter extends SubsystemBase {
     master.restoreFactoryDefaults();
 
     // Sets master inverted
-    master.setInverted(true);
+    master.setInverted(false);
 
     // Sets follower, inverted from master
     follower.follow(master, true);
