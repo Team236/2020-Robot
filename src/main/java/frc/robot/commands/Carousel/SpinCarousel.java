@@ -22,7 +22,7 @@ public class SpinCarousel extends CommandBase {
     this.carousel = carousel;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.carousel);
+    // addRequirements(this.carousel);
   }
 
   // Called when the command is initially scheduled.
