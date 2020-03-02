@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Turret;
 
+import lib.limelightLib.ControlMode.LedMode;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -51,6 +53,8 @@ public class Robot extends TimedRobot {
 
       SmartDashboard.putString("camera capture failed", "failed");
     }
+
+    RobotContainer.myLimelight.setLEDMode(LedMode.kforceOff);
   }
 
   /**
