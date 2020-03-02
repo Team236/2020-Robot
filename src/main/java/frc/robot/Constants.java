@@ -115,7 +115,7 @@ public final class Constants {
 
     public static class ColorSpinnerConstants {
         public static final int ID_MOTOR = 14;
-        public static final int PWM_SERVO = 0;
+        public static final int PWM_SERVO = 1;
 
         public static final double SPEED = 0.05;
 
@@ -135,10 +135,10 @@ public final class Constants {
         public static final int ID_ROLLER_MOTOR = 15;
         public static final int ID_GREEN_WHEEL = 30;
 
-        public static final int PWM_TO_SHOOT_SERVO = 2;
-        public static final int PWM_TO_SHOOT_SERVO_2 = 3;
+        public static final int PWM_TO_SHOOT_SERVO = 0;
+        // public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
-        public static final double SPEED = .5;
+        public static final double SPEED = -.5;
         public static final double GREEN_SPEED = .5;
         public static final double ROLLER_SPEED = .5;
 
@@ -162,6 +162,8 @@ public final class Constants {
     public static class ClimberConstants {
         public static final int ID_MASTER = 0;
         public static final int ID_FOLLOWER = 0;
+
+        public static final int DIO_RELAY = 0;
 
         public static final int DIO_TOP_LIMIT = 11;
         public static final int DIO_BOT_LIMIT = 11;
