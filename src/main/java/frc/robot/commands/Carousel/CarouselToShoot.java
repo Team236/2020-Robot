@@ -8,6 +8,7 @@
 package frc.robot.commands.Carousel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Carousel;
 
 public class CarouselToShoot extends CommandBase {
@@ -27,6 +28,8 @@ public class CarouselToShoot extends CommandBase {
   public void initialize() {
     carousel.spinRoller();
     carousel.spinGreenWheel();
+    carousel.setSpeed(Constants.CarouselConstants.SPEED);
+    carousel.setToShootServos(.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +42,7 @@ public class CarouselToShoot extends CommandBase {
   public void end(boolean interrupted) {
     carousel.stopGreenWheel();
     carousel.stopRoller();
+    carousel.stop();
   }
 
   // Returns true when the command should end.
