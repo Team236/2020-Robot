@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Auto.SparkControlwDash;
 import frc.robot.commands.Carousel.CarouselToShoot;
+import frc.robot.commands.Carousel.PopperServo;
 import frc.robot.commands.Carousel.SpinCarousel;
 import frc.robot.commands.Climber.SetClimbSpeed;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
@@ -38,6 +39,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Limelight;
+import lib.commands.Wait;
 import lib.motionProfile.TrapProfile;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
@@ -45,6 +47,7 @@ import lib.turn.Turn;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -109,13 +112,22 @@ public class RobotContainer {
   // SHOOTER
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
-  private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
+  private final SparkShoot2 shoot = new SparkShoot2(shooter, 3000);//4500
+  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 3000);//4500
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
+
 
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
   private final CarouselToShoot feed = new CarouselToShoot(carousel);
+  private final PopperServo popperServoUp = new PopperServo(carousel, .2);
+  private final PopperServo popperServoDown = new PopperServo(carousel, .8);
+
+  // private final ParallelCommandGroup waitThenShoot = new ParallelCommandGroup(new Wait(seconds))
+  private final ParallelCommandGroup shootSeq = new ParallelCommandGroup(feed, shoot1);
+  private final ParallelCommandGroup intWCar = new ParallelCommandGroup(spinCarousel, setIntakeSpeed);
+
 
   // CLIMBER
   private final SetClimbSpeed setClimbSpeed = new SetClimbSpeed(climber);
@@ -143,18 +155,19 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // COLOR SPINNER
-    // leftStick.left.whenPressed(colorSpinnerRotation);
+    controller.lb.whenPressed(colorSpinnerRotation);
     // leftStick.right.whenPressed(colorSpinnerPosition);
 
     // controller.a.whileHeld(colorSpinnerExtend);
-    // controller.a.whenHeld(extendCSgroup); //up
+    controller.a.whenHeld(extendCSgroup); //up
     // controller.b.whileHeld(colorSpinnerRetract);
-    // controller.b.whenHeld(retractCSgroup);
+    controller.b.whenHeld(retractCSgroup);
 
     // SHOOTER
     // leftStick.middle.whileHeld(shoot);
-    // leftStick.right.whileHeld(triggerHoodZero);
-    // rightStick.right.whileHeld(triggerHoodOne);
+    leftStick.trigger.whileHeld(shootSeq);
+    controller.back.whileHeld(triggerHoodZero);
+    controller.start.whileHeld(triggerHoodOne);
     // leftStick.left.whileHeld(triggerHoodOne);
 
     // INTAKE
@@ -164,11 +177,13 @@ public class RobotContainer {
     // leftStick.left.whileHeld(limeLightIntake);
     // leftStick.left.whileHeld(targetAndIntake);
 
-    controller.a.whileHeld(raiseIntake);
-    controller.b.whileHeld(lowerIntake);
+    // controller.a.whileHeld(raiseIntake);
+    // controller.b.whileHeld(lowerIntake);
 
     // rightStick.trigger.whileHeld(setIntakeSpeed);
-    // rightStick.middle.whileHeld(reverseIntakeSpeed);
+    rightStick.trigger.whileHeld(intWCar);
+    // rightStick.trigger.whileHeld(spinCarousel);
+    rightStick.middle.whileHeld(reverseIntakeSpeed);
 
     // TURRET
     // rightStick.left.whileHeld(limeLightTurret);
@@ -185,6 +200,10 @@ public class RobotContainer {
     // CAROUSEL
     // controller.a.whileHeld(spinCarousel);
     // controller.x.whileHeld(feed);
+    controller.y.whileHeld(popperServoUp);
+    controller.x.whileHeld(popperServoDown);
+    // controller.rb.whileHeld(command)
+    controller.rb.whileHeld(shoot);
 
   }
 
