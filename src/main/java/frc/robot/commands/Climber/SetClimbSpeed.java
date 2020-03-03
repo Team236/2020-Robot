@@ -14,12 +14,14 @@ import frc.robot.subsystems.Climber;
 public class SetClimbSpeed extends CommandBase {
 
   private Climber climber;
+  private boolean isFwd;
 
   /**
    * Creates a new SetClimbSpeed.
    */
-  public SetClimbSpeed(Climber climber) {
+  public SetClimbSpeed(Climber climber, boolean isFwd) {
     this.climber = climber;
+    this.isFwd = isFwd;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climber);
   }
@@ -32,8 +34,12 @@ public class SetClimbSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.setSpeed(Constants.ClimberConstants.SPEED);
-    // climber.setSpeedEnc();
+    if (isFwd) {
+      climber.setSpeed(Constants.ClimberConstants.SPEED);
+      // climber.setSpeedEnc();
+    } else {
+      climber.setSpeed(-Constants.ClimberConstants.SPEED);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -46,11 +52,7 @@ public class SetClimbSpeed extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climber.getEncoder() > Constants.ClimberConstants.ENC_LIMIT) {
-      return true;
-    } else {
-      return false;
-    }
-    // return false;
+    
+    return false;
   }
 }
