@@ -29,7 +29,7 @@ public class CarouselToShoot extends CommandBase {
     carousel.spinRoller();
     carousel.spinGreenWheel();
     carousel.setSpeed(Constants.CarouselConstants.SPEED);
-    carousel.setToShootServos(.5);
+    carousel.setToShootServos(Constants.CarouselConstants.POPPER_UP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
