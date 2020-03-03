@@ -10,18 +10,22 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ClimberConstants.*;
 
 public class Climber extends SubsystemBase {
 
-  private TalonSRX master;
-  private VictorSPX follower;
-  private DigitalInput bottomLimit;
+  private CANSparkMax master;
+  private CANDigitalInput bottomLimit;
 
   private Relay lockRelay;
 
@@ -30,19 +34,15 @@ public class Climber extends SubsystemBase {
    */
   public Climber() {
 
-    master = new TalonSRX(ID_MASTER);
-    follower = new VictorSPX(ID_FOLLOWER);
-
-    follower.follow(master);
+    master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
 
     lockRelay = new Relay(RELAY_PORT);
 
-    bottomLimit = new DigitalInput(DIO_BOT_LIMIT);
-
+    bottomLimit = master.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
   }
 
   private void setSpeedRaw(double speed) {
-    master.set(ControlMode.PercentOutput, speed);
+    master.set(speed);
   }
 
   public void stop() {
@@ -50,39 +50,40 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean isBottomLimit() {
-    // return bottomLimit.get();
-    return false;
+    bottomLimit.enableLimitSwitch(false);
+    return bottomLimit.get();
   }
 
-  public double getEncoder() {
+  /* public double getEncoder() {
     return master.getSelectedSensorPosition();
   }
 
   public void resetEncoder() {
     master.setSelectedSensorPosition(0);
-  }
+  } */
 
   /**
    * Sets pre-determined speed, takes into account limits
    */
   public void setSpeed(double speed) {
-    if (isBottomLimit()) {
+    /* if (isBottomLimit() && speed > 0) {
       stop();
     } else {
       setSpeedRaw(speed);
-    }
+    } */
+    setSpeedRaw(speed);
   }
 
   /**
    * Sets to specified speed unless past encoder limit
    */
-  public void setSpeedEnc() {
+ /*  public void setSpeedEnc() {
     if (getEncoder() < ENC_LIMIT) {
       setSpeed(SPEED);
     } else {
       setSpeed(0.2);
     }
-  }
+  } */
 
   public void relayOn() {
     lockRelay.set(Value.kForward);
@@ -95,5 +96,6 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("climb limit", isBottomLimit());
   }
 }
