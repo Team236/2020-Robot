@@ -146,6 +146,7 @@ public class RobotContainer {
   // private final ParallelCommandGroup waitThenShoot = new
   // ParallelCommandGroup(new Wait(seconds))
   private final ParallelCommandGroup shootSeq = new ParallelCommandGroup(feed, shoot1);
+  // TODO carousel doesn't run on intake currently
   // private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(spinCarousel, setIntakeSpeed);
   private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
 
@@ -182,10 +183,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drive.resetEncoders();
-    drive.resetAngle();
 
-    climber.relayOn();
 
     // Sets up auto stuff
     configAutos();
@@ -197,7 +195,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // INTAKE
     rightStick.trigger.whileHeld(intakeAndCarousel);
-    // rightStick.trigger.whileHeld(setIntakeSpeed);
     rightStick.middle.whileHeld(reverseIntakeSpeed);
     // TODO intake and limelight options
 
@@ -258,9 +255,15 @@ public class RobotContainer {
 
   }
 
-  public void doOnRobotInit() {
+  /**
+   * Called in robotInit() of Robot.java
+   */
+  public void doOnInit() {
     drive.resetAngle();
     drive.resetEncoders();
+
+    climber.relayOn();
+
   }
 
   // TODO auto switches
@@ -269,6 +272,13 @@ public class RobotContainer {
    * 
    * }
    */
+
+   /**
+    * Called in disabledInit() of Robot.java
+    */
+    public void doOnDisable() {
+      climber.relayOff();
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

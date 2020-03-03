@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     // turret = new Turret();
 
-    robotContainer.doOnRobotInit();
+    robotContainer.doOnInit();
     
     // USB CAMERA TRY-CATCH
     try {
@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    robotContainer.doOnDisable();
   }
 
   @Override
