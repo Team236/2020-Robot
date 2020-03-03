@@ -62,12 +62,12 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isLeftLimit() {
-    limitLeft.enableLimitSwitch(false);
+    //limitLeft.enableLimitSwitch(false);
     return limitLeft.get();
   }
 
   public boolean isRightLimit() {
-    limitRight.enableLimitSwitch(false);
+    //limitRight.enableLimitSwitch(false);
     return limitRight.get();
   }
 

@@ -36,11 +36,15 @@ public class Limelight extends SubsystemBase {
   private StreamType stream;
   private CameraServer limeStream;
   private LedMode ledMode;
+  private String tableName;
 
   public Limelight() {
     limelight = new TheLimeLight("limeight");
   }
 
+  public Limelight(String tableName)  {
+    limelight = new TheLimeLight(tableName);
+  }
   //@Override
   public void initDefaultCommand() {
       //setDefaultCommand(new )
