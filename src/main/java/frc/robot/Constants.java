@@ -153,12 +153,14 @@ public final class Constants {
         public static final int PWM_TO_SHOOT_SERVO = 0;
         // public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
-        public static final double SPEED = -.5;
+        public static final double SPEED = -.6;
         public static final double GREEN_SPEED = .5;
         public static final double ROLLER_SPEED = .5;
 
         public static final double EXTEND_POS = 1.0;
         public static final double RETRACT_POS = 0.0;
+
+        public static final double POPPER_UP = 0.2;
     }
 
     public static class TurretConstants {
@@ -175,10 +177,9 @@ public final class Constants {
     }
 
     public static class ClimberConstants {
-        public static final int ID_MASTER = 0;
-        public static final int ID_FOLLOWER = 0;
+        public static final int ID_MASTER = 19;
 
-        public static final int RELAY_PORT = 0;
+        public static final int RELAY_PORT = 3;
 
         public static final int DIO_TOP_LIMIT = 11;
         public static final int DIO_BOT_LIMIT = 11;
