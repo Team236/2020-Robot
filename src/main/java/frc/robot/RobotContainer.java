@@ -12,6 +12,8 @@ import frc.robot.commands.Auto.SparkControlwDash;
 import frc.robot.commands.Carousel.CarouselToShoot;
 import frc.robot.commands.Carousel.PopperServo;
 import frc.robot.commands.Carousel.SpinCarousel;
+import frc.robot.commands.Climber.ClimberWithAxis;
+import frc.robot.commands.Climber.RelayControl;
 import frc.robot.commands.Climber.SetClimbSpeed;
 import frc.robot.commands.ColorSpinner.ColorSpinnerExtend;
 import frc.robot.commands.ColorSpinner.ColorSpinnerPosition;
@@ -49,6 +51,8 @@ import static frc.robot.Constants.ShooterConstants.*;
 import lib.motionProfile.TrapProfile;
 import lib.oi.LogitechF310;
 import lib.oi.Thrustmaster;
+import lib.oi.triggers.JoystickPOV;
+import lib.oi.triggers.JoystickPOV.Direction;
 import lib.turn.Turn;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,7 +60,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -76,7 +79,6 @@ public class RobotContainer {
   private final ColorSpinner colorSpinner = new ColorSpinner();
   public final static Limelight myLimelight = new Limelight();
   private final Climber climber = new Climber();
-
 
   // **JOYSTICKS**
   LogitechF310 controller = new LogitechF310(Constants.ControllerConstants.USB_CONTROLLER);
@@ -122,129 +124,113 @@ public class RobotContainer {
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
   // private final SparkShoot2 shoot = new SparkShoot2(shooter, 3000);//4500
-  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 3000);//4500
-
+  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 3000);// 4500
 
   private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
-  private final LimeLightVerticalZero limeLightVerticalZero = new LimeLightVerticalZero(myLimelight, shooter, HOOD_kP, HOOD_kI, HOOD_kD);
-  private final LimeLightHoodOffset limeLightHoodOffset = new LimeLightHoodOffset(myLimelight, shooter, HOOD_kP, HOOD_kI, HOOD_kD);
-  private final LimeSequentialShooter limeSequentialShooter = new LimeSequentialShooter(shooter, myLimelight, HOOD_kP, HOOD_kI, HOOD_kD);
-  private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD, TURRET_kP, TURRET_kI, TURRET_kD);
+  private final LimeLightVerticalZero limeLightVerticalZero = new LimeLightVerticalZero(myLimelight, shooter, HOOD_kP,
+      HOOD_kI, HOOD_kD);
+  private final LimeLightHoodOffset limeLightHoodOffset = new LimeLightHoodOffset(myLimelight, shooter, HOOD_kP,
+      HOOD_kI, HOOD_kD);
+  private final LimeSequentialShooter limeSequentialShooter = new LimeSequentialShooter(shooter, myLimelight, HOOD_kP,
+      HOOD_kI, HOOD_kD);
+  private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD,
+      TURRET_kP, TURRET_kI, TURRET_kD);
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
   private final CarouselToShoot feed = new CarouselToShoot(carousel);
-  private final PopperServo popperServoUp = new PopperServo(carousel, .2);
+  private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
   private final PopperServo popperServoDown = new PopperServo(carousel, .8);
 
-  // private final ParallelCommandGroup waitThenShoot = new ParallelCommandGroup(new Wait(seconds))
+  // private final ParallelCommandGroup waitThenShoot = new
+  // ParallelCommandGroup(new Wait(seconds))
   private final ParallelCommandGroup shootSeq = new ParallelCommandGroup(feed, shoot1);
-  private final ParallelCommandGroup intWCar = new ParallelCommandGroup(spinCarousel, setIntakeSpeed);
-
+  // private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(spinCarousel, setIntakeSpeed);
+  private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
 
   // CLIMBER
-  private final SetClimbSpeed setClimbSpeed = new SetClimbSpeed(climber);
+  // private final SetClimbSpeed climbFwd = new SetClimbSpeed(climber, Constants.ClimberConstants.SPEED);
+  private final ClimberWithAxis climberWithAxis = new ClimberWithAxis(climber, controller);
+  private final RelayControl disengageRelay = new RelayControl(climber, true);
+  private final RelayControl engageRelay = new RelayControl(climber, false);
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
 
-  //BUTTONS
-  JoystickButton limeBallBtn = new JoystickButton(leftStick, 3);
-  JoystickButton limeShooterBtn = new JoystickButton(rightStick, 3);
-  JoystickButton turretLeftBtn = new JoystickButton(leftStick, 1);
-  JoystickButton turretRightBtn = new JoystickButton(rightStick, 1);
-  JoystickButton intakeBtn = new JoystickButton(rightStick, 2);
-  JoystickButton hoodToZeroBtn = new JoystickButton(leftStick, 5);
-  JoystickButton hoodToOffsetBtn = new JoystickButton(leftStick, 6);
-  JoystickButton hoodCombinedBtn = new JoystickButton(leftStick, 7);
-  JoystickButton combinedShooterBtn = new JoystickButton(leftStick, 8);
-  JoystickButton triggerHoodZeroBtn = new JoystickButton(leftStick, 4);
-  JoystickButton triggerHoodOneBtn = new JoystickButton(rightStick, 4);
+  // BUTTONS
+  
+    /* JoystickButton limeBallBtn = new JoystickButton(leftStick, 3); JoystickButton
+    limeShooterBtn = new JoystickButton(rightStick, 3); JoystickButton
+    turretLeftBtn = new JoystickButton(leftStick, 1); JoystickButton
+    turretRightBtn = new JoystickButton(rightStick, 1); JoystickButton intakeBtn = new JoystickButton(rightStick, 2); JoystickButton hoodToZeroBtn = new
+    JoystickButton(leftStick, 5); JoystickButton hoodToOffsetBtn = new
+    JoystickButton(leftStick, 6); JoystickButton hoodCombinedBtn = new
+    JoystickButton(leftStick, 7); JoystickButton combinedShooterBtn = new
+    JoystickButton(leftStick, 8); JoystickButton triggerHoodZeroBtn = new
+    JoystickButton(leftStick, 4); JoystickButton triggerHoodOneBtn = new
+    JoystickButton(rightStick, 4); */
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     drive.setDefaultCommand(driveWithJoysticks);
+    // climber.setDefaultCommand(climberWithAxis);
 
     // Configure the button bindings
     configureButtonBindings();
 
     drive.resetEncoders();
-    // drive.resetAngle();
+    drive.resetAngle();
 
     climber.relayOn();
 
     // Sets up auto stuff
     configAutos();
 
-    //Sets LimeLight LEDs to off
+    // Sets LimeLight LEDs to off
 
   }
 
   private void configureButtonBindings() {
-    // COLOR SPINNER
-    controller.lb.whenPressed(colorSpinnerRotation);
-    // leftStick.right.whenPressed(colorSpinnerPosition);
-
-    // controller.a.whileHeld(colorSpinnerExtend);
-    controller.a.whenHeld(extendCSgroup); //up
-    // controller.b.whileHeld(colorSpinnerRetract);
-    controller.b.whenHeld(retractCSgroup);
+    // INTAKE
+    rightStick.trigger.whileHeld(intakeAndCarousel);
+    // rightStick.trigger.whileHeld(setIntakeSpeed);
+    rightStick.middle.whileHeld(reverseIntakeSpeed);
+    // TODO intake and limelight options
 
     // SHOOTER
-    // leftStick.middle.whileHeld(shoot);
     leftStick.trigger.whileHeld(shootSeq);
-    controller.back.whileHeld(triggerHoodZero);
-    controller.start.whileHeld(triggerHoodOne);
-    // leftStick.left.whileHeld(triggerHoodOne);
 
-    // INTAKE
-    // controller.x.whileHeld(setIntakeSpeed);
-    // controller.lb.whileHeld(intakeWithAxis);
+    // TURRET 
+    JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
+    turretLeftBtn.whileHeld(triggerTurretOne);
+    JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
+    turretRightBtn.whileHeld(triggerTurretZero);
 
-    // leftStick.left.whileHeld(limeLightIntake);
-    // leftStick.left.whileHeld(targetAndIntake);
-
-    // controller.a.whileHeld(raiseIntake);
-    // controller.b.whileHeld(lowerIntake);
-
-    // rightStick.trigger.whileHeld(setIntakeSpeed);
-    rightStick.trigger.whileHeld(intWCar);
-    // rightStick.trigger.whileHeld(spinCarousel);
-    rightStick.middle.whileHeld(reverseIntakeSpeed);
-
-    // TURRET
-    // rightStick.left.whileHeld(limeLightTurret);
-    // leftStick.trigger.whileHeld(triggerTurretZero);
-    // rightStick.trigger.whileHeld(triggerTurretOne);
-
-    // CLIMBER
-
-    // AUTO
-    // controller.x.whenHeld(turn90);
-    // controller.a.whenHeld(testingSparkTuning);
-    // controller.b.whenHeld(turn45);
-
+    // HOOD
+    JoystickPOV hoodUpButn = new JoystickPOV(leftStick, Direction.UP);
+    hoodUpButn.whileHeld(triggerHoodOne);
+    JoystickPOV hoodDownBtn = new JoystickPOV(leftStick, Direction.DOWN);
+    hoodDownBtn.whileHeld(triggerHoodZero);
+    
     // CAROUSEL
-    // controller.a.whileHeld(spinCarousel);
-    // controller.x.whileHeld(feed);
-    controller.y.whileHeld(popperServoUp);
-    controller.x.whileHeld(popperServoDown);
-    // controller.rb.whileHeld(command)
-    controller.rb.whileHeld(shoot);
 
-    limeBallBtn.whileHeld(limeLightIntake);
-    limeShooterBtn.whileHeld(limeLightTurret);
-    turretLeftBtn.whileHeld(triggerHoodZero);
-    turretRightBtn.whileHeld(triggerHoodOne);
-    hoodToZeroBtn.whileHeld(limeLightVerticalZero);
-    hoodToOffsetBtn.whileHeld(limeLightHoodOffset);
-    hoodCombinedBtn.whileHeld(limeSequentialShooter);
-    combinedShooterBtn.whileHeld(combinedShoot);
-    triggerHoodZeroBtn.whileHeld(triggerHoodZero);
-    triggerHoodOneBtn.whileHeld(triggerHoodOne);
+    // FEEDER
+    JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
+    popperUpBtn.whileHeld(popperServoUp);
+    JoystickPOV popperDownBtn = new JoystickPOV(rightStick, Direction.DOWN);
+    popperDownBtn.whileHeld(popperServoDown);
+
+    // COLOR SPINNER
+
+    // CLIMBER 
+    controller.rb.whenPressed(disengageRelay);
+    controller.lb.whenPressed(engageRelay);
+    controller.back.whileHeld(climberWithAxis);
+    
   }
 
   /**
