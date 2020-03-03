@@ -121,7 +121,7 @@ public class Turret extends SubsystemBase {
       SmartDashboard.putBoolean("isLeftLimit", isLeftLimit());
       SmartDashboard.putBoolean("isRightLimit", isRightLimit());
 
-      SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
-      SmartDashboard.putBoolean("wasHitRight", wasHitRight);
+      // SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
+      // SmartDashboard.putBoolean("wasHitRight", wasHitRight);
     }
   }
