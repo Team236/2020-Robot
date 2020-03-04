@@ -37,6 +37,7 @@ public class Intake extends SubsystemBase {
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
     raiseLowerMotor.setInverted(false);
 
+    // Limit switches
     try {
       upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
       lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
@@ -45,6 +46,7 @@ public class Intake extends SubsystemBase {
       limitsUnplugged = true;
     }
 
+    // Ball counter
     try {
       this.ballCounter = new Counter();
       this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);

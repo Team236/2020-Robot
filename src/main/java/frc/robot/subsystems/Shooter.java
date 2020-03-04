@@ -54,6 +54,7 @@ public class Shooter extends SubsystemBase {
     pidController = master.getPIDController();
     encoder = master.getEncoder();
 
+    // Hood limit
     try {
       hoodLimit = new DigitalInput(DIO_HOOD_LIMIT);
     } catch (Exception e) {
