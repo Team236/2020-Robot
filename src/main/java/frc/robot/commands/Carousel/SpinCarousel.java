@@ -14,11 +14,13 @@ import frc.robot.subsystems.Carousel;
 public class SpinCarousel extends CommandBase {
 
   private Carousel carousel;
+  private boolean isRev;
 
   /**
    * Spins carousel at speed specified in Constants
    */
-  public SpinCarousel(Carousel carousel) {
+  public SpinCarousel(Carousel carousel, boolean isRev) {
+    this.isRev = isRev;
     this.carousel = carousel;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,7 +35,12 @@ public class SpinCarousel extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    carousel.setSpeed(Constants.CarouselConstants.SPEED);
+    if (isRev) {
+      carousel.setSpeed(-Constants.CarouselConstants.SPEED);
+    } else {
+      carousel.setSpeed(Constants.CarouselConstants.SPEED);
+    }
+
   }
 
   // Called once the command ends or is interrupted.
