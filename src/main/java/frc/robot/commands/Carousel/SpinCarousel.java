@@ -36,9 +36,9 @@ public class SpinCarousel extends CommandBase {
   @Override
   public void execute() {
     if (isRev) {
-      carousel.setSpeed(-Constants.CarouselConstants.SPEED);
+      carousel.setSpeed(-Constants.CarouselConstants.INTAKE_SPEED);
     } else {
-      carousel.setSpeed(Constants.CarouselConstants.SPEED);
+      carousel.setSpeed(Constants.CarouselConstants.INTAKE_SPEED);
     }
 
   }

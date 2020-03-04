@@ -28,7 +28,7 @@ public class CarouselToShoot extends CommandBase {
   public void initialize() {
     carousel.spinRoller();
     carousel.spinGreenWheel();
-    carousel.setSpeed(Constants.CarouselConstants.SPEED);
+    carousel.setSpeed(Constants.CarouselConstants.SHOOT_SPEED);
     carousel.setToShootServos(Constants.CarouselConstants.POPPER_UP);
   }
 
