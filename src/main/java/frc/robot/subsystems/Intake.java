@@ -44,9 +44,9 @@ public class Intake extends SubsystemBase {
       limitsUnplugged = true;
     } */
 
-    this.ballCounter = new Counter();
-    this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
-    this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
+    // this.ballCounter = new Counter();
+    // this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
+    // this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
 
   }
 
@@ -64,7 +64,8 @@ public class Intake extends SubsystemBase {
    * @return number of balls in robot
    */
   public int getBallCount() {
-    return ballCounter.get();
+    // return ballCounter.get();
+    return 0;
   }
 
   /**
@@ -117,6 +118,6 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("intake upper", getUpperLimit());
+    // SmartDashboard.putBoolean("intake upper", getUpperLimit());
   }
 }
