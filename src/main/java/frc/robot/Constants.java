@@ -139,10 +139,10 @@ public final class Constants {
         public static final double EXTEND_TIME = 1.4;
         public static final double RETRACT_TIME = 0.6;
 
-        public static final Color BLUE = ColorMatch.makeColor(0.143, 0.427, 0.429);
-        public static final Color GREEN = ColorMatch.makeColor(0.197, 0.561, 0.240);
-        public static final Color RED = ColorMatch.makeColor(0.561, 0.232, 0.114);
-        public static final Color YELLOW = ColorMatch.makeColor(0.361, 0.524, 0.113);
+        public static final Color BLUE = ColorMatch.makeColor(0.192, 0.452, 0.354);
+        public static final Color GREEN = ColorMatch.makeColor(0.221, 0.514, 0.263);
+        public static final Color RED = ColorMatch.makeColor(0.343, 0.432, 0.223);
+        public static final Color YELLOW = ColorMatch.makeColor(0.289, 0.523, 0.186);
     }
 
     public static class CarouselConstants {
