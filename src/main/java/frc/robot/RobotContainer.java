@@ -124,7 +124,7 @@ public class RobotContainer {
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
   // private final SparkShoot2 shoot = new SparkShoot2(shooter, 3000);//4500
-  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 3000);// 4500
+  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 4000);// 4500
 
   private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
   private final LimeLightVerticalZero limeLightVerticalZero = new LimeLightVerticalZero(myLimelight, shooter, HOOD_kP,
@@ -138,7 +138,8 @@ public class RobotContainer {
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
   // CAROUSEL
-  private final SpinCarousel spinCarousel = new SpinCarousel(carousel);
+  private final SpinCarousel spinCarousel = new SpinCarousel(carousel, false);
+  private final SpinCarousel revCarousel = new SpinCarousel(carousel, true);
   private final CarouselToShoot feed = new CarouselToShoot(carousel);
   private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
   private final PopperServo popperServoDown = new PopperServo(carousel, .8);
@@ -147,11 +148,13 @@ public class RobotContainer {
   // ParallelCommandGroup(new Wait(seconds))
   private final ParallelCommandGroup shootSeq = new ParallelCommandGroup(feed, shoot1);
   // TODO carousel doesn't run on intake currently
-  // private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(spinCarousel, setIntakeSpeed);
+  // private final ParallelCommandGroup intakeAndCarousel = new
+  // ParallelCommandGroup(spinCarousel, setIntakeSpeed);
   private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
 
   // CLIMBER
-  // private final SetClimbSpeed climbFwd = new SetClimbSpeed(climber, Constants.ClimberConstants.SPEED);
+  // private final SetClimbSpeed climbFwd = new SetClimbSpeed(climber,
+  // Constants.ClimberConstants.SPEED);
   private final ClimberWithAxis climberWithAxis = new ClimberWithAxis(climber, controller);
   private final RelayControl disengageRelay = new RelayControl(climber, true);
   private final RelayControl engageRelay = new RelayControl(climber, false);
@@ -160,18 +163,20 @@ public class RobotContainer {
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
 
   // BUTTONS
-  
-    /* JoystickButton limeBallBtn = new JoystickButton(leftStick, 3); JoystickButton
-    limeShooterBtn = new JoystickButton(rightStick, 3); JoystickButton
-    turretLeftBtn = new JoystickButton(leftStick, 1); JoystickButton
-    turretRightBtn = new JoystickButton(rightStick, 1); JoystickButton intakeBtn = new JoystickButton(rightStick, 2); JoystickButton hoodToZeroBtn = new
-    JoystickButton(leftStick, 5); JoystickButton hoodToOffsetBtn = new
-    JoystickButton(leftStick, 6); JoystickButton hoodCombinedBtn = new
-    JoystickButton(leftStick, 7); JoystickButton combinedShooterBtn = new
-    JoystickButton(leftStick, 8); JoystickButton triggerHoodZeroBtn = new
-    JoystickButton(leftStick, 4); JoystickButton triggerHoodOneBtn = new
-    JoystickButton(rightStick, 4); */
-  
+
+  /*
+   * JoystickButton limeBallBtn = new JoystickButton(leftStick, 3); JoystickButton
+   * limeShooterBtn = new JoystickButton(rightStick, 3); JoystickButton
+   * turretLeftBtn = new JoystickButton(leftStick, 1); JoystickButton
+   * turretRightBtn = new JoystickButton(rightStick, 1); JoystickButton intakeBtn
+   * = new JoystickButton(rightStick, 2); JoystickButton hoodToZeroBtn = new
+   * JoystickButton(leftStick, 5); JoystickButton hoodToOffsetBtn = new
+   * JoystickButton(leftStick, 6); JoystickButton hoodCombinedBtn = new
+   * JoystickButton(leftStick, 7); JoystickButton combinedShooterBtn = new
+   * JoystickButton(leftStick, 8); JoystickButton triggerHoodZeroBtn = new
+   * JoystickButton(leftStick, 4); JoystickButton triggerHoodOneBtn = new
+   * JoystickButton(rightStick, 4);
+   */
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -182,8 +187,6 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-
-
 
     // Sets up auto stuff
     configAutos();
@@ -201,7 +204,7 @@ public class RobotContainer {
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeq);
 
-    // TURRET 
+    // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
     turretLeftBtn.whileHeld(triggerTurretOne);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
@@ -212,8 +215,9 @@ public class RobotContainer {
     hoodUpButn.whileHeld(triggerHoodOne);
     JoystickPOV hoodDownBtn = new JoystickPOV(leftStick, Direction.DOWN);
     hoodDownBtn.whileHeld(triggerHoodZero);
-    
+
     // CAROUSEL
+    leftStick.middle.whileHeld(revCarousel);
 
     // FEEDER
     JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
@@ -223,11 +227,11 @@ public class RobotContainer {
 
     // COLOR SPINNER
 
-    // CLIMBER 
+    // CLIMBER
     controller.rb.whenPressed(disengageRelay);
     controller.lb.whenPressed(engageRelay);
     controller.back.whileHeld(climberWithAxis);
-    
+
   }
 
   /**
@@ -245,13 +249,15 @@ public class RobotContainer {
   }
 
   public void doInPeriodic() {
-    /*
-     * try { SmartDashboard.putBoolean("switch1", autoSwitch1.get());
-     * SmartDashboard.putBoolean("switch2", autoSwitch2.get());
-     * SmartDashboard.putBoolean("switch3", autoSwitch3.get());
-     * SmartDashboard.putBoolean("switch4", autoSwitch4.get()); } catch (Exception
-     * e) { System.out.println("switches bad"); }
-     */
+
+    try {
+      SmartDashboard.putBoolean("switch1", autoSwitch1.get());
+      SmartDashboard.putBoolean("switch2", autoSwitch2.get());
+      SmartDashboard.putBoolean("switch3", autoSwitch3.get());
+      SmartDashboard.putBoolean("switch4", autoSwitch4.get());
+    } catch (Exception e) {
+      System.out.println("switches bad");
+    }
 
   }
 
@@ -273,12 +279,12 @@ public class RobotContainer {
    * }
    */
 
-   /**
-    * Called in disabledInit() of Robot.java
-    */
-    public void doOnDisable() {
-      climber.relayOff();
-    }
+  /**
+   * Called in disabledInit() of Robot.java
+   */
+  public void doOnDisable() {
+    climber.relayOff();
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
