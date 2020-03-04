@@ -58,6 +58,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -135,8 +136,10 @@ public class RobotContainer {
       HOOD_kI, HOOD_kD);
   private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD,
       TURRET_kP, TURRET_kI, TURRET_kD);
+  // HOOD
   private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
+
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel, false);
   private final SpinCarousel revCarousel = new SpinCarousel(carousel, true);
@@ -144,6 +147,7 @@ public class RobotContainer {
   private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
   private final PopperServo popperServoDown = new PopperServo(carousel, .8);
 
+  // INTAKE/CAROUSEL GROUPS
   // private final ParallelCommandGroup waitThenShoot = new
   // ParallelCommandGroup(new Wait(seconds))
   private final ParallelCommandGroup shootSeq = new ParallelCommandGroup(feed, shoot1);
@@ -162,28 +166,11 @@ public class RobotContainer {
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
 
-  // BUTTONS
-
-  /*
-   * JoystickButton limeBallBtn = new JoystickButton(leftStick, 3); JoystickButton
-   * limeShooterBtn = new JoystickButton(rightStick, 3); JoystickButton
-   * turretLeftBtn = new JoystickButton(leftStick, 1); JoystickButton
-   * turretRightBtn = new JoystickButton(rightStick, 1); JoystickButton intakeBtn
-   * = new JoystickButton(rightStick, 2); JoystickButton hoodToZeroBtn = new
-   * JoystickButton(leftStick, 5); JoystickButton hoodToOffsetBtn = new
-   * JoystickButton(leftStick, 6); JoystickButton hoodCombinedBtn = new
-   * JoystickButton(leftStick, 7); JoystickButton combinedShooterBtn = new
-   * JoystickButton(leftStick, 8); JoystickButton triggerHoodZeroBtn = new
-   * JoystickButton(leftStick, 4); JoystickButton triggerHoodOneBtn = new
-   * JoystickButton(rightStick, 4);
-   */
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     drive.setDefaultCommand(driveWithJoysticks);
-    // climber.setDefaultCommand(climberWithAxis);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -248,6 +235,9 @@ public class RobotContainer {
     autoSwitch3 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_3);
     autoSwitch4 = new DigitalInput(Constants.AutoConstants.DIO_SWITCH_4);
 
+    // private final SequentialCommandGroup shootMove = new
+    // SequentialCommandGroup(shoot, testingSparkTuning);
+
     // TODO generate trapezoidal profiles (if using)
     // testProfile = new TrapProfile(-24, 100, 100, 0, 3);
   }
@@ -276,13 +266,6 @@ public class RobotContainer {
 
   }
 
-  // TODO auto switches
-  /*
-   * private Command getAutoFromSwitches() {
-   * 
-   * }
-   */
-
   /**
    * Called in disabledInit() of Robot.java
    */
@@ -297,6 +280,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // TODO determine auto from switches
     drive.resetEncoders();
     drive.resetAngle();
 
