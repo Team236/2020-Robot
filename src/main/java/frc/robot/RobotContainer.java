@@ -200,6 +200,10 @@ public class RobotContainer {
     rightStick.trigger.whileHeld(intakeAndCarousel);
     rightStick.middle.whileHeld(reverseIntakeSpeed);
     // TODO intake and limelight options
+    JoystickPOV raiseIntBtn = new JoystickPOV(controller, Direction.UP);
+    raiseIntBtn.whenHeld(raiseIntake);
+    JoystickPOV lowerIntBtn = new JoystickPOV(controller, Direction.DOWN);
+    lowerIntBtn.whenHeld(lowerIntake);
 
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeq);
