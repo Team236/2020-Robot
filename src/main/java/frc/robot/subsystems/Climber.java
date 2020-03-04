@@ -27,6 +27,8 @@ public class Climber extends SubsystemBase {
   private CANSparkMax master;
   private CANDigitalInput bottomLimit;
 
+  private DigitalInput newLimit;
+
   private Relay lockRelay;
 
   /**
@@ -39,6 +41,7 @@ public class Climber extends SubsystemBase {
     lockRelay = new Relay(RELAY_PORT);
 
     bottomLimit = master.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+    // newLimit = new DigitalInput(2);
   }
 
   private void setSpeedRaw(double speed) {
@@ -54,6 +57,11 @@ public class Climber extends SubsystemBase {
     return bottomLimit.get();
   }
 
+  public boolean isNewLimit() {
+    // return !newLimit.get();
+    return false;
+  }
+
   /* public double getEncoder() {
     return master.getSelectedSensorPosition();
   }
@@ -66,12 +74,12 @@ public class Climber extends SubsystemBase {
    * Sets pre-determined speed, takes into account limits
    */
   public void setSpeed(double speed) {
-    /* if (isBottomLimit() && speed > 0) {
+     if (isBottomLimit() && speed < 0) {
       stop();
     } else {
       setSpeedRaw(speed);
-    } */
-    setSpeedRaw(speed);
+    } 
+    // setSpeedRaw(speed);
   }
 
   /**
@@ -103,5 +111,6 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("climb limit", isBottomLimit());
+    SmartDashboard.putBoolean("new limit", isNewLimit());
   }
 }
