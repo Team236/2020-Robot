@@ -158,7 +158,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setHoodSpeed(double speed) {
-    if (getHoodLimit() && speed < 0) {
+    if (getHoodLimit() && speed > 0) {
       setHoodRaw(speed);
     } else {
       resetHoodEncoder();
