@@ -26,6 +26,7 @@ public class Intake extends SubsystemBase {
   private DigitalInput upperLimit, lowerLimit;
 
   private Counter ballCounter;
+  private boolean isCounterUnplugged = false;
   private boolean limitsUnplugged = false;
 
   /**
@@ -44,9 +45,13 @@ public class Intake extends SubsystemBase {
       limitsUnplugged = true;
     }
 
-    // this.ballCounter = new Counter();
-    // this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
-    // this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
+    try {
+      this.ballCounter = new Counter();
+      this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
+      this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
+    } catch (Exception e) {
+      isCounterUnplugged = true;
+    }
 
   }
 
@@ -64,8 +69,11 @@ public class Intake extends SubsystemBase {
    * @return number of balls in robot
    */
   public int getBallCount() {
-    // return ballCounter.get();
-    return 0;
+    if (isCounterUnplugged) {
+      return 0;
+    } else {
+      return ballCounter.get();
+    }
   }
 
   /**
