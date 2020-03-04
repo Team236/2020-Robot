@@ -28,6 +28,7 @@ public class Climber extends SubsystemBase {
   private CANDigitalInput bottomLimit;
 
   private DigitalInput newLimit;
+  private boolean isLimitUnplugged = false;
 
   private Relay lockRelay;
 
@@ -41,7 +42,13 @@ public class Climber extends SubsystemBase {
     lockRelay = new Relay(RELAY_PORT);
 
     bottomLimit = master.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-    // newLimit = new DigitalInput(2);
+
+    try {
+      newLimit = new DigitalInput(DIO_NEW_LIMIT);
+    } catch (Exception e) {
+      isLimitUnplugged = true;
+    }
+
   }
 
   private void setSpeedRaw(double speed) {
@@ -58,40 +65,38 @@ public class Climber extends SubsystemBase {
   }
 
   public boolean isNewLimit() {
-    // return !newLimit.get();
-    return false;
+    if (isLimitUnplugged) {
+      return false;
+    } else {
+      return !newLimit.get();
+    }
   }
 
-  /* public double getEncoder() {
-    return master.getSelectedSensorPosition();
-  }
-
-  public void resetEncoder() {
-    master.setSelectedSensorPosition(0);
-  } */
+  /*
+   * public double getEncoder() { return master.getSelectedSensorPosition(); }
+   * 
+   * public void resetEncoder() { master.setSelectedSensorPosition(0); }
+   */
 
   /**
-   * Sets pre-determined speed, takes into account limits
+   * Sets pre-determined speed, takes into account limit (not wired to spark)
    */
   public void setSpeed(double speed) {
-     if (isBottomLimit() && speed < 0) {
+    if (isNewLimit() && speed < 0) {
       stop();
     } else {
       setSpeedRaw(speed);
-    } 
+    }
     // setSpeedRaw(speed);
   }
 
   /**
    * Sets to specified speed unless past encoder limit
    */
- /*  public void setSpeedEnc() {
-    if (getEncoder() < ENC_LIMIT) {
-      setSpeed(SPEED);
-    } else {
-      setSpeed(0.2);
-    }
-  } */
+  /*
+   * public void setSpeedEnc() { if (getEncoder() < ENC_LIMIT) { setSpeed(SPEED);
+   * } else { setSpeed(0.2); } }
+   */
 
   /**
    * Powers relay: LL on, climb lock off

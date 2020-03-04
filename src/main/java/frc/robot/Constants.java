@@ -32,10 +32,10 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static final int ID_LEFT_FRONT = 10;//7
-        public static final int ID_LEFT_REAR = 11;//8
-        public static final int ID_RIGHT_FRONT = 15;//4
-        public static final int ID_RIGHT_REAR = 16;//6
+        public static final int ID_LEFT_FRONT = 10;// 7
+        public static final int ID_LEFT_REAR = 11;// 8
+        public static final int ID_RIGHT_FRONT = 15;// 4
+        public static final int ID_RIGHT_REAR = 16;// 6
 
         public static final double DIAMETER = 6.0;
         public static final double CIRCUMFERENCE = Math.PI * DIAMETER;
@@ -153,7 +153,8 @@ public final class Constants {
         public static final int PWM_TO_SHOOT_SERVO = 0;
         // public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
-        public static final double SPEED = -.6;
+        public static final double INTAKE_SPEED = -.6;
+        public static final double SHOOT_SPEED = -.6;
         public static final double GREEN_SPEED = .5;
         public static final double ROLLER_SPEED = .5;
 
@@ -178,6 +179,7 @@ public final class Constants {
 
     public static class ClimberConstants {
         public static final int ID_MASTER = 19;
+        public static final int DIO_NEW_LIMIT = 2;
 
         public static final int RELAY_PORT = 3;
 

@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
 
   private VictorSPX intakeMotor;
   private TalonSRX raiseLowerMotor;
-  // private DigitalInput upperLimit, lowerLimit;
+  private DigitalInput upperLimit, lowerLimit;
 
   private Counter ballCounter;
   private boolean limitsUnplugged = false;
@@ -34,15 +34,15 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intakeMotor = new VictorSPX(ID_MOTOR);
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
-    raiseLowerMotor.setInverted(true);
+    raiseLowerMotor.setInverted(false);
 
-    /* try {
+    try {
       upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
       lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
 
     } catch (Exception e) {
       limitsUnplugged = true;
-    } */
+    }
 
     // this.ballCounter = new Counter();
     // this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
@@ -76,22 +76,20 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean getUpperLimit() {
-    /* if (limitsUnplugged) {
+    if (limitsUnplugged) {
       return false;
     } else {
       return upperLimit.get();
-    } */
-    return false;
+    }
 
   }
 
   public boolean getLowerLimit() {
-    /* if (limitsUnplugged) {
+    if (limitsUnplugged) {
       return false;
     } else {
       return lowerLimit.get();
-    } */
-    return false;
+    }
   }
 
   /**
@@ -100,7 +98,14 @@ public class Intake extends SubsystemBase {
    * @param speed
    */
   public void setPositionSpeed(double speed) {
-    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
+    if (speed > 0 && getUpperLimit()) {
+      stopPositionMotor();
+    } else if (speed < 0 && getLowerLimit()) {
+      stopPositionMotor();
+    } else {
+      raiseLowerMotor.set(ControlMode.PercentOutput, speed);
+    }
+
   }
 
   public void raise() {
