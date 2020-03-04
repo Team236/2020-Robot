@@ -102,7 +102,7 @@ public final class Constants {
         public static final int DIO_SHOOT_COUNTER = 909;
         public static final int DIO_HOOD_LIMIT = 99;
 
-        public static final double SPEED_RPM = 500;
+        public static final double SPEED_RPM = 3500;
 
         public static final double kP = 0.0001;
         public static final double kI = 0.0;
@@ -189,5 +189,13 @@ public final class Constants {
         public static final double SPEED = 1.0;
         public static final double ENC_LIMIT = 1000;
         public static final double ENC_TOP_VAL = 1000;
+
+        // GAINS
+        public static final double kP = 0.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kFF = 0.0;
+        public static final double min = 0.0;
+        public static final double max = 10000;
     }
 }
