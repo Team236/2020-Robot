@@ -132,8 +132,8 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic()  {
-    SmartDashboard.putBoolean("Get Is Connected", getLimeLight().isConnected());
-    SmartDashboard.putBoolean("Get Is Target", isTarget());
-    SmartDashboard.putNumber("Vertical error", getVertOffset());
+    // SmartDashboard.putBoolean("Get Is Connected", getLimeLight().isConnected());
+    // SmartDashboard.putBoolean("Get Is Target", isTarget());
+    // SmartDashboard.putNumber("Vertical error", getVertOffset());
   }
 }
