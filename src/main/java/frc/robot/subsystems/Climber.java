@@ -11,7 +11,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -32,6 +35,9 @@ public class Climber extends SubsystemBase {
 
   private Relay lockRelay;
 
+  private CANPIDController pidController;
+  private CANEncoder encoder;
+
   /**
    * Creates a new Climber.
    */
@@ -42,6 +48,9 @@ public class Climber extends SubsystemBase {
     lockRelay = new Relay(RELAY_PORT);
 
     bottomLimit = master.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+
+    pidController = master.getPIDController();
+    encoder = master.getEncoder();
 
     try {
       newLimit = new DigitalInput(DIO_NEW_LIMIT);
@@ -55,6 +64,27 @@ public class Climber extends SubsystemBase {
     master.set(speed);
   }
 
+  public boolean isNewLimit() {
+    if (isLimitUnplugged) {
+      return false;
+    } else {
+      return !newLimit.get();
+    }
+  }
+
+  /**
+   * Sets pre-determined speed, takes into account limit (not wired to spark)
+   */
+  public void setSpeed(double speed) {
+    // TODO add encoder upper limit
+    if (isNewLimit() && speed > 0) {
+      stop();
+      resetEncoder();
+    } else {
+      setSpeedRaw(speed);
+    }
+  }
+
   public void stop() {
     setSpeedRaw(0);
   }
@@ -64,39 +94,37 @@ public class Climber extends SubsystemBase {
     return bottomLimit.get();
   }
 
-  public boolean isNewLimit() {
-    if (isLimitUnplugged) {
-      return false;
-    } else {
-      return !newLimit.get();
-    }
+  public double getEncoderPosition() {
+    return encoder.getPosition();
   }
 
-  /*
-   * public double getEncoder() { return master.getSelectedSensorPosition(); }
-   * 
-   * public void resetEncoder() { master.setSelectedSensorPosition(0); }
-   */
-
-  /**
-   * Sets pre-determined speed, takes into account limit (not wired to spark)
-   */
-  public void setSpeed(double speed) {
-    if (isNewLimit() && speed < 0) {
-      stop();
-    } else {
-      setSpeedRaw(speed);
-    }
-    // setSpeedRaw(speed);
+  public void resetEncoder() {
+    encoder.setPosition(0);
   }
 
-  /**
-   * Sets to specified speed unless past encoder limit
-   */
-  /*
-   * public void setSpeedEnc() { if (getEncoder() < ENC_LIMIT) { setSpeed(SPEED);
-   * } else { setSpeed(0.2); } }
-   */
+  public void setSetPoint(double position) {
+    pidController.setReference(position, ControlType.kPosition);
+  }
+
+  public void setP(double kP) {
+    pidController.setP(kP);
+  }
+
+  public void setI(double kI) {
+    pidController.setP(kI);
+  }
+
+  public void setD(double kD) {
+    pidController.setP(kD);
+  }
+
+  public void setFF(double kFF) {
+    pidController.setFF(kFF);
+  }
+
+  public void setOutputRange(double min, double max) {
+    pidController.setOutputRange(min, max);
+  }
 
   /**
    * Powers relay: LL on, climb lock off
@@ -115,7 +143,10 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("climb limit", isBottomLimit());
+    // SmartDashboard.putBoolean("climb limit", isBottomLimit());
     SmartDashboard.putBoolean("new limit", isNewLimit());
+
+    SmartDashboard.putNumber("cl enc", getEncoderPosition());
+    // System.out.println("lim out" + isLimitUnplugged);
   }
 }
