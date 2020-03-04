@@ -32,19 +32,28 @@ public class Turret extends SubsystemBase {
   // private CANEncoder encoder;
   public boolean wasHitLeft;
   public boolean wasHitRight;
+  private boolean areLimitsUnplugged = false;
 
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
     // counter = new Counter(Constants.TurretConstants.DIO_TURRET);
-    limitLeft = new DigitalInput(4);
-    limitRight = new DigitalInput(5);
-    
+
+    // Limit switches
+    try {
+      limitLeft = new DigitalInput(Constants.TurretConstants.DIO_LEFT_LIMIT);
+      limitRight = new DigitalInput(Constants.TurretConstants.DIO_RIGHT_LIMIT);
+    } catch (Exception e) {
+      areLimitsUnplugged = true;
+    }
+
     // turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
     // LimitSwitchNormal.NormallyOpen, 0);
     // turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
     // LimitSwitchNormal.NormallyOpen, 1);
-    //limitLeft = turretSpinner.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-    //limitRight = turretSpinner.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+    // limitLeft =
+    // turretSpinner.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+    // limitRight =
+    // turretSpinner.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
 
   }
 
@@ -62,13 +71,22 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isLeftLimit() {
-    //limitLeft.enableLimitSwitch(false);
-    return limitLeft.get();
+    // limitLeft.enableLimitSwitch(false);
+    if (areLimitsUnplugged) {
+      return false;
+    } else {
+      return limitLeft.get();
+
+    }
   }
 
   public boolean isRightLimit() {
-    //limitRight.enableLimitSwitch(false);
-    return limitRight.get();
+    // limitRight.enableLimitSwitch(false);
+    if (areLimitsUnplugged) {
+      return false;
+    } else {
+      return limitRight.get();
+    }
   }
 
   public void setSpeed(double speed) {
@@ -80,32 +98,24 @@ public class Turret extends SubsystemBase {
   }
 
   public void set(double speed, int spinCase) {
-    if(isLeftLimit() == false)
-    {
+    if (isLeftLimit() == false) {
       wasHitLeft = true;
     }
-    if(isRightLimit() == false)
-    {
+    if (isRightLimit() == false) {
       wasHitRight = true;
     }
 
-    if(spinCase == 1 && (wasHitRight == false || isRightLimit() != true))
-    {
+    if (spinCase == 1 && (wasHitRight == false || isRightLimit() != true)) {
       setTurretSpeed(speed);
-    }
-    else if(wasHitRight == true && spinCase == 1)
-    {
+    } else if (wasHitRight == true && spinCase == 1) {
       wasHitLeft = false;
       stop();
     }
 
-    if(spinCase == 0 && (wasHitLeft == false || isLeftLimit() != true))
-    {
+    if (spinCase == 0 && (wasHitLeft == false || isLeftLimit() != true)) {
       setTurretSpeed(-speed);
 
-    }
-    else if(wasHitLeft == true && spinCase == 0)
-    {
+    } else if (wasHitLeft == true && spinCase == 0) {
       wasHitRight = false;
       stop();
     }
@@ -116,12 +126,12 @@ public class Turret extends SubsystemBase {
   }
 
   @Override
-    public void periodic() {
-      // This method will be called once per scheduler run1
-      SmartDashboard.putBoolean("isLeftLimit", isLeftLimit());
-      SmartDashboard.putBoolean("isRightLimit", isRightLimit());
+  public void periodic() {
+    // This method will be called once per scheduler run1
+    SmartDashboard.putBoolean("isLeftLimit", isLeftLimit());
+    SmartDashboard.putBoolean("isRightLimit", isRightLimit());
 
-      // SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
-      // SmartDashboard.putBoolean("wasHitRight", wasHitRight);
-    }
+    // SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
+    // SmartDashboard.putBoolean("wasHitRight", wasHitRight);
   }
+}
