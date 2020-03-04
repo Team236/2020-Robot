@@ -47,7 +47,7 @@ public final class Constants {
         public static final double IN_TO_REV_K = GEAR_RATIO / CIRCUMFERENCE;
 
         public static final double LEFT_DEADZONE = .1;
-        public static final double RIGHT_DEADZONE = .1;
+        public static final double RIGHT_DEADZONE = .15;
 
         public static final double kP = 0.0;
         public static final double kI = 0.0;
@@ -99,7 +99,7 @@ public final class Constants {
         public static final int ID_FOLLOWER = 9;
         public static final int ID_HOOD = 8;
 
-        public static final int DIO_SHOOT_COUNTER = 5;
+        public static final int DIO_SHOOT_COUNTER = 909;
         public static final int DIO_HOOD_LIMIT = 99;
 
         public static final double SPEED_RPM = 500;
@@ -172,7 +172,7 @@ public final class Constants {
         public static final double TURRET_kP = 0.03;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.01;
-        public static final double TURRET_SPEED = 0.4;
+        public static final double TURRET_SPEED = 0.65;
         public static final double I_ACTIVE_ZONE = 5.00;
     }
 
