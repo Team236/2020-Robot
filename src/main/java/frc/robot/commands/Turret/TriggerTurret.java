@@ -40,22 +40,22 @@ public class TriggerTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (turret.isLeftLimit() == true) {
+    if (turret.isLeftLimit() == false) {
       wasHitLeft = true;
     }
-    if (turret.isRightLimit() == true) {
+    if (turret.isRightLimit() == false) {
       wasHitRight = true;
     }
     
-    if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != true)) {
-      turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
+    if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != false)) {
+      turret.setTurretSpeed(Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitLeft == true && spinCase == 0) {
       wasHitRight = false;
       turret.stop();
     }
     
-    if (spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != true)) {
-      turret.setTurretSpeed(Constants.TurretConstants.TURRET_SPEED);
+    if (spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != false)) {
+      turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitRight == true && spinCase == 1) {
       wasHitLeft = false;
       turret.stop();

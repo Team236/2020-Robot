@@ -28,7 +28,7 @@ import frc.robot.Constants;
 public class Turret extends SubsystemBase {
   public CANSparkMax turretSpinner;
   // private Counter counter;
-  private CANDigitalInput limitLeft, limitRight;
+  private DigitalInput limitLeft, limitRight;
   // private CANEncoder encoder;
   public boolean wasHitLeft;
   public boolean wasHitRight;
@@ -36,15 +36,15 @@ public class Turret extends SubsystemBase {
   public Turret() {
     turretSpinner = new CANSparkMax(Constants.TurretConstants.ID_TURRET, MotorType.kBrushless);
     // counter = new Counter(Constants.TurretConstants.DIO_TURRET);
-    // leftLimit = new DigitalInput(Constants.TurretConstants.DIO_LEFT_LIMIT);
-    // rightLimit = new DigitalInput(Constants.TurretConstants.DIO_RIGHT_LIMIT);
+    limitLeft = new DigitalInput(4);
+    limitRight = new DigitalInput(5);
     
     // turretSpinner.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
     // LimitSwitchNormal.NormallyOpen, 0);
     // turretSpinner.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
     // LimitSwitchNormal.NormallyOpen, 1);
-    limitLeft = turretSpinner.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-    limitRight = turretSpinner.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+    //limitLeft = turretSpinner.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+    //limitRight = turretSpinner.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
 
   }
 
@@ -62,12 +62,12 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isLeftLimit() {
-    limitLeft.enableLimitSwitch(false);
+    //limitLeft.enableLimitSwitch(false);
     return limitLeft.get();
   }
 
   public boolean isRightLimit() {
-    limitRight.enableLimitSwitch(false);
+    //limitRight.enableLimitSwitch(false);
     return limitRight.get();
   }
 
