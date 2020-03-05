@@ -120,7 +120,7 @@ public final class Constants {
         public static final double MAX_OUTPUT = 6000.0;
         public static final double INTERVAL = 0.0;
 
-        public static final double ENC_LIMIT = 10000;
+        public static final double ENC_LIMIT = 350; // 400 max
 
     }
 
@@ -155,8 +155,8 @@ public final class Constants {
         public static final int PWM_TO_SHOOT_SERVO = 0;
         // public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
-        public static final double INTAKE_SPEED = -.6;
-        public static final double SHOOT_SPEED = -.6;
+        public static final double INTAKE_SPEED = .6;
+        public static final double SHOOT_SPEED = .4;
         public static final double GREEN_SPEED = .5;
         public static final double ROLLER_SPEED = .5;
 
@@ -189,7 +189,7 @@ public final class Constants {
         public static final int DIO_BOT_LIMIT = 11;
 
         public static final double SPEED = 1.0;
-        public static final double ENC_LIMIT = 1000;
+        public static final double ENC_LIMIT = 50;
         public static final double ENC_TOP_VAL = 1000;
 
         // GAINS
