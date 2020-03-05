@@ -91,7 +91,8 @@ public class RobotContainer {
   private final ExampleCommand exampleCmd = new ExampleCommand(m_exampleSubsystem);
 
   // DRIVE
-  private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick);
+  private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick, false);
+  private final DriveWithJoysticks cubeWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick, true);
   private final Turn turn90 = new Turn(drive, 90, 3, Constants.AutoConstants.TURN_PARAMS);
   private final Turn turn45 = new Turn(drive, 45, 3, Constants.AutoConstants.TURN_PARAMS);
   private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
@@ -143,6 +144,7 @@ public class RobotContainer {
 
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel, false);
+  private final SpinCarousel spinCarousel2 = new SpinCarousel(carousel, false);
   private final SpinCarousel revCarousel = new SpinCarousel(carousel, true);
   private final CarouselToShoot feed = new CarouselToShoot(carousel);
   private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
@@ -185,6 +187,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    // DRIVE
+    leftStick.left.whileHeld(cubeWithJoysticks);
+
     // INTAKE
     rightStick.trigger.whileHeld(intakeAndCarousel);
     rightStick.middle.whileHeld(reverseIntakeSpeed);
@@ -212,6 +217,7 @@ public class RobotContainer {
     // CAROUSEL
     leftStick.middle.whileHeld(revCarousel);
     rightStick.right.whenPressed(carouselFor2);
+    rightStick.left.whileHeld(spinCarousel2);
 
     // FEEDER
     JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
@@ -220,6 +226,10 @@ public class RobotContainer {
     popperDownBtn.whileHeld(popperServoDown);
 
     // COLOR SPINNER
+    controller.y.whenHeld(colorSpinnerExtend);
+    controller.a.whenHeld(colorSpinnerRetract);
+    controller.x.whenHeld(colorSpinnerRotation);
+    controller.b.whenHeld(colorSpinnerPosition);
 
     // CLIMBER
     controller.rb.whenPressed(disengageRelay);
