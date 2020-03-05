@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -35,7 +37,10 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intakeMotor = new VictorSPX(ID_MOTOR);
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
-    raiseLowerMotor.setInverted(false);
+    raiseLowerMotor.setInverted(true);
+
+    // raiseLowerMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
+    // raiseLowerMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
 
     // Limit switches
     try {
