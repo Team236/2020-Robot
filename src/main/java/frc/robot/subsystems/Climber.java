@@ -44,6 +44,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
 
     master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
+    master.setInverted(true);
 
     lockRelay = new Relay(RELAY_PORT);
 
@@ -77,8 +78,14 @@ public class Climber extends SubsystemBase {
    */
   public void setSpeed(double speed) {
     // TODO add encoder upper limit
-    if (!isNewLimit() && speed > 0 && getEncoderPosition() < ENC_LIMIT) {
-      setSpeedRaw(speed);
+    // && getEncoderPosition() < ENC_LIMIT
+    if (!isNewLimit() || speed > 0 ) {
+      if (speed > 0 && getEncoderPosition() > ENC_LIMIT) {
+        stop();
+      } else {
+        setSpeedRaw(speed);
+
+      }
     } else {
       stop();
       resetEncoder();
@@ -144,7 +151,7 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("climb limit", isBottomLimit());
-    SmartDashboard.putBoolean("new limit", isNewLimit());
+    // SmartDashboard.putBoolean("new limit", isNewLimit());
 
     SmartDashboard.putNumber("cl enc", getEncoderPosition());
     // System.out.println("lim out" + isLimitUnplugged);
