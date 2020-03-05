@@ -45,6 +45,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Limelight;
+import lib.commands.TimeoutCommand;
 import lib.commands.Wait;
 import static frc.robot.Constants.TurretConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
@@ -137,8 +138,8 @@ public class RobotContainer {
   private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD,
       TURRET_kP, TURRET_kI, TURRET_kD);
   // HOOD
-  private final TriggerHood triggerHoodZero = new TriggerHood(shooter, 0);
-  private final TriggerHood triggerHoodOne = new TriggerHood(shooter, 1);
+  private final TriggerHood triggerHoodUp = new TriggerHood(shooter, 0);
+  private final TriggerHood triggerHoodDown = new TriggerHood(shooter, 1);
 
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel, false);
@@ -146,6 +147,7 @@ public class RobotContainer {
   private final CarouselToShoot feed = new CarouselToShoot(carousel);
   private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
   private final PopperServo popperServoDown = new PopperServo(carousel, .8);
+  private final TimeoutCommand carouselFor2 = new TimeoutCommand(spinCarousel, .5);
 
   // INTAKE/CAROUSEL GROUPS
   // private final ParallelCommandGroup waitThenShoot = new
@@ -202,13 +204,14 @@ public class RobotContainer {
     turretRightBtn.whileHeld(triggerTurretZero);
 
     // HOOD
-    JoystickPOV hoodUpButn = new JoystickPOV(leftStick, Direction.UP);
-    hoodUpButn.whileHeld(triggerHoodOne);
+    JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
+    hoodUpBtn.whileHeld(triggerHoodUp);
     JoystickPOV hoodDownBtn = new JoystickPOV(leftStick, Direction.DOWN);
-    hoodDownBtn.whileHeld(triggerHoodZero);
+    hoodDownBtn.whileHeld(triggerHoodDown);
 
     // CAROUSEL
     leftStick.middle.whileHeld(revCarousel);
+    rightStick.right.whenPressed(carouselFor2);
 
     // FEEDER
     JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
@@ -271,6 +274,10 @@ public class RobotContainer {
    */
   public void doOnDisable() {
     climber.relayOff();
+  }
+
+  public void relayOnDisable() {
+    climber.relayOn();
   }
 
   /**
