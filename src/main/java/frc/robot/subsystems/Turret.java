@@ -87,7 +87,14 @@ public class Turret extends SubsystemBase {
     } else {
       return limitRight.get();
     }
+    //limitLeft.enableLimitSwitch(false);
+    // return limitLeft.get();
   }
+
+ /*  public boolean isRightLimit() {
+    //limitRight.enableLimitSwitch(false);
+    return limitRight.get();
+  } */
 
   public void setSpeed(double speed) {
     if (!isLeftLimit() && !isRightLimit()) {
