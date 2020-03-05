@@ -38,7 +38,7 @@ public class Carousel extends SubsystemBase {
    * @param speed
    */
   public void setSpeed(double speed) {
-    carouselMotor.set(ControlMode.PercentOutput, speed);
+    carouselMotor.set(ControlMode.PercentOutput, -speed);
   }
 
   public void stop() {
