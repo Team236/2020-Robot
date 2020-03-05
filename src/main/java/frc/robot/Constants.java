@@ -118,7 +118,9 @@ public final class Constants {
 
         public static final double MIN_OUTPUT = 0.0;
         public static final double MAX_OUTPUT = 6000.0;
-        public static final double interval = 0.0;
+        public static final double INTERVAL = 0.0;
+
+        public static final double ENC_LIMIT = 10000;
 
     }
 

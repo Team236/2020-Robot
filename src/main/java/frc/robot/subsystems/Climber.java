@@ -77,11 +77,11 @@ public class Climber extends SubsystemBase {
    */
   public void setSpeed(double speed) {
     // TODO add encoder upper limit
-    if (isNewLimit() && speed > 0) {
+    if (!isNewLimit() && speed > 0 && getEncoderPosition() < ENC_LIMIT) {
+      setSpeedRaw(speed);
+    } else {
       stop();
       resetEncoder();
-    } else {
-      setSpeedRaw(speed);
     }
   }
 
