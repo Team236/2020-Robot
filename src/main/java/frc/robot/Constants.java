@@ -155,7 +155,7 @@ public final class Constants {
         public static final int PWM_TO_SHOOT_SERVO = 0;
         // public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
-        public static final double INTAKE_SPEED = .6;
+        public static final double INTAKE_SPEED = .5;
         public static final double SHOOT_SPEED = .4;
         public static final double GREEN_SPEED = .5;
         public static final double ROLLER_SPEED = .5;

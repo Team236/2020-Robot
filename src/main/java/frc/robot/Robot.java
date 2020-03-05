@@ -91,11 +91,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    robotContainer.doOnDisable();
+    // robotContainer.doOnDisable();
+    // robotContainer.relayOnDisable();
   }
 
   @Override
   public void disabledPeriodic() {
+    // robotContainer.relayOnDisable();
   }
 
   /**
