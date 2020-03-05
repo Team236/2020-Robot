@@ -86,17 +86,16 @@ public class LimeLightTurret extends CommandBase {
     lastError = error;
 
     speed = (proportional + integral + derivative);
-    //negative -= (proportional + integral + derivative);
 /*
     if(speed >= 0)  {
-      turret.wasHitLeft = false;
-      turret.wasHitRight = false;
-      turret.set(speed, 0);
+      turret.setWasHitLeft(false);
+      turret.setWasHitRight(false);
+      turret.set(Math.abs(speed), 0);
     }
     else if(speed < 0)  {
       turret.wasHitLeft = false;
       turret.wasHitRight = false;
-      turret.set(speed, 1);
+      turret.set(Math.abs(speed), 1);
     }
     */
     turret.setTurretSpeed(-speed);

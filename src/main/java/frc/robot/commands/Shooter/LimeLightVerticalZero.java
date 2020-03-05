@@ -93,7 +93,7 @@ public class LimeLightVerticalZero extends CommandBase {
 
     direct = shooter.getHoodEncoder();
     shooter.setDirect(direct);
-    System.out.println(error);
+    //System.out.println(error);
   }
 
   // Called once the command ends or is interrupted.
@@ -109,7 +109,7 @@ public class LimeLightVerticalZero extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(error <= 1.5)  {
+    if(error <= 1.0)  {
       return true;
 
     }

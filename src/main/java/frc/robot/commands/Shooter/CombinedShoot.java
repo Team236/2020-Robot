@@ -11,6 +11,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Turret;
 import frc.robot.commands.Shooter.LimeSequentialShooter;
+import frc.robot.commands.Shooter.LimeLightVerticalZero;
 import frc.robot.commands.Turret.LimeLightTurret;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -30,6 +31,8 @@ public class CombinedShoot extends ParallelCommandGroup {
 
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new LimeSequentialShooter(shooter, lime, kP1, kI1, kD1), new LimeLightTurret(lime, turret, kP2, kI2, kD2));
+    super(new LimeLightVerticalZero(lime, shooter, kP1, kI1, kD1), new LimeLightTurret(lime, turret, kP2, kI2, kD2));
+
+    //super(new LimeSequentialShooter(shooter, lime, kP1, kI1, kD1), new LimeLightTurret(lime, turret, kP2, kI2, kD2));
   }
 }

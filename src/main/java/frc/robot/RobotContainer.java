@@ -203,11 +203,16 @@ public class RobotContainer {
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeq);
 
+    rightStick.six.whileHeld(limeLightVerticalZero);
+    rightStick.seven.whileHeld(combinedShoot);
+
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
     turretLeftBtn.whileHeld(triggerTurretOne);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
     turretRightBtn.whileHeld(triggerTurretZero);
+
+    rightStick.five.whileHeld(limeLightTurret);
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
