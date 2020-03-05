@@ -104,26 +104,42 @@ public class Turret extends SubsystemBase {
     }
   }
 
+  public void setWasHitRight(boolean bool)  {
+    wasHitRight = bool;
+  }
+
+  public void setWasHitLeft(boolean bool) {
+    wasHitLeft = bool;
+  }
+
+  public boolean getWasHitRight()  {
+    return wasHitRight;
+  }
+
+  public boolean getWasHitLeft()  {
+    return wasHitLeft;
+  }
+
   public void set(double speed, int spinCase) {
     if (isLeftLimit() == false) {
-      wasHitLeft = true;
+      setWasHitLeft(true);
     }
     if (isRightLimit() == false) {
-      wasHitRight = true;
+      setWasHitRight(true);
     }
 
-    if (spinCase == 1 && (wasHitRight == false || isRightLimit() != true)) {
-      setTurretSpeed(speed);
-    } else if (wasHitRight == true && spinCase == 1) {
-      wasHitLeft = false;
+    if (spinCase == 1 && (getWasHitRight() == false || isRightLimit() != false)) {
+      setTurretSpeed(-speed);
+    } else if (getWasHitRight() == true && spinCase == 1) {
+      setWasHitLeft(false);
       stop();
     }
 
-    if (spinCase == 0 && (wasHitLeft == false || isLeftLimit() != true)) {
-      setTurretSpeed(-speed);
+    if (spinCase == 0 && (getWasHitLeft() == false || isLeftLimit() != false)) {
+      setTurretSpeed(speed);
 
-    } else if (wasHitLeft == true && spinCase == 0) {
-      wasHitRight = false;
+    } else if (getWasHitLeft() == true && spinCase == 0) {
+      setWasHitRight(true);
       stop();
     }
   }

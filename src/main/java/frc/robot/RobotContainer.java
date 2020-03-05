@@ -22,6 +22,7 @@ import frc.robot.commands.ColorSpinner.ColorSpinnerRotation;
 import frc.robot.commands.ColorSpinner.ExtendCSgroup;
 import frc.robot.commands.ColorSpinner.RetractCSgroup;
 import frc.robot.commands.Drive.DriveWithJoysticks;
+import frc.robot.commands.Drive.ClimberVision;
 import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
 import frc.robot.commands.Intake.TargetAndIntake;
@@ -97,6 +98,8 @@ public class RobotContainer {
   private final Turn turn90 = new Turn(drive, 90, 3, Constants.AutoConstants.TURN_PARAMS);
   private final Turn turn45 = new Turn(drive, 45, 3, Constants.AutoConstants.TURN_PARAMS);
   private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
+
+  private final ClimberVision climberVision = new ClimberVision(myLimelight, turret, shooter);
   // public TrapProfile testProfile;
 
   // INTAKE
@@ -190,6 +193,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // DRIVE
     leftStick.left.whileHeld(cubeWithJoysticks);
+    JoystickButton climberVisionBtn = new JoystickButton(rightStick, 8);
+    climberVisionBtn.whileHeld(climberVision);
 
     // INTAKE
     rightStick.trigger.whileHeld(intakeAndCarousel);
@@ -203,11 +208,16 @@ public class RobotContainer {
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeq);
 
+    rightStick.six.whileHeld(limeLightVerticalZero);
+    rightStick.seven.whileHeld(combinedShoot);
+
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
     turretLeftBtn.whileHeld(triggerTurretOne);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
     turretRightBtn.whileHeld(triggerTurretZero);
+
+    rightStick.five.whileHeld(limeLightTurret);
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);

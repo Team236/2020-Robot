@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Turret;
 import frc.robot.Constants;
+import static frc.robot.Constants.TurretConstants.*;
 
 
 public class TriggerTurret extends CommandBase {
@@ -35,6 +36,10 @@ public class TriggerTurret extends CommandBase {
   public void initialize() {
     wasHitLeft = false;
     wasHitRight = false;
+/*
+    turret.setWasHitLeft(false);
+    turret.setWasHitRight(false);
+    */
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -69,6 +74,8 @@ public class TriggerTurret extends CommandBase {
     //SmartDashboard.putBoolean("smack", smack);
 
     //SmartDashboard.putNumber("Encoder Position", turret.getEncoder());
+
+    //turret.set(TURRET_SPEED, spinCase);
   }
 
   // Called once the command ends or is interrupted.
