@@ -13,9 +13,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ShooterConstants.*;
 
@@ -42,7 +45,9 @@ public class Shooter extends SubsystemBase {
     follower = new CANSparkMax(ID_FOLLOWER, MotorType.kBrushless);
 
     hood = new TalonSRX(ID_HOOD);
-    
+    hood.setInverted(true);
+    hood.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.Disabled);
+
     master.restoreFactoryDefaults();
 
     // Sets master inverted
@@ -104,6 +109,7 @@ public class Shooter extends SubsystemBase {
 
   /**
    * Gets velocity from Neo encoder
+   * 
    * @return Shooter velocity in RPM
    */
   public double getVelocity() {
@@ -112,17 +118,18 @@ public class Shooter extends SubsystemBase {
 
   /**
    * Directly sets speed of shooter motor using percent output
+   * 
    * @param speed desired speed -1.0 to 1.0
    */
   public void setSpeedRaw(double speed) {
     master.set(speed);
   }
 
-  public void setHoodRaw(double speed)  {
+  public void setHoodRaw(double speed) {
     hood.set(ControlMode.PercentOutput, speed);
   }
 
-  public void stopHood()  {
+  public void stopHood() {
     hood.set(ControlMode.PercentOutput, 0);
   }
 
@@ -131,7 +138,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void updateConstants() {
-    
+
   }
 
   public double getHoodEncoder() {
@@ -143,31 +150,40 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getHoodLimit() {
-    if (isLimitThere) {
-      return hoodLimit.get();
-    } else {
-      return false;
-    }
-  }
+    return hood.getSensorCollection().isRevLimitSwitchClosed();
+    /*
+     * if (isLimitThere) { return hoodLimit.get(); } else { return false; }
+     */ }
 
   public void setDirect(double direct) {
     save = direct;
   }
 
-  public double getDirect()  {
+  public double getDirect() {
     return save;
   }
 
   public void setHoodSpeed(double speed) {
-    if (getHoodLimit() && speed > 0) {
-      setHoodRaw(speed);
+    if (!getHoodLimit() || speed > 0) {
+      if (speed > 0 && getHoodEncoder() > ENC_LIMIT) {
+        stopHood();
+      } else {
+        setHoodRaw(speed);
+
+      }
     } else {
       resetHoodEncoder();
+      stopHood();
     }
+    // && getHoodEncoder() < ENC_LIMIT
+
+    // setHoodRaw(speed);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // SmartDashboard.putBoolean("hood lim", getHoodLimit());
+    SmartDashboard.putNumber("hood enc", getHoodEncoder());
   }
 }

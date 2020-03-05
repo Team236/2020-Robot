@@ -35,11 +35,11 @@ public class TriggerHood extends CommandBase {
   @Override
   public void execute() {
     if(spinCase == 0) {
-      hood.setHoodRaw(HOOD_SPEED);
+      hood.setHoodSpeed(HOOD_SPEED);
 
     }
     else if(spinCase == 1)  {
-      hood.setHoodRaw(-HOOD_SPEED);
+      hood.setHoodSpeed(-HOOD_SPEED);
     }
 /*
     if(hood.getHoodLimit() == 1 && trip != 1)  {
