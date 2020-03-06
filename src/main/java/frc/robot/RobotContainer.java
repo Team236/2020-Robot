@@ -123,10 +123,10 @@ public class RobotContainer {
   private final TriggerTurret triggerTurretOne = new TriggerTurret(turret, 1);
 
   // COLOR SPINNER
-  private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
-  private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
-  private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
-  private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
+  private final ColorSpinnerRotation csRotation = new ColorSpinnerRotation(colorSpinner);
+  private final ColorSpinnerPosition csPosition = new ColorSpinnerPosition(colorSpinner);
+  private final ColorSpinnerExtend csExtend = new ColorSpinnerExtend(colorSpinner);
+  private final ColorSpinnerRetract csRetract = new ColorSpinnerRetract(colorSpinner);
   private final ExtendCSgroup extendCSgroup = new ExtendCSgroup(colorSpinner);
   private final RetractCSgroup retractCSgroup = new RetractCSgroup(colorSpinner);
 
@@ -206,31 +206,33 @@ public class RobotContainer {
     // INTAKE
     rightStick.trigger.whileHeld(intakeAndCarousel);
     rightStick.middle.whileHeld(reverseIntakeSpeed);
-    JoystickPOV raiseIntBtn = new JoystickPOV(controller, Direction.UP);
-    raiseIntBtn.whenHeld(raiseIntake);
-    JoystickPOV lowerIntBtn = new JoystickPOV(controller, Direction.DOWN);
-    lowerIntBtn.whenHeld(lowerIntake);
+    controller.y.whenHeld(raiseIntake);
+    controller.a.whenHeld(lowerIntake);
+    // JoystickPOV raiseIntBtn = new JoystickPOV(controller, Direction.UP);
+    // raiseIntBtn.whenHeld(raiseIntake);
+    // JoystickPOV lowerIntBtn = new JoystickPOV(controller, Direction.DOWN);
+    // lowerIntBtn.whenHeld(lowerIntake);
 
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeqHighSp);
     leftStick.right.whileHeld(shootSeqLowSp);
 
-    // TODO FIX THE BUTTONS
+    // TARGETTING
+    controller.x.whileHeld(limeLightVerticalZero);
+    controller.b.whileHeld(limeLightTurret);
     // rightStick.six.whileHeld(limeLightVerticalZero);
-    JoystickPOV targetVerticalBtn = new JoystickPOV(controller, Direction.LEFT);
-    targetVerticalBtn.whileHeld(limeLightVerticalZero);
+    // JoystickPOV targetVerticalBtn = new JoystickPOV(controller, Direction.LEFT);
+    // targetVerticalBtn.whileHeld(limeLightVerticalZero);
     // rightStick.seven.whileHeld(combinedShoot);
     // rightStick.five.whileHeld(limeLightTurret);
-    JoystickPOV targetTurretBtn = new JoystickPOV(controller, Direction.RIGHT);
-    targetTurretBtn.whileHeld(limeLightTurret);
+    // JoystickPOV targetTurretBtn = new JoystickPOV(controller, Direction.RIGHT);
+    // targetTurretBtn.whileHeld(limeLightTurret);
 
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
     turretLeftBtn.whileHeld(triggerTurretOne);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
     turretRightBtn.whileHeld(triggerTurretZero);
-
-    // TODO FIX
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
@@ -251,10 +253,18 @@ public class RobotContainer {
 
     // COLOR SPINNER
     // TODO extend is going down rn
-    controller.y.whenHeld(colorSpinnerExtend);
-    controller.a.whenHeld(colorSpinnerRetract);
-    controller.x.whenHeld(colorSpinnerRotation);
-    controller.b.whenHeld(colorSpinnerPosition);
+    JoystickPOV csExtendBtn = new JoystickPOV(controller, Direction.UP);
+    csExtendBtn.whenHeld(csExtend);
+    JoystickPOV csRetractBtn = new JoystickPOV(controller, Direction.DOWN);
+    csRetractBtn.whenHeld(csRetract);
+    JoystickPOV csRotationBtn = new JoystickPOV(controller, Direction.LEFT);
+    csRotationBtn.whenHeld(csRotation);
+    JoystickPOV csPositionBtn = new JoystickPOV(controller, Direction.RIGHT);
+    csPositionBtn.whenHeld(csPosition);
+    // controller.y.whenHeld(colorSpinnerExtend);
+    // controller.a.whenHeld(colorSpinnerRetract);
+    // controller.x.whenHeld(colorSpinnerRotation);
+    // controller.b.whenHeld(colorSpinnerPosition);
 
     // CLIMBER
     controller.rb.whenPressed(disengageRelay);
