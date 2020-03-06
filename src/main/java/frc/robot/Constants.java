@@ -102,7 +102,8 @@ public final class Constants {
         public static final int DIO_SHOOT_COUNTER = 909;
         public static final int DIO_HOOD_LIMIT = 99;
 
-        public static final double SPEED_RPM = 3500;
+        public static final double HIGH_SPEED = 4500;
+        public static final double LOW_SPEED = 3500;
 
         public static final double kP = 0.0001;
         public static final double kI = 0.0;
@@ -120,7 +121,8 @@ public final class Constants {
         public static final double MAX_OUTPUT = 6000.0;
         public static final double INTERVAL = 0.0;
 
-        public static final double ENC_LIMIT = 350; // 400 max
+        // highest hood can go w/out lexan popping out
+        public static final double ENC_LIMIT = 400; // 400 max
 
     }
 
@@ -134,8 +136,8 @@ public final class Constants {
         public static final int COLOR_COUNT = 32;
 
         // Exten/retract servo position values
-        public static final double EXTEND_VALUE = 1.0; // .8
-        public static final double RETRACT_VALUE = 0.0; // .2
+        public static final double EXTEND_VALUE = 0.0; // .8
+        public static final double RETRACT_VALUE = 1.0; // .2
 
         // Extend/retract servo run-times
         public static final double EXTEND_TIME = 1.4;
@@ -156,14 +158,15 @@ public final class Constants {
         // public static final int PWM_TO_SHOOT_SERVO_2 = 3;
 
         public static final double INTAKE_SPEED = .5;
-        public static final double SHOOT_SPEED = .4;
+        public static final double SHOOT_SPEED = .55;
         public static final double GREEN_SPEED = .5;
         public static final double ROLLER_SPEED = .5;
 
-        public static final double EXTEND_POS = 1.0;
-        public static final double RETRACT_POS = 0.0;
+        // public static final double EXTEND_POS = 1.0;
+        // public static final double RETRACT_POS = 0.0;
 
         public static final double POPPER_UP = 0.2;
+        public static final double POPPER_DOWN = 0.8;
     }
 
     public static class TurretConstants {
