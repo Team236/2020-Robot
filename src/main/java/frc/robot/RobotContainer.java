@@ -230,9 +230,9 @@ public class RobotContainer {
 
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
-    turretLeftBtn.whileHeld(triggerTurretOne);
+    turretLeftBtn.whileHeld(triggerTurretZero);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
-    turretRightBtn.whileHeld(triggerTurretZero);
+    turretRightBtn.whileHeld(triggerTurretOne);
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
@@ -286,7 +286,7 @@ public class RobotContainer {
     // private final SequentialCommandGroup shootMove = new
     // SequentialCommandGroup(shoot, testingSparkTuning);
 
-    // TODO generate trapezoidal profiles (if using)
+    // TODO generate trapezoidal profiles
     // testProfile = new TrapProfile(-24, 100, 100, 0, 3);
   }
 
