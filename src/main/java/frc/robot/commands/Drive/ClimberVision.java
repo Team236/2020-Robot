@@ -40,10 +40,10 @@ public class ClimberVision extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.set(TURRET_SPEED, 1);
-    if(hood.getHoodLimit() == false)  {
-      hood.setHoodRaw(.8);
-    }
+    turret.set(TURRET_SPEED, 0);
+    // if(hood.getHoodLimit() == false)  {
+      hood.setHoodSpeed(.8);
+    // }
   }
 
   // Called once the command ends or is interrupted.

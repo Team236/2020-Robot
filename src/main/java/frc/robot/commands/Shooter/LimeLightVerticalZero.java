@@ -88,7 +88,7 @@ public class LimeLightVerticalZero extends CommandBase {
 
     speed = (proportional + integral + derivative);
     //negative -= (proportional + integral + derivative);
-    shooter.setHoodRaw(-speed);
+    shooter.setHoodSpeed(-speed);
 
 
     direct = shooter.getHoodEncoder();
@@ -100,7 +100,6 @@ public class LimeLightVerticalZero extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopHood();
-    lime.setLEDMode(LedMode.kforceOff);
   }
 
   public double getDirect()  {

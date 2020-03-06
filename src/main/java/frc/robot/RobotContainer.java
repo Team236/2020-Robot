@@ -80,7 +80,7 @@ public class RobotContainer {
   private final Carousel carousel = new Carousel();
   private final Turret turret = new Turret();
   private final ColorSpinner colorSpinner = new ColorSpinner();
-  public final static Limelight myLimelight = new Limelight();
+  public final static Limelight myLimelight = new Limelight("limelight-shooter");
   //public final static Limelight myLimelightIntake = new Limelight("intakeLL");
   private final Climber climber = new Climber();
 
@@ -131,7 +131,7 @@ public class RobotContainer {
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
   // private final SparkShoot2 shoot = new SparkShoot2(shooter, 3000);//4500
-  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 4000);// 4500
+  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 4500);// 4500
 
   private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
   private final LimeLightVerticalZero limeLightVerticalZero = new LimeLightVerticalZero(myLimelight, shooter, HOOD_kP,
@@ -208,8 +208,9 @@ public class RobotContainer {
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeq);
 
-    rightStick.six.whileHeld(limeLightVerticalZero);
-    rightStick.seven.whileHeld(combinedShoot);
+    // TODO FIX
+    // rightStick.six.whileHeld(limeLightVerticalZero);
+    // rightStick.seven.whileHeld(combinedShoot);
 
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
@@ -217,7 +218,8 @@ public class RobotContainer {
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
     turretRightBtn.whileHeld(triggerTurretZero);
 
-    rightStick.five.whileHeld(limeLightTurret);
+    // TODO FIX
+    // rightStick.five.whileHeld(limeLightTurret);
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
@@ -228,7 +230,7 @@ public class RobotContainer {
     // CAROUSEL
     leftStick.middle.whileHeld(revCarousel);
     rightStick.right.whenPressed(carouselFor2);
-    rightStick.left.whileHeld(spinCarousel2);
+    // rightStick.left.whileHeld(spinCarousel2);
 
     // FEEDER
     JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
@@ -237,6 +239,7 @@ public class RobotContainer {
     popperDownBtn.whileHeld(popperServoDown);
 
     // COLOR SPINNER
+    // TODO extend is going down rn
     controller.y.whenHeld(colorSpinnerExtend);
     controller.a.whenHeld(colorSpinnerRetract);
     controller.x.whenHeld(colorSpinnerRotation);

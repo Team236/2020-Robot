@@ -107,11 +107,11 @@ public final class Constants {
         public static final double kP = 0.0001;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kFF = 0.0002;
+        public static final double kFF = 0.001;
 
-        public static final double HOOD_kP = 0.8;
-        public static final double HOOD_kI = 0.0;
-        public static final double HOOD_kD = 0.0;
+        public static final double HOOD_kP = .7;
+        public static final double HOOD_kI = 0.8;
+        public static final double HOOD_kD = 0.05;
         public static final double HOOD_ACTIVE_ZONE = 5.0;
 
         public static final double HOOD_SPEED = .8;
@@ -189,8 +189,8 @@ public final class Constants {
         public static final int DIO_BOT_LIMIT = 11;
 
         public static final double SPEED = 1.0;
-        public static final double ENC_LIMIT = 50;
-        public static final double ENC_TOP_VAL = 1000;
+        public static final double ENC_LIMIT = 110; // 153
+        public static final double ENC_TOP_VAL = 150;
 
         // GAINS
         public static final double kP = 0.0;

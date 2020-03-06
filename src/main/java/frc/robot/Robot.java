@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
       SmartDashboard.putString("camera capture failed", "failed");
     }
 
-    RobotContainer.myLimelight.setLEDMode(LedMode.kforceOff);
+    RobotContainer.myLimelight.setPipeline(0);
   }
 
   /**
