@@ -122,7 +122,7 @@ public final class Constants {
         public static final double INTERVAL = 0.0;
 
         // highest hood can go w/out lexan popping out
-        public static final double ENC_LIMIT = 400; // 400 max
+        public static final double ENC_LIMIT = 500; // 400 max
 
     }
 
