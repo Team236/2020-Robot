@@ -18,6 +18,7 @@ public class DriveWithJoysticks extends CommandBase {
   private Joystick leftStick, rightStick;
   private boolean isCube;
   private int pow = 1;
+  private boolean isDeadzone = Constants.DriveConstants.IS_DEADZONE;
 
   /**
    * Creates a new DriveWithJoysticks.
@@ -38,7 +39,11 @@ public class DriveWithJoysticks extends CommandBase {
   @Override
   public void initialize() {
     if (isCube) {
-      pow = 3;
+      this.pow = 3;
+      this.isDeadzone = false;
+    } else {
+      this.pow = 1;
+      this.isDeadzone = false;
     }
   }
 
@@ -47,7 +52,7 @@ public class DriveWithJoysticks extends CommandBase {
   public void execute() {
 
     // IS_DEADZONE determines whether joystick deadzone is considered
-    if (Constants.DriveConstants.IS_DEADZONE) {
+    if (this.isDeadzone) {
       drive.setLeftSpeedWithDeadzone(Math.pow(-leftStick.getY(), pow));
       drive.setRightSpeedWithDeadzone(Math.pow(-rightStick.getY(), pow));
     } else {
