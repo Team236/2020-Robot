@@ -48,7 +48,7 @@ public class LimeLightIntake extends CommandBase {
     // RobotContainer.drive.navx.reset();
     drive.resetEncoders();
     // System.out.println("gyro drive init");
-    myLimelightLocal.setPipeline(0);
+    myLimelightLocal.setPipeline(1);
   }
 
   @Override
@@ -100,6 +100,7 @@ public class LimeLightIntake extends CommandBase {
   // @Override
   protected void end() {
     drive.stop();
+    myLimelightLocal.setPipeline(3);
   }
 
   // @Override

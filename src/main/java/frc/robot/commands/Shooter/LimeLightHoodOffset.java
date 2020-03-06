@@ -100,13 +100,12 @@ public class LimeLightHoodOffset extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopHood();
-    lime.setLEDMode(LedMode.kforceOff);
-  }
+    lime.setPipeline(3);  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(error <= 1.5)  {
+    if(error <= 1.5 && error >= -1.5)  {
       return true;
     }
     else  {
