@@ -46,7 +46,6 @@ public class Intake extends SubsystemBase {
     try {
       upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
       lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
-
     } catch (Exception e) {
       limitsUnplugged = true;
     }
@@ -96,7 +95,6 @@ public class Intake extends SubsystemBase {
     } else {
       return upperLimit.get();
     }
-
   }
 
   public boolean getLowerLimit() {

@@ -57,7 +57,7 @@ public class Turret extends SubsystemBase {
 
   }
 
-  public void setTurretSpeed(double speed) {
+  public void setTurretSpeedRaw(double speed) {
     turretSpinner.set(speed);
   }
 
@@ -96,9 +96,13 @@ public class Turret extends SubsystemBase {
     return limitRight.get();
   } */
 
+  /**
+   * Sets speed considering limits
+   * @param speed
+   */
   public void setSpeed(double speed) {
     if (!isLeftLimit() && !isRightLimit()) {
-      setTurretSpeed(speed);
+      setTurretSpeedRaw(speed);
     } else {
       stop();
     }
@@ -120,6 +124,11 @@ public class Turret extends SubsystemBase {
     return wasHitLeft;
   }
 
+  /**
+   * sets speed considering limits, previous conditions
+   * @param speed
+   * @param spinCase direction
+   */
   public void set(double speed, int spinCase) {
     if (isLeftLimit() == false) {
       setWasHitLeft(true);
@@ -129,14 +138,14 @@ public class Turret extends SubsystemBase {
     }
 
     if (spinCase == 1 && (getWasHitRight() == false || isRightLimit() != false)) {
-      setTurretSpeed(-speed);
+      setTurretSpeedRaw(-speed);
     } else if (getWasHitRight() == true && spinCase == 1) {
       setWasHitLeft(false);
       stop();
     }
 
     if (spinCase == 0 && (getWasHitLeft() == false || isLeftLimit() != false)) {
-      setTurretSpeed(speed);
+      setTurretSpeedRaw(speed);
 
     } else if (getWasHitLeft() == true && spinCase == 0) {
       setWasHitRight(true);
@@ -151,8 +160,8 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run1
-    SmartDashboard.putBoolean("isLeftLimit", isLeftLimit());
-    SmartDashboard.putBoolean("isRightLimit", isRightLimit());
+    // SmartDashboard.putBoolean("isLeftLimit", isLeftLimit());
+    // SmartDashboard.putBoolean("isRightLimit", isRightLimit());
 
     // SmartDashboard.putBoolean("wasHitLeft", wasHitLeft);
     // SmartDashboard.putBoolean("wasHitRight", wasHitRight);

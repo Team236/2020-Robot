@@ -98,7 +98,7 @@ public class LimeLightTurret extends CommandBase {
       turret.set(Math.abs(speed), 1);
     }
     */
-    turret.setTurretSpeed(-speed);
+    turret.setTurretSpeedRaw(-speed);
   }
 
   // Called once the command ends or is interrupted.

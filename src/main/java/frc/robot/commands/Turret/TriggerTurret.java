@@ -53,14 +53,14 @@ public class TriggerTurret extends CommandBase {
     }
     
     if (spinCase == 0 && (wasHitLeft == false || turret.isLeftLimit() != false)) {
-      turret.setTurretSpeed(Constants.TurretConstants.TURRET_SPEED);
+      turret.setTurretSpeedRaw(Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitLeft == true && spinCase == 0) {
       wasHitRight = false;
       turret.stop();
     }
     
     if (spinCase == 1 && (wasHitRight == false || turret.isRightLimit() != false)) {
-      turret.setTurretSpeed(-Constants.TurretConstants.TURRET_SPEED);
+      turret.setTurretSpeedRaw(-Constants.TurretConstants.TURRET_SPEED);
     } else if (wasHitRight == true && spinCase == 1) {
       wasHitLeft = false;
       turret.stop();

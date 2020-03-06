@@ -92,8 +92,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    // Makes sure relay shuts off when robot disables
     // robotContainer.doOnDisable();
-    // robotContainer.relayOnDisable();
+
+    // Enables relay when robot disables
+    robotContainer.relayOnDisable();
   }
 
   @Override

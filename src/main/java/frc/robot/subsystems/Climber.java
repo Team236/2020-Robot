@@ -53,6 +53,7 @@ public class Climber extends SubsystemBase {
     pidController = master.getPIDController();
     encoder = master.getEncoder();
 
+    // Limit switch try catch
     try {
       newLimit = new DigitalInput(DIO_NEW_LIMIT);
     } catch (Exception e) {
@@ -61,6 +62,11 @@ public class Climber extends SubsystemBase {
 
   }
 
+  /**
+   * Sets speed w/out consideration for limits
+   * 
+   * @param speed
+   */
   private void setSpeedRaw(double speed) {
     master.set(speed);
   }
@@ -74,17 +80,16 @@ public class Climber extends SubsystemBase {
   }
 
   /**
-   * Sets pre-determined speed, takes into account limit (not wired to spark)
+   * Sets pre-determined speed, takes into account limit
    */
   public void setSpeed(double speed) {
     // TODO add encoder upper limit
     // && getEncoderPosition() < ENC_LIMIT
-    if (!isNewLimit() || speed > 0 ) {
+    if (!isNewLimit() || speed > 0) {
       if (speed > 0 && getEncoderPosition() > ENC_LIMIT) {
         stop();
       } else {
         setSpeedRaw(speed);
-
       }
     } else {
       stop();
@@ -96,6 +101,10 @@ public class Climber extends SubsystemBase {
     setSpeedRaw(0);
   }
 
+  /**
+   * old limit style, right not unused
+   * @return
+   */
   public boolean isBottomLimit() {
     bottomLimit.enableLimitSwitch(false);
     return bottomLimit.get();
@@ -109,6 +118,7 @@ public class Climber extends SubsystemBase {
     encoder.setPosition(0);
   }
 
+  // Unused pid methods
   public void setSetPoint(double position) {
     pidController.setReference(position, ControlType.kPosition);
   }

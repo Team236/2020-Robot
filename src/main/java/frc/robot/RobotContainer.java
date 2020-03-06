@@ -159,7 +159,7 @@ public class RobotContainer {
   private final CarouselToShoot feed2 = new CarouselToShoot(carousel);
   private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
   private final PopperServo popperServoDown = new PopperServo(carousel, Constants.CarouselConstants.POPPER_DOWN);
-  private final TimeoutCommand carouselFor2 = new TimeoutCommand(spinCarousel, .5);
+  private final TimeoutCommand carouselTimeout = new TimeoutCommand(spinCarousel, .5);
 
   // CLIMBER
   // private final SetClimbSpeed climbFwd = new SetClimbSpeed(climber,
@@ -169,14 +169,14 @@ public class RobotContainer {
   private final RelayControl engageRelay = new RelayControl(climber, false);
 
   // GROUPS
-  // private final ParallelCommandGroup waitThenShoot = new
-  // ParallelCommandGroup(new Wait(seconds))
   private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
   private final ParallelCommandGroup shootSeqLowSp = new ParallelCommandGroup(feed2, shootLowSpeed);
+  private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
+  // private final ParallelCommandGroup waitThenShoot = new
+  // ParallelCommandGroup(new Wait(seconds))
   // TODO carousel doesn't run on intake currently
   // private final ParallelCommandGroup intakeAndCarousel = new
   // ParallelCommandGroup(spinCarousel, setIntakeSpeed);
-  private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
@@ -242,7 +242,7 @@ public class RobotContainer {
 
     // CAROUSEL
     leftStick.middle.whileHeld(revCarousel);
-    rightStick.right.whenPressed(carouselFor2);
+    rightStick.right.whenPressed(carouselTimeout);
     // rightStick.left.whileHeld(spinCarousel2);
 
     // FEEDER
@@ -315,12 +315,15 @@ public class RobotContainer {
   }
 
   /**
-   * Called in disabledInit() of Robot.java
+   * disables relay
    */
   public void doOnDisable() {
     climber.relayOff();
   }
 
+  /**
+   * enables relay
+   */
   public void relayOnDisable() {
     climber.relayOn();
   }

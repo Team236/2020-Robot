@@ -40,7 +40,6 @@ public class Shooter extends SubsystemBase {
    */
   public Shooter() {
 
-    // master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
     master = new CANSparkMax(ID_MASTER, MotorType.kBrushless);
     follower = new CANSparkMax(ID_FOLLOWER, MotorType.kBrushless);
 
@@ -77,22 +76,18 @@ public class Shooter extends SubsystemBase {
 
   public void setP(double kP) {
     pidController.setP(kP);
-
   }
 
   public void setI(double kI) {
     pidController.setI(kI);
-
   }
 
   public void setD(double kD) {
     pidController.setD(kD);
-
   }
 
   public void setFF(double kF) {
     pidController.setFF(kF);
-
   }
 
   public void setOutputRange() {
@@ -169,13 +164,11 @@ public class Shooter extends SubsystemBase {
         stopHood();
       } else {
         setHoodRaw(speed);
-
       }
     } else {
       resetHoodEncoder();
       stopHood();
     }
-    // && getHoodEncoder() < ENC_LIMIT
 
     // setHoodRaw(speed);
   }
