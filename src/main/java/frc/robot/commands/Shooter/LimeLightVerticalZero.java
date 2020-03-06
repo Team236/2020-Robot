@@ -100,6 +100,7 @@ public class LimeLightVerticalZero extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopHood();
+    lime.setPipeline(3);
   }
 
   public double getDirect()  {
@@ -108,9 +109,8 @@ public class LimeLightVerticalZero extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(error <= 1.0)  {
+    if(error <= 1.0 && error >= -1.0)  {
       return true;
-
     }
     else  {
       return false;

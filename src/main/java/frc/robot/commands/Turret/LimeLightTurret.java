@@ -105,6 +105,7 @@ public class LimeLightTurret extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     turret.stop();
+    lime.setPipeline(3);
     //lime.setLEDMode(LedMode.kforceOff);
   }
 
