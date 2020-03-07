@@ -114,6 +114,13 @@ public final class Constants {
         public static final double HOOD_kD = 0.05;
         public static final double HOOD_ACTIVE_ZONE = 5.0;
 
+        public static final int HOOD_PID_ACTIVE_ZONE = 35;
+        public static final double HOOD_ENCODER_kP = 0.0;
+        public static final double HOOD_ENCODER_kI = 0.0;
+        public static final double HOOD_ENCODER_kD = 0.0;
+        public static final double SET = 200;
+
+
         public static final double HOOD_SPEED = .8;
 
         public static final double MIN_OUTPUT = 0.0;

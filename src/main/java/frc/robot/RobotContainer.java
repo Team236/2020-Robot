@@ -33,6 +33,7 @@ import frc.robot.commands.Shooter.LimeLightVerticalZero;
 import frc.robot.commands.Shooter.LimeLightHoodOffset;
 import frc.robot.commands.Shooter.LimeSequentialShooter;
 import frc.robot.commands.Shooter.CombinedShoot;
+import frc.robot.commands.Shooter.PIDHood;
 import frc.robot.commands.Intake.LimeLightIntake;
 import frc.robot.commands.Intake.RaiseLowerIntake;
 import frc.robot.commands.Turret.LimeLightTurret;
@@ -145,6 +146,8 @@ public class RobotContainer {
   // HOOD
   private final TriggerHood triggerHoodUp = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodDown = new TriggerHood(shooter, 1);
+
+  private final PIDHood pidHood = new PIDHood(shooter, SET, HOOD_ENCODER_kP, HOOD_ENCODER_kI, HOOD_ENCODER_kD);
 
   // CAROUSEL
   private final SpinCarousel spinCarousel = new SpinCarousel(carousel, false);
