@@ -46,13 +46,13 @@ public final class Constants {
         public static final double REV_TO_IN_K = CIRCUMFERENCE / GEAR_RATIO;
         public static final double IN_TO_REV_K = GEAR_RATIO / CIRCUMFERENCE;
 
-        public static final double LEFT_DEADZONE = .1;
+        public static final double LEFT_DEADZONE = .15;
         public static final double RIGHT_DEADZONE = .15;
 
-        public static final double kP = 0.0;
+        public static final double kP = 0.001;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kF = 0.0;
+        public static final double kF = 0.01;
 
         public static final double MIN_OUTPUT = 0.0;
         public static final double MAX_OUTPUT = 1.0;
@@ -102,17 +102,17 @@ public final class Constants {
         public static final int DIO_SHOOT_COUNTER = 909;
         public static final int DIO_HOOD_LIMIT = 99;
 
-        public static final double HIGH_SPEED = 4500;
+        public static final double HIGH_SPEED = 3800;
         public static final double LOW_SPEED = 3500;
 
-        public static final double kP = 0.0001;
+        public static final double kP = 0.000;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kFF = 0.001;
+        public static final double kFF = 0.000215;//.00022
 
-        public static final double HOOD_kP = .7;
-        public static final double HOOD_kI = 0.8;
-        public static final double HOOD_kD = 0.05;
+        public static final double HOOD_kP = .25;
+        public static final double HOOD_kI = 0.05;
+        public static final double HOOD_kD = 0.075;
         public static final double HOOD_ACTIVE_ZONE = 5.0;
 
         public static final double HOOD_SPEED = .8;
@@ -175,7 +175,7 @@ public final class Constants {
         public static final int DIO_LEFT_LIMIT = 4;
         public static final int DIO_RIGHT_LIMIT = 5;
 
-        public static final double TURRET_kP = 0.03;
+        public static final double TURRET_kP = 0.028;
         public static final double TURRET_kI = 0.0045;
         public static final double TURRET_kD = 0.01;
         public static final double TURRET_SPEED = 0.65;
