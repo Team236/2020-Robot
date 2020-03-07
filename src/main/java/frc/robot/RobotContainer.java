@@ -82,7 +82,7 @@ public class RobotContainer {
   private final Turret turret = new Turret();
   private final ColorSpinner colorSpinner = new ColorSpinner();
   public final static Limelight myLimelight = new Limelight("limelight-shooter");
-  //public final static Limelight myLimelightIntake = new Limelight("intakeLL");
+  // public final static Limelight myLimelightIntake = new Limelight("intakeLL");
   private final Climber climber = new Climber();
 
   // **JOYSTICKS**
@@ -107,9 +107,12 @@ public class RobotContainer {
   private final SetIntakeSpeed setIntakeSpeed = new SetIntakeSpeed(intake, Constants.IntakeConstants.SPEED);
   private final SetIntakeSpeed reverseIntakeSpeed = new SetIntakeSpeed(intake, -Constants.IntakeConstants.SPEED);
   private final IntakeWithAxis intakeWithAxis = new IntakeWithAxis(intake, controller);
-  /*private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive, myLimelightIntake,
-      Constants.IntakeConstants.LIME_KP, Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD,
-      Constants.IntakeConstants.LIME_SPEED);*/
+  /*
+   * private final LimeLightIntake limeLightIntake = new LimeLightIntake(drive,
+   * myLimelightIntake, Constants.IntakeConstants.LIME_KP,
+   * Constants.IntakeConstants.LIME_KI, Constants.IntakeConstants.LIME_KD,
+   * Constants.IntakeConstants.LIME_SPEED);
+   */
   private final TargetAndIntake targetAndIntake = new TargetAndIntake(drive, intake, myLimelight);
   private final RaiseLowerIntake raiseIntake = new RaiseLowerIntake(intake, true);
   private final RaiseLowerIntake lowerIntake = new RaiseLowerIntake(intake, false);
@@ -121,10 +124,10 @@ public class RobotContainer {
   private final TriggerTurret triggerTurretOne = new TriggerTurret(turret, 1);
 
   // COLOR SPINNER
-  private final ColorSpinnerRotation colorSpinnerRotation = new ColorSpinnerRotation(colorSpinner);
-  private final ColorSpinnerPosition colorSpinnerPosition = new ColorSpinnerPosition(colorSpinner);
-  private final ColorSpinnerExtend colorSpinnerExtend = new ColorSpinnerExtend(colorSpinner);
-  private final ColorSpinnerRetract colorSpinnerRetract = new ColorSpinnerRetract(colorSpinner);
+  private final ColorSpinnerRotation csRotation = new ColorSpinnerRotation(colorSpinner);
+  private final ColorSpinnerPosition csPosition = new ColorSpinnerPosition(colorSpinner);
+  private final ColorSpinnerExtend csExtend = new ColorSpinnerExtend(colorSpinner);
+  private final ColorSpinnerRetract csRetract = new ColorSpinnerRetract(colorSpinner);
   private final ExtendCSgroup extendCSgroup = new ExtendCSgroup(colorSpinner);
   private final RetractCSgroup retractCSgroup = new RetractCSgroup(colorSpinner);
 
@@ -132,9 +135,10 @@ public class RobotContainer {
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
   // private final SparkShoot2 shoot = new SparkShoot2(shooter, 3000);//4500
-  private final SparkShoot2 shoot1 = new SparkShoot2(shooter, 4500);// 4500
+  private final SparkShoot2 shootHighSpeed = new SparkShoot2(shooter, Constants.ShooterConstants.HIGH_SPEED);// 4500
+  private final SparkShoot2 shootLowSpeed = new SparkShoot2(shooter, Constants.ShooterConstants.LOW_SPEED);
 
-  private final SparkShoot2 shoot = new SparkShoot2(shooter, 4500);
+  private final SparkShoot2 shoot = new SparkShoot2(shooter, Constants.ShooterConstants.HIGH_SPEED);
   private final LimeLightVerticalZero limeLightVerticalZero = new LimeLightVerticalZero(myLimelight, shooter, HOOD_kP,
       HOOD_kI, HOOD_kD);
   private final LimeLightHoodOffset limeLightHoodOffset = new LimeLightHoodOffset(myLimelight, shooter, HOOD_kP,
@@ -143,6 +147,7 @@ public class RobotContainer {
       HOOD_kI, HOOD_kD);
   private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD,
       TURRET_kP, TURRET_kI, TURRET_kD);
+
   // HOOD
   private final TriggerHood triggerHoodUp = new TriggerHood(shooter, 0);
   private final TriggerHood triggerHoodDown = new TriggerHood(shooter, 1);
@@ -154,18 +159,10 @@ public class RobotContainer {
   private final SpinCarousel spinCarousel2 = new SpinCarousel(carousel, false);
   private final SpinCarousel revCarousel = new SpinCarousel(carousel, true);
   private final CarouselToShoot feed = new CarouselToShoot(carousel);
+  private final CarouselToShoot feed2 = new CarouselToShoot(carousel);
   private final PopperServo popperServoUp = new PopperServo(carousel, Constants.CarouselConstants.POPPER_UP);
-  private final PopperServo popperServoDown = new PopperServo(carousel, .8);
+  private final PopperServo popperServoDown = new PopperServo(carousel, Constants.CarouselConstants.POPPER_DOWN);
   private final TimeoutCommand carouselFor2 = new TimeoutCommand(spinCarousel, .5);
-
-  // INTAKE/CAROUSEL GROUPS
-  // private final ParallelCommandGroup waitThenShoot = new
-  // ParallelCommandGroup(new Wait(seconds))
-  private final ParallelCommandGroup shootSeq = new ParallelCommandGroup(feed, shoot1);
-  // TODO carousel doesn't run on intake currently
-  // private final ParallelCommandGroup intakeAndCarousel = new
-  // ParallelCommandGroup(spinCarousel, setIntakeSpeed);
-  private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
 
   // CLIMBER
   // private final SetClimbSpeed climbFwd = new SetClimbSpeed(climber,
@@ -173,6 +170,16 @@ public class RobotContainer {
   private final ClimberWithAxis climberWithAxis = new ClimberWithAxis(climber, controller);
   private final RelayControl disengageRelay = new RelayControl(climber, true);
   private final RelayControl engageRelay = new RelayControl(climber, false);
+
+  // GROUPS
+  // private final ParallelCommandGroup waitThenShoot = new
+  // ParallelCommandGroup(new Wait(seconds))
+  private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
+  private final ParallelCommandGroup shootSeqLowSp = new ParallelCommandGroup(feed2, shootLowSpeed);
+  // TODO carousel doesn't run on intake currently
+  // private final ParallelCommandGroup intakeAndCarousel = new
+  // ParallelCommandGroup(spinCarousel, setIntakeSpeed);
+  private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
@@ -202,27 +209,33 @@ public class RobotContainer {
     // INTAKE
     rightStick.trigger.whileHeld(intakeAndCarousel);
     rightStick.middle.whileHeld(reverseIntakeSpeed);
-    // TODO intake and limelight options
-    JoystickPOV raiseIntBtn = new JoystickPOV(controller, Direction.UP);
-    raiseIntBtn.whenHeld(raiseIntake);
-    JoystickPOV lowerIntBtn = new JoystickPOV(controller, Direction.DOWN);
-    lowerIntBtn.whenHeld(lowerIntake);
+    controller.y.whenHeld(raiseIntake);
+    controller.a.whenHeld(lowerIntake);
+    // JoystickPOV raiseIntBtn = new JoystickPOV(controller, Direction.UP);
+    // raiseIntBtn.whenHeld(raiseIntake);
+    // JoystickPOV lowerIntBtn = new JoystickPOV(controller, Direction.DOWN);
+    // lowerIntBtn.whenHeld(lowerIntake);
 
     // SHOOTER
-    leftStick.trigger.whileHeld(shootSeq);
+    leftStick.trigger.whileHeld(shootSeqHighSp);
+    leftStick.right.whileHeld(shootSeqLowSp);
 
-    // TODO FIX
+    // TARGETTING
+    controller.x.whileHeld(limeLightVerticalZero);
+    controller.b.whileHeld(limeLightTurret);
     // rightStick.six.whileHeld(limeLightVerticalZero);
+    // JoystickPOV targetVerticalBtn = new JoystickPOV(controller, Direction.LEFT);
+    // targetVerticalBtn.whileHeld(limeLightVerticalZero);
     // rightStick.seven.whileHeld(combinedShoot);
+    // rightStick.five.whileHeld(limeLightTurret);
+    // JoystickPOV targetTurretBtn = new JoystickPOV(controller, Direction.RIGHT);
+    // targetTurretBtn.whileHeld(limeLightTurret);
 
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
-    turretLeftBtn.whileHeld(triggerTurretOne);
+    turretLeftBtn.whileHeld(triggerTurretZero);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
-    turretRightBtn.whileHeld(triggerTurretZero);
-
-    // TODO FIX
-    // rightStick.five.whileHeld(limeLightTurret);
+    turretRightBtn.whileHeld(triggerTurretOne);
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
@@ -243,10 +256,18 @@ public class RobotContainer {
 
     // COLOR SPINNER
     // TODO extend is going down rn
-    controller.y.whenHeld(colorSpinnerExtend);
-    controller.a.whenHeld(colorSpinnerRetract);
-    controller.x.whenHeld(colorSpinnerRotation);
-    controller.b.whenHeld(colorSpinnerPosition);
+    JoystickPOV csExtendBtn = new JoystickPOV(controller, Direction.UP);
+    csExtendBtn.whenHeld(csExtend);
+    JoystickPOV csRetractBtn = new JoystickPOV(controller, Direction.DOWN);
+    csRetractBtn.whenHeld(csRetract);
+    JoystickPOV csRotationBtn = new JoystickPOV(controller, Direction.LEFT);
+    csRotationBtn.whenHeld(csRotation);
+    JoystickPOV csPositionBtn = new JoystickPOV(controller, Direction.RIGHT);
+    csPositionBtn.whenHeld(csPosition);
+    // controller.y.whenHeld(colorSpinnerExtend);
+    // controller.a.whenHeld(colorSpinnerRetract);
+    // controller.x.whenHeld(colorSpinnerRotation);
+    // controller.b.whenHeld(colorSpinnerPosition);
 
     // CLIMBER
     controller.rb.whenPressed(disengageRelay);
@@ -268,7 +289,7 @@ public class RobotContainer {
     // private final SequentialCommandGroup shootMove = new
     // SequentialCommandGroup(shoot, testingSparkTuning);
 
-    // TODO generate trapezoidal profiles (if using)
+    // TODO generate trapezoidal profiles
     // testProfile = new TrapProfile(-24, 100, 100, 0, 3);
   }
 

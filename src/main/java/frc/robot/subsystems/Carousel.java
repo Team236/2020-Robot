@@ -76,17 +76,17 @@ public class Carousel extends SubsystemBase {
   /**
    * Extends green wheel to bump ball to rollers
    */
-  public void extendBumpWheel() {
+/*   public void extendBumpWheel() {
     setToShootServos(EXTEND_POS);
   }
-
+ */
   /**
    * Retracts green wheel
    */
-  public void retractBumpWheel() {
+/*   public void retractBumpWheel() {
     setToShootServos(RETRACT_POS);
   }
-
+ */
   /**
    * Spins the green wheel at predetermined speed
    */

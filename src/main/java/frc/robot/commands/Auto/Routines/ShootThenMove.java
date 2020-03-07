@@ -25,6 +25,6 @@ public class ShootThenMove extends SequentialCommandGroup {
   public ShootThenMove(Drive drive, Shooter shooter, Carousel carousel) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShooterSparkControl(shooter, Constants.ShooterConstants.SPEED_RPM), new SparkMotnControl(drive, 48, 3));
+    super(new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED), new SparkMotnControl(drive, 48, 3));
   }
 }
