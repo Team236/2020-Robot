@@ -43,7 +43,7 @@ public class DriveWithJoysticks extends CommandBase {
       this.isDeadzone = false;
     } else {
       this.pow = 1;
-      this.isDeadzone = false;
+      this.isDeadzone = true;
     }
   }
 
