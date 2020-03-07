@@ -178,5 +178,6 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("hood lim", getHoodLimit());
     SmartDashboard.putNumber("hood enc", getHoodEncoder());
+    SmartDashboard.putNumber("shoot vel", getVelocity());
   }
 }

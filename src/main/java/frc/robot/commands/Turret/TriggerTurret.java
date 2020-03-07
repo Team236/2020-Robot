@@ -45,6 +45,7 @@ public class TriggerTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*
     if (turret.isLeftLimit() == false) {
       wasHitLeft = true;
     }
@@ -65,7 +66,7 @@ public class TriggerTurret extends CommandBase {
       wasHitLeft = false;
       turret.stop();
     }
-
+    */
     SmartDashboard.putBoolean("isLeftLimit", turret.isLeftLimit());
     SmartDashboard.putBoolean("isRightLimit", turret.isRightLimit());
 
@@ -75,7 +76,7 @@ public class TriggerTurret extends CommandBase {
 
     //SmartDashboard.putNumber("Encoder Position", turret.getEncoder());
 
-    //turret.set(TURRET_SPEED, spinCase);
+    turret.set(TURRET_SPEED, spinCase);
   }
 
   // Called once the command ends or is interrupted.
