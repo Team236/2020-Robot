@@ -9,6 +9,8 @@ package frc.robot;
 
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Auto.SparkControlwDash;
+import frc.robot.commands.Auto.SparkMotnControl;
+import frc.robot.commands.Auto.Routines.ShootThenMove;
 import frc.robot.commands.Carousel.CarouselToShoot;
 import frc.robot.commands.Carousel.PopperServo;
 import frc.robot.commands.Carousel.SpinCarousel;
@@ -27,6 +29,7 @@ import frc.robot.commands.Intake.IntakeWithAxis;
 import frc.robot.commands.Intake.SetIntakeSpeed;
 import frc.robot.commands.Intake.TargetAndIntake;
 import frc.robot.commands.Shooter.ShooterSparkControl;
+import frc.robot.commands.Shooter.SimpleShoot;
 import frc.robot.commands.Shooter.SparkShoot2;
 import frc.robot.commands.Shooter.TriggerHood;
 import frc.robot.commands.Shooter.LimeLightVerticalZero;
@@ -98,6 +101,7 @@ public class RobotContainer {
   private final Turn turn90 = new Turn(drive, 90, 3, Constants.AutoConstants.TURN_PARAMS);
   private final Turn turn45 = new Turn(drive, 45, 3, Constants.AutoConstants.TURN_PARAMS);
   private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
+  private final SparkMotnControl driveStraight = new SparkMotnControl(drive, 24, 3);
 
   private final ClimberVision climberVision = new ClimberVision(myLimelight, turret, shooter);
   // public TrapProfile testProfile;
@@ -134,6 +138,7 @@ public class RobotContainer {
   // private final ShooterSparkControl shooterSparkControl = new
   // ShooterSparkControl(shooter, 4000);
   // private final SparkShoot2 shoot = new SparkShoot2(shooter, 3000);//4500
+  private final SimpleShoot simpleShoot = new SimpleShoot(shooter, 1.0);
   private final SparkShoot2 shootHighSpeed = new SparkShoot2(shooter, Constants.ShooterConstants.HIGH_SPEED);// 4500
   private final SparkShoot2 shootLowSpeed = new SparkShoot2(shooter, Constants.ShooterConstants.LOW_SPEED);
 
@@ -169,6 +174,7 @@ public class RobotContainer {
   private final RelayControl engageRelay = new RelayControl(climber, false);
 
   // GROUPS
+  // private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
   private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
   private final ParallelCommandGroup shootSeqLowSp = new ParallelCommandGroup(feed2, shootLowSpeed);
   private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
@@ -177,6 +183,9 @@ public class RobotContainer {
   // TODO carousel doesn't run on intake currently
   // private final ParallelCommandGroup intakeAndCarousel = new
   // ParallelCommandGroup(spinCarousel, setIntakeSpeed);
+
+  // AUTON
+  private final ShootThenMove shootThenMove = new ShootThenMove(drive, shooter, carousel);
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
@@ -215,7 +224,8 @@ public class RobotContainer {
 
     // SHOOTER
     leftStick.trigger.whileHeld(shootSeqHighSp);
-    leftStick.right.whileHeld(shootSeqLowSp);
+    // leftStick.right.whileHeld(shootSeqLowSp);
+    // leftStick.trigger.whileHeld(simpleShoot);
 
     // TARGETTING
     controller.x.whileHeld(limeLightVerticalZero);
@@ -230,9 +240,9 @@ public class RobotContainer {
 
     // TURRET
     JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
-    turretLeftBtn.whileHeld(triggerTurretZero);
+    turretLeftBtn.whileHeld(triggerTurretOne);
     JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
-    turretRightBtn.whileHeld(triggerTurretOne);
+    turretRightBtn.whileHeld(triggerTurretZero);
 
     // HOOD
     JoystickPOV hoodUpBtn = new JoystickPOV(leftStick, Direction.UP);
@@ -339,6 +349,6 @@ public class RobotContainer {
     drive.resetEncoders();
     drive.resetAngle();
 
-    return exampleCmd;
+    return shootThenMove;
   }
 }
