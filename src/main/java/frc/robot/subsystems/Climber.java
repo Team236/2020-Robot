@@ -147,6 +147,7 @@ public class Climber extends SubsystemBase {
    * Powers relay: LL on, climb lock off
    */
   public void relayOn() {
+    lockRelay.set(Value.kOn);
     lockRelay.set(Value.kForward);
   }
 
@@ -154,7 +155,7 @@ public class Climber extends SubsystemBase {
    * Cuts power to relay: LL off, climb lock engages
    */
   public void relayOff() {
-    lockRelay.set(Value.kReverse);
+    lockRelay.set(Value.kOff);
   }
 
   @Override
