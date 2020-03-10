@@ -39,8 +39,8 @@ public class Intake extends SubsystemBase {
     raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
     raiseLowerMotor.setInverted(true);
 
-    // raiseLowerMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-    // raiseLowerMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
+    raiseLowerMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.Disabled);
+    raiseLowerMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.Disabled);
 
     // Limit switches
     try {
@@ -62,7 +62,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void setSpeed(double speed) {
-    intakeMotor.set(ControlMode.PercentOutput, -speed);
+    // if (true) {
+      intakeMotor.set(ControlMode.PercentOutput, -speed);
+
+    // }
+    // !getLowerLimit() || speed > 0
   }
 
   public void stop() {
@@ -93,16 +97,17 @@ public class Intake extends SubsystemBase {
     if (limitsUnplugged) {
       return false;
     } else {
-      return upperLimit.get();
+      return !upperLimit.get();
     }
   }
 
   public boolean getLowerLimit() {
-    if (limitsUnplugged) {
+    // return raiseLowerMotor.getSensorCollection().isRevLimitSwitchClosed();
+     if (limitsUnplugged) {
       return false;
     } else {
-      return lowerLimit.get();
-    }
+      return !lowerLimit.get();
+    } 
   }
 
   /**
@@ -137,5 +142,6 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("intake upper", getUpperLimit());
+    SmartDashboard.putBoolean("int down lim", getLowerLimit());
   }
 }

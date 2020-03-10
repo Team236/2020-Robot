@@ -51,6 +51,12 @@ public class RaiseLowerIntake extends CommandBase {
   @Override
   public boolean isFinished() {
     // TODO run on whenHeld and have it finish when limit is hit or current spikes
-    return false;
+    if (isRaise && intake.getUpperLimit()) {
+        return true;
+    } else if (!isRaise && intake.getLowerLimit()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
