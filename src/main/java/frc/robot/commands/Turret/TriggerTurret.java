@@ -27,7 +27,7 @@ public class TriggerTurret extends CommandBase {
     this.turret = _turret;
     this.spinCase = _case;
     
-    addRequirements(turret);
+    // addRequirements(turret);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -65,8 +65,8 @@ public class TriggerTurret extends CommandBase {
     } else if (wasHitRight == true && spinCase == 1) {
       wasHitLeft = false;
       turret.stop();
-    }
-    */
+    }*/
+    
     SmartDashboard.putBoolean("isLeftLimit", turret.isLeftLimit());
     SmartDashboard.putBoolean("isRightLimit", turret.isRightLimit());
 

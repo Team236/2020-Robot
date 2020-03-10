@@ -39,7 +39,7 @@ public class LimeLightTurret extends CommandBase {
     this.kI = _kI;
     this.kD = _kD;
     
-    addRequirements(turret);
+    // addRequirements(turret);
   }
 
   // Called when the command is initially scheduled.
