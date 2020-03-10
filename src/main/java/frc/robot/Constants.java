@@ -49,12 +49,12 @@ public final class Constants {
         public static final double LEFT_DEADZONE = .15;
         public static final double RIGHT_DEADZONE = .15;
 
-        public static final double kP = 0.001;
+        public static final double kP = 0.001;//.001
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double kF = 0.01;
+        public static final double kF = 0.02;//.01
 
-        public static final double MIN_OUTPUT = 0.0;
+        public static final double MIN_OUTPUT = -1.0;
         public static final double MAX_OUTPUT = 1.0;
 
         public static final boolean IS_DEADZONE = true;
@@ -76,15 +76,15 @@ public final class Constants {
         public static final int ID_MOTOR = 2;
         public static final int ID_POSITION_MOTOR = 3;
         public static final int DIO_INTAKE_COUNTER = 0;
-        public static final int DIO_UPPER_LIMIT = 13;
-        public static final int DIO_LOWER_LIMIT = 13;
+        public static final int DIO_UPPER_LIMIT = 1;
+        public static final int DIO_LOWER_LIMIT = 5;
 
         public static final double LIME_KP = .005;
         public static final double LIME_KI = .0;
         public static final double LIME_KD = .005;
         public static final double LIME_SPEED = 0.2;
 
-        public static final double SPEED = 0.60;
+        public static final double SPEED = .8;
         public static final double RAISE_SPEED = 0.5;
         public static final double LOWER_SPEED = -0.5;
 
@@ -99,6 +99,8 @@ public final class Constants {
         public static final int ID_FOLLOWER = 9;
         public static final int ID_HOOD = 8;
 
+        public static final int HOOD_PID_ACTIVE_ZONE = 35;
+
         public static final int DIO_SHOOT_COUNTER = 909;
         public static final int DIO_HOOD_LIMIT = 99;
 
@@ -110,10 +112,14 @@ public final class Constants {
         public static final double kD = 0.0;
         public static final double kFF = 0.000215;//.00022
 
-        public static final double HOOD_kP = .25;
+        public static final double HOOD_kP = .35;
         public static final double HOOD_kI = 0.05;
         public static final double HOOD_kD = 0.075;
         public static final double HOOD_ACTIVE_ZONE = 5.0;
+
+        public static final double HOOD_BTN_P = 0.055;
+        public static final double HOOD_BTN_I = 0.0;
+        public static final double HOOD_BTN_D = 0.025;
 
         public static final double HOOD_SPEED = .8;
 
@@ -121,8 +127,10 @@ public final class Constants {
         public static final double MAX_OUTPUT = 6000.0;
         public static final double INTERVAL = 0.0;
 
+        public static final double CAR_DELAY = .25;
+
         // highest hood can go w/out lexan popping out
-        public static final double ENC_LIMIT = 500; // 400 max
+        public static final double ENC_LIMIT = 500; // 500 max
 
     }
 
@@ -172,8 +180,8 @@ public final class Constants {
     public static class TurretConstants {
         public static final int ID_TURRET = 12;
         // public static final int DIO_TURRET = 0;
-        public static final int DIO_LEFT_LIMIT = 4;
-        public static final int DIO_RIGHT_LIMIT = 5;
+        public static final int DIO_LEFT_LIMIT = 4;//4
+        public static final int DIO_RIGHT_LIMIT = 3;//5
 
         public static final double TURRET_kP = 0.028;
         public static final double TURRET_kI = 0.0045;
@@ -192,7 +200,7 @@ public final class Constants {
         public static final int DIO_BOT_LIMIT = 11;
 
         public static final double SPEED = 1.0;
-        public static final double ENC_LIMIT = 110; // 153
+        public static final double ENC_LIMIT = 1000; // 153
         public static final double ENC_TOP_VAL = 150;
 
         // GAINS
