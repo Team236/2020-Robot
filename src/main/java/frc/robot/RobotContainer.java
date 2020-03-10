@@ -10,6 +10,7 @@ package frc.robot;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Auto.SparkControlwDash;
 import frc.robot.commands.Auto.SparkMotnControl;
+import frc.robot.commands.Auto.Routines.ShootInt3Shoot;
 import frc.robot.commands.Auto.Routines.ShootThenMove;
 import frc.robot.commands.Carousel.CarouselToShoot;
 import frc.robot.commands.Carousel.PopperServo;
@@ -35,6 +36,7 @@ import frc.robot.commands.Shooter.TriggerHood;
 import frc.robot.commands.Shooter.LimeLightVerticalZero;
 import frc.robot.commands.Shooter.LimeLightHoodOffset;
 import frc.robot.commands.Shooter.LimeSequentialShooter;
+import frc.robot.commands.Shooter.PIDHood;
 import frc.robot.commands.Shooter.CombinedShoot;
 import frc.robot.commands.Intake.LimeLightIntake;
 import frc.robot.commands.Intake.RaiseLowerIntake;
@@ -100,8 +102,10 @@ public class RobotContainer {
   private final DriveWithJoysticks cubeWithJoysticks = new DriveWithJoysticks(drive, leftStick, rightStick, true);
   private final Turn turn90 = new Turn(drive, 90, 3, Constants.AutoConstants.TURN_PARAMS);
   private final Turn turn45 = new Turn(drive, 45, 3, Constants.AutoConstants.TURN_PARAMS);
-  private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
+  // private final SparkControlwDash testingSparkTuning = new SparkControlwDash(drive, 24, 3);
+
   private final SparkMotnControl driveStraight = new SparkMotnControl(drive, 24, 3);
+  // private final TimeoutCommand driveSparkTimeout
 
   private final ClimberVision climberVision = new ClimberVision(myLimelight, turret, shooter);
   // public TrapProfile testProfile;
@@ -151,6 +155,8 @@ public class RobotContainer {
       HOOD_kI, HOOD_kD);
   private final CombinedShoot combinedShoot = new CombinedShoot(shooter, myLimelight, turret, HOOD_kP, HOOD_kI, HOOD_kD,
       TURRET_kP, TURRET_kI, TURRET_kD);
+  private final PIDHood pidHood375 = new PIDHood(shooter, 375, HOOD_BTN_P, HOOD_BTN_I, HOOD_BTN_D);
+  private final PIDHood pidHood355 = new PIDHood(shooter, 355, HOOD_BTN_P, HOOD_BTN_I, HOOD_BTN_D);
 
   // HOOD
   private final TriggerHood triggerHoodUp = new TriggerHood(shooter, 0);
@@ -175,7 +181,10 @@ public class RobotContainer {
 
   // GROUPS
   // private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
-  private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
+  private final Wait littleShootDelay = new Wait(Constants.ShooterConstants.CAR_DELAY);
+  private final SequentialCommandGroup delayedShot = new SequentialCommandGroup(littleShootDelay, feed);
+  private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(delayedShot, shootHighSpeed);
+  // private final ParallelCommandGroup shootSeqHighSp = new ParallelCommandGroup(feed, shootHighSpeed);
   private final ParallelCommandGroup shootSeqLowSp = new ParallelCommandGroup(feed2, shootLowSpeed);
   private final ParallelCommandGroup intakeAndCarousel = new ParallelCommandGroup(setIntakeSpeed);
   // private final ParallelCommandGroup waitThenShoot = new
@@ -185,7 +194,8 @@ public class RobotContainer {
   // ParallelCommandGroup(spinCarousel, setIntakeSpeed);
 
   // AUTON
-  private final ShootThenMove shootThenMove = new ShootThenMove(drive, shooter, carousel);
+  private final ShootThenMove shootThenMove = new ShootThenMove(drive, shooter, carousel, intake);
+  private final ShootInt3Shoot shootInt3Shoot = new ShootInt3Shoot(drive, shooter, carousel, intake);
 
   // **AUTO SWITCHES**
   private DigitalInput autoSwitch1, autoSwitch2, autoSwitch3, autoSwitch4;
@@ -239,9 +249,9 @@ public class RobotContainer {
     // targetTurretBtn.whileHeld(limeLightTurret);
 
     // TURRET
-    JoystickPOV turretLeftBtn = new JoystickPOV(leftStick, Direction.LEFT);
+    JoystickPOV turretLeftBtn = new JoystickPOV(controller, Direction.LEFT);
     turretLeftBtn.whileHeld(triggerTurretOne);
-    JoystickPOV turretRightBtn = new JoystickPOV(leftStick, Direction.RIGHT);
+    JoystickPOV turretRightBtn = new JoystickPOV(controller, Direction.RIGHT);
     turretRightBtn.whileHeld(triggerTurretZero);
 
     // HOOD
@@ -249,6 +259,10 @@ public class RobotContainer {
     hoodUpBtn.whileHeld(triggerHoodUp);
     JoystickPOV hoodDownBtn = new JoystickPOV(leftStick, Direction.DOWN);
     hoodDownBtn.whileHeld(triggerHoodDown);
+    JoystickPOV hoodPIdBtn = new JoystickPOV(rightStick, Direction.UP);
+    hoodPIdBtn.whileHeld(pidHood375);
+    JoystickPOV hoodBtn22 = new JoystickPOV(rightStick, Direction.DOWN);
+    hoodBtn22.whileHeld(pidHood355);
 
     // CAROUSEL
     leftStick.middle.whileHeld(revCarousel);
@@ -256,21 +270,21 @@ public class RobotContainer {
     // rightStick.left.whileHeld(spinCarousel2);
 
     // FEEDER
-    JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
-    popperUpBtn.whileHeld(popperServoUp);
-    JoystickPOV popperDownBtn = new JoystickPOV(rightStick, Direction.DOWN);
-    popperDownBtn.whileHeld(popperServoDown);
+    // JoystickPOV popperUpBtn = new JoystickPOV(rightStick, Direction.UP);
+    // popperUpBtn.whileHeld(popperServoUp);
+    // JoystickPOV popperDownBtn = new JoystickPOV(rightStick, Direction.DOWN);
+    // popperDownBtn.whileHeld(popperServoDown);
 
     // COLOR SPINNER
     // TODO extend is going down rn
-    JoystickPOV csExtendBtn = new JoystickPOV(controller, Direction.UP);
+    /* JoystickPOV csExtendBtn = new JoystickPOV(controller, Direction.UP);
     csExtendBtn.whenHeld(csExtend);
     JoystickPOV csRetractBtn = new JoystickPOV(controller, Direction.DOWN);
     csRetractBtn.whenHeld(csRetract);
     JoystickPOV csRotationBtn = new JoystickPOV(controller, Direction.LEFT);
     csRotationBtn.whenHeld(csRotation);
     JoystickPOV csPositionBtn = new JoystickPOV(controller, Direction.RIGHT);
-    csPositionBtn.whenHeld(csPosition);
+    csPositionBtn.whenHeld(csPosition); */
     // controller.y.whenHeld(colorSpinnerExtend);
     // controller.a.whenHeld(colorSpinnerRetract);
     // controller.x.whenHeld(colorSpinnerRotation);
@@ -320,7 +334,7 @@ public class RobotContainer {
     drive.resetAngle();
     drive.resetEncoders();
 
-    climber.relayOn();
+    // climber.relayOn();
 
   }
 
@@ -328,14 +342,14 @@ public class RobotContainer {
    * disables relay
    */
   public void doOnDisable() {
-    climber.relayOff();
+    // climber.relayOff();
   }
 
   /**
    * enables relay
    */
   public void relayOnDisable() {
-    climber.relayOn();
+    // climber.relayOn();
   }
 
   /**
@@ -349,6 +363,7 @@ public class RobotContainer {
     drive.resetEncoders();
     drive.resetAngle();
 
-    return shootThenMove;
+    // return shootThenMove;
+    return shootInt3Shoot;
   }
 }

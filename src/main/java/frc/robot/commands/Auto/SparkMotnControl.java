@@ -56,6 +56,7 @@ public class SparkMotnControl extends CommandBase {
     drive.setSetPoint(dist);
     
     error = Math.abs(dist - drive.getLeftEncoder());
+    // error = dist - drive.getLeftEncoder();
 
     SmartDashboard.putNumber("Spark setPoint", dist);
     SmartDashboard.putNumber("spark error", error);
@@ -76,6 +77,7 @@ public class SparkMotnControl extends CommandBase {
     boolean isSpeedMargin = drive.getLeftSpeed() < 1.0;
 
     // Returns true when speed and distance are within acceptable margins
-    return isDistMargin && isSpeedMargin;
+    // return isDistMargin && isSpeedMargin;
+    return false;
   }
 }

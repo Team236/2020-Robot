@@ -25,24 +25,28 @@ import lib.commands.Wait;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootThenMove extends SequentialCommandGroup {
+public class ShootInt3Shoot extends SequentialCommandGroup {
   /**
-   * Creates a new ShootThenMove.
+   * Creates a new ShootInt3Shoot.
    */
-  public ShootThenMove(Drive drive, Shooter shooter, Carousel carousel, Intake intake) {
+  public ShootInt3Shoot(Drive drive, Shooter shooter, Carousel carousel, Intake intake) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    // if (isTimeout) {
-      // super(new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED), new TimeoutCommand(new SparkMotnControl(drive, 48, 3), 5));
-    // } else {
-      // super(new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED), new SparkMotnControl(drive, 48, 3));
-
-    // }
-  
+    // TODO intake on way back
     super(parallel(sequence(new Wait(Constants.ShooterConstants.CAR_DELAY), new CarouselToShoot(carousel)),
-     new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED)).withTimeout( 5),
-     new RaiseLowerIntake(intake, false), parallel(new SparkMotnControl(drive, 48, 3).withTimeout(10), new SetIntakeSpeed(intake)));
-    // super(new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED), new SparkMotnControl(drive, 48, 3));
-
+     new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED),
+     new RaiseLowerIntake(intake, false)).withTimeout(3.5), 
+     parallel(new SparkMotnControl(drive, 48, 3), new SetIntakeSpeed(intake)).withTimeout(2.8),
+     parallel(new SparkMotnControl(drive, -48, 3), new SetIntakeSpeed(intake)).withTimeout(3),
+     parallel(sequence(new Wait(Constants.ShooterConstants.CAR_DELAY), new CarouselToShoot(carousel)), 
+     new ShooterSparkControl(shooter, Constants.ShooterConstants.HIGH_SPEED).withTimeout(3.5)));
   }
 }
+
+// carousel/feed, shoot, & lower intake
+// drive to trench and intake
+// drive back to init line
+// carousel/feed, shoot
+
+// parallel(new SparkMotnControl(drive, 48, 3), new SetIntakeSpeed(intake)).withTimeout(2.8)
+// new SparkMotnControl(drive, -48, 3).withTimeout(2.8)
