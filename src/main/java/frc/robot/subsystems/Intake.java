@@ -8,10 +8,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,26 +23,50 @@ import static frc.robot.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase {
 
-  private TalonSRX intakeMotor;
-  private VictorSPX raiseLowerMotor;
+  private VictorSPX intakeMotor;
+  private TalonSRX raiseLowerMotor;
+  private DigitalInput upperLimit, lowerLimit;
 
   private Counter ballCounter;
+  private boolean isCounterUnplugged = false;
+  private boolean limitsUnplugged = false;
 
   /**
    * Creates a new Intake.
    */
   public Intake() {
-    intakeMotor = new TalonSRX(ID_MOTOR);
-    raiseLowerMotor = new VictorSPX(ID_POSITION_MOTOR);
+    intakeMotor = new VictorSPX(ID_MOTOR);
+    raiseLowerMotor = new TalonSRX(ID_POSITION_MOTOR);
+    raiseLowerMotor.setInverted(true);
 
-    this.ballCounter = new Counter();
-    this.ballCounter.setUpSource(DIO_INTAKE_SENSOR);
-    this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
+    raiseLowerMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.Disabled);
+    raiseLowerMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.Disabled);
+
+    // Limit switches
+    try {
+      upperLimit = new DigitalInput(DIO_UPPER_LIMIT);
+      lowerLimit = new DigitalInput(DIO_LOWER_LIMIT);
+    } catch (Exception e) {
+      limitsUnplugged = true;
+    }
+
+    // Ball counter
+    try {
+      this.ballCounter = new Counter();
+      this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
+      this.ballCounter.setDownSource(Constants.ShooterConstants.DIO_SHOOT_COUNTER);
+    } catch (Exception e) {
+      isCounterUnplugged = true;
+    }
 
   }
 
   public void setSpeed(double speed) {
-    intakeMotor.set(ControlMode.PercentOutput, speed);
+    // if (true) {
+      intakeMotor.set(ControlMode.PercentOutput, -speed);
+
+    // }
+    // !getLowerLimit() || speed > 0
   }
 
   public void stop() {
@@ -51,15 +79,11 @@ public class Intake extends SubsystemBase {
    * @return number of balls in robot
    */
   public int getBallCount() {
-    return ballCounter.get();
-  }
-
-  public void setPositionSpeed(double speed) {
-    raiseLowerMotor.set(ControlMode.PercentOutput, speed);
-  }
-
-  public void stopPositionMotor() {
-    setPositionSpeed(0);
+    if (isCounterUnplugged) {
+      return 0;
+    } else {
+      return ballCounter.get();
+    }
   }
 
   /**
@@ -69,8 +93,55 @@ public class Intake extends SubsystemBase {
     ballCounter.reset();
   }
 
+  public boolean getUpperLimit() {
+    if (limitsUnplugged) {
+      return false;
+    } else {
+      return !upperLimit.get();
+    }
+  }
+
+  public boolean getLowerLimit() {
+    // return raiseLowerMotor.getSensorCollection().isRevLimitSwitchClosed();
+     if (limitsUnplugged) {
+      return false;
+    } else {
+      return !lowerLimit.get();
+    } 
+  }
+
+  /**
+   * Sets speed of motor that positions intake up/down
+   * 
+   * @param speed
+   */
+  public void setPositionSpeed(double speed) {
+    if (speed > 0 && getUpperLimit()) {
+      stopPositionMotor();
+    } else if (speed < 0 && getLowerLimit()) {
+      stopPositionMotor();
+    } else {
+      raiseLowerMotor.set(ControlMode.PercentOutput, speed);
+    }
+
+  }
+
+  public void raise() {
+
+  }
+
+  public void lower() {
+
+  }
+
+  public void stopPositionMotor() {
+    setPositionSpeed(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // SmartDashboard.putBoolean("intake upper", getUpperLimit());
+    SmartDashboard.putBoolean("int down lim", getLowerLimit());
   }
 }

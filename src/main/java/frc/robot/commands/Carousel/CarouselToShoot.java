@@ -11,41 +11,37 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Carousel;
 
-public class SpinCarousel extends CommandBase {
+public class CarouselToShoot extends CommandBase {
 
   private Carousel carousel;
-  private boolean isRev;
 
   /**
-   * Spins carousel at speed specified in Constants
+   * Creates a new CarouselToShoot.
    */
-  public SpinCarousel(Carousel carousel, boolean isRev) {
-    this.isRev = isRev;
+  public CarouselToShoot(Carousel carousel) {
     this.carousel = carousel;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    // addRequirements(this.carousel);
+    addRequirements(this.carousel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    carousel.spinRoller();
+    carousel.spinGreenWheel();
+    carousel.setSpeed(Constants.CarouselConstants.SHOOT_SPEED);
+    carousel.setToShootServos(Constants.CarouselConstants.POPPER_UP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isRev) {
-      carousel.setSpeed(-Constants.CarouselConstants.INTAKE_SPEED);
-    } else {
-      carousel.setSpeed(Constants.CarouselConstants.INTAKE_SPEED);
-    }
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    carousel.stopGreenWheel();
+    carousel.stopRoller();
     carousel.stop();
   }
 

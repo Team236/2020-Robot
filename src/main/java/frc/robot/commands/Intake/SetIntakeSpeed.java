@@ -27,6 +27,13 @@ public class SetIntakeSpeed extends CommandBase {
     this.speed = speed;
   }
 
+  public SetIntakeSpeed(Intake intake) {
+    this.intake = intake;
+    addRequirements(this.intake);
+
+    this.speed = Constants.IntakeConstants.SPEED;
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -36,7 +43,7 @@ public class SetIntakeSpeed extends CommandBase {
   @Override
   public void execute() {
     // If considering count, only sets speed when count < max
-    if (Constants.IntakeConstants.CONSIDER_COUNT) {
+    /* if (Constants.IntakeConstants.CONSIDER_COUNT) {
       if (intake.getBallCount() < Constants.IntakeConstants.MAX_COUNT) {
         intake.setSpeed(speed);
       } else {
@@ -44,7 +51,8 @@ public class SetIntakeSpeed extends CommandBase {
       }
     } else {
       intake.setSpeed(speed);
-    }
+    } */
+    intake.setSpeed(speed);
 
   }
 

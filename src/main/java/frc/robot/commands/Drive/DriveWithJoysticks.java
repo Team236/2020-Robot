@@ -16,15 +16,20 @@ public class DriveWithJoysticks extends CommandBase {
 
   private Drive drive;
   private Joystick leftStick, rightStick;
+  private boolean isCube;
+  private int pow = 1;
+  private boolean isDeadzone = Constants.DriveConstants.IS_DEADZONE;
 
   /**
    * Creates a new DriveWithJoysticks.
    */
-  public DriveWithJoysticks(Drive drive, Joystick leftStick, Joystick rightStick) {
+  public DriveWithJoysticks(Drive drive, Joystick leftStick, Joystick rightStick, boolean isCube) {
 
     this.drive = drive;
     this.leftStick = leftStick;
     this.rightStick = rightStick;
+
+    this.isCube = isCube;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.drive);
@@ -33,6 +38,13 @@ public class DriveWithJoysticks extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (isCube) {
+      this.pow = 3;
+      this.isDeadzone = false;
+    } else {
+      this.pow = 1;
+      this.isDeadzone = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,12 +52,12 @@ public class DriveWithJoysticks extends CommandBase {
   public void execute() {
 
     // IS_DEADZONE determines whether joystick deadzone is considered
-    if (Constants.DriveConstants.IS_DEADZONE) {
-      drive.setLeftSpeedWithDeadzone(leftStick.getY());
-      drive.setRightSpeedWithDeadzone(rightStick.getY());
+    if (this.isDeadzone) {
+      drive.setLeftSpeedWithDeadzone(Math.pow(-leftStick.getY(), pow));
+      drive.setRightSpeedWithDeadzone(Math.pow(-rightStick.getY(), pow));
     } else {
-      drive.setLeftSpeed(leftStick.getY());
-      drive.setRightSpeed(rightStick.getY());
+      drive.setLeftSpeed(Math.pow(-leftStick.getY(), pow));
+      drive.setRightSpeed(Math.pow(-rightStick.getY(), pow));
     }
   }
 

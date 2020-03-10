@@ -24,8 +24,11 @@ import static frc.robot.Constants.ColorSpinnerConstants.*;
 
 public class ColorSpinner extends SubsystemBase {
 
+  // Vex servos- about 76 rpm
+
   private CANSparkMax spinnerMotor;
   private Servo servo;
+  private Servo servo2;
 
   private ColorSensorV3 colorSensor;
   private ColorMatch colorMatcher;
@@ -41,15 +44,19 @@ public class ColorSpinner extends SubsystemBase {
   public ColorSpinner() {
     spinnerMotor = new CANSparkMax(ID_MOTOR, MotorType.kBrushless);
     servo = new Servo(PWM_SERVO);
+    servo2 = new Servo(PWM_SERVO_2);
+
+    servo.setBounds(2.1, 2.1, 1.5, .95, .95);
+    servo2.setBounds(2.1, 2.1, 1.5, .95, .95);
 
     I2C.Port i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
     colorMatcher = new ColorMatch();
 
-    kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-    kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-    kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-    kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+    kBlueTarget = BLUE;
+    kGreenTarget = GREEN;
+    kRedTarget = RED;
+    kYellowTarget = YELLOW;
 
     colorMatcher.addColorMatch(kBlueTarget);
     colorMatcher.addColorMatch(kRedTarget);
@@ -58,12 +65,20 @@ public class ColorSpinner extends SubsystemBase {
 
   }
 
-  public void startMotor(double speed) {
+  /**
+   * Sets speed to turn mechanism's wheel
+   * 
+   * @param speed
+   */
+  public void setSpeed(double speed) {
     spinnerMotor.set(speed);
   }
 
-  public void stopMotor() {
-    spinnerMotor.set(0);
+  /**
+   * Stops mechanism wheel
+   */
+  public void stop() {
+    setSpeed(0);;
   }
 
   /**
@@ -167,12 +182,25 @@ public class ColorSpinner extends SubsystemBase {
     return servo.get();
   }
 
+  /**
+   * Extends both color spinner servos (folds down mechanism)
+   */
   public void extend() {
     servo.set(EXTEND_VALUE);
+    servo2.set(EXTEND_VALUE);
   }
 
+  /**
+   * Retracts both color spinner servos (pops up mechanism)
+   */
   public void retract() {
     servo.set(RETRACT_VALUE);
+    servo2.set(RETRACT_VALUE);
+  }
+
+  public void stopServo() {
+    servo.set(0.5);
+    servo2.set(0.5);
   }
 
   /**
@@ -192,6 +220,8 @@ public class ColorSpinner extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("CS servo pos", getServoPos());
+    // SmartDashboard.putNumber("cs servo", getServoPos());
+    // SmartDashboard.putNumber("bounds", servo.getRawBounds());
+    // System.out.println(servo.getRawBounds());
   }
 }

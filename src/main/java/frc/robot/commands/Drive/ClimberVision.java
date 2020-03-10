@@ -5,48 +5,52 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Carousel;
+package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Carousel;
+import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Limelight;
+import static frc.robot.Constants.TurretConstants.*;
 
-public class SpinCarousel extends CommandBase {
+import lib.limelightLib.ControlMode.LedMode;
 
-  private Carousel carousel;
-  private boolean isRev;
+public class ClimberVision extends CommandBase {
+  private Limelight lime;
+  private Turret turret;
+  private Shooter hood;
 
   /**
-   * Spins carousel at speed specified in Constants
+   * Creates a new ClimberVision.
    */
-  public SpinCarousel(Carousel carousel, boolean isRev) {
-    this.isRev = isRev;
-    this.carousel = carousel;
-
+  public ClimberVision(Limelight limeSub, Turret turretSub, Shooter shooterSub) {
     // Use addRequirements() here to declare subsystem dependencies.
-    // addRequirements(this.carousel);
+    this.lime = limeSub;
+    this.turret = turretSub;
+    this.hood = shooterSub;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    lime.setLEDMode(LedMode.kforceOff);
+    lime.setPipeline(3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isRev) {
-      carousel.setSpeed(-Constants.CarouselConstants.INTAKE_SPEED);
-    } else {
-      carousel.setSpeed(Constants.CarouselConstants.INTAKE_SPEED);
-    }
-
+    turret.set(TURRET_SPEED, 0);
+    // if(hood.getHoodLimit() == false)  {
+      hood.setHoodSpeed(.8);
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    carousel.stop();
+    turret.stop();
+    hood.stopHood();
   }
 
   // Returns true when the command should end.

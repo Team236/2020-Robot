@@ -8,28 +8,94 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.CarouselConstants.*;
 
 public class Carousel extends SubsystemBase {
 
-  private TalonSRX carouselMotor;
+  private VictorSPX carouselMotor, rollerMotor, greenWheel;
+
+  private Servo toShootServo;
+  // private Servo toShootServo2;
 
   /**
    * Creates a new Carousel.
    */
   public Carousel() {
-    carouselMotor = new TalonSRX(ID_MOTOR);
+    carouselMotor = new VictorSPX(ID_MOTOR);
+    rollerMotor = new VictorSPX(ID_ROLLER_MOTOR);
+    greenWheel = new VictorSPX(ID_GREEN_WHEEL);
+
+    toShootServo = new Servo(PWM_TO_SHOOT_SERVO);
+    // toShootServo2 = new Servo(PWM_TO_SHOOT_SERVO_2);
   }
 
+  /**
+   * Sets speed of carousel motor
+   * @param speed
+   */
   public void setSpeed(double speed) {
-    carouselMotor.set(ControlMode.PercentOutput, speed);
+    carouselMotor.set(ControlMode.PercentOutput, -speed);
   }
 
   public void stop() {
     setSpeed(0);
+  }
+
+  /**
+   * Spins rollers that push ball to shooter
+   * @param speed
+   */
+  public void setRollerSpeed(double speed) {
+    rollerMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  /**
+   * Sets roller to predetermined speed
+   */
+  public void spinRoller() {
+    setRollerSpeed(ROLLER_SPEED);
+  }
+
+  public void stopRoller() {
+    setRollerSpeed(0);
+  }
+
+  /**
+   * Sets both servos that push ball to shooter (green wheel)
+   * @param position desired position of servo
+   */
+  public void setToShootServos(double position) {
+    toShootServo.setPosition(position);
+    // toShootServo2.setPosition(position);
+  }
+
+  /**
+   * Extends green wheel to bump ball to rollers
+   */
+/*   public void extendBumpWheel() {
+    setToShootServos(EXTEND_POS);
+  }
+ */
+  /**
+   * Retracts green wheel
+   */
+/*   public void retractBumpWheel() {
+    setToShootServos(RETRACT_POS);
+  }
+ */
+  /**
+   * Spins the green wheel at predetermined speed
+   */
+  public void spinGreenWheel() {
+    greenWheel.set(ControlMode.PercentOutput, GREEN_SPEED);
+  }
+
+  public void stopGreenWheel() {
+    greenWheel.set(ControlMode.PercentOutput, 0);
   }
 
   @Override

@@ -5,26 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Carousel;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.Carousel;
+import frc.robot.subsystems.Intake;
 
-public class SpinCarousel extends CommandBase {
+public class RaiseLowerIntake extends CommandBase {
 
-  private Carousel carousel;
-  private boolean isRev;
+  private Intake intake;
+  private boolean isRaise;
 
   /**
-   * Spins carousel at speed specified in Constants
+   * @param direction set to True to raise
    */
-  public SpinCarousel(Carousel carousel, boolean isRev) {
-    this.isRev = isRev;
-    this.carousel = carousel;
-
+  public RaiseLowerIntake(Intake intake, boolean direction) {
+    this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    // addRequirements(this.carousel);
+    addRequirements(this.intake);
+    this.isRaise = direction;
   }
 
   // Called when the command is initially scheduled.
@@ -35,23 +34,29 @@ public class SpinCarousel extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isRev) {
-      carousel.setSpeed(-Constants.CarouselConstants.INTAKE_SPEED);
+    if (isRaise) {
+      intake.setPositionSpeed(Constants.IntakeConstants.RAISE_SPEED);
     } else {
-      carousel.setSpeed(Constants.CarouselConstants.INTAKE_SPEED);
+      intake.setPositionSpeed(Constants.IntakeConstants.LOWER_SPEED);
     }
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    carousel.stop();
+    intake.stopPositionMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // TODO run on whenHeld and have it finish when limit is hit or current spikes
+    if (isRaise && intake.getUpperLimit()) {
+        return true;
+    } else if (!isRaise && intake.getLowerLimit()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

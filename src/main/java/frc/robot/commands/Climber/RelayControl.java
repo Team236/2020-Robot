@@ -5,53 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Carousel;
+package frc.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Carousel;
+import frc.robot.subsystems.Climber;
 
-public class SpinCarousel extends CommandBase {
-
-  private Carousel carousel;
-  private boolean isRev;
-
+public class RelayControl extends CommandBase {
+  private Climber climber;
+  private boolean isDisengage;
   /**
-   * Spins carousel at speed specified in Constants
+   * Creates a new RelayControl.
    */
-  public SpinCarousel(Carousel carousel, boolean isRev) {
-    this.isRev = isRev;
-    this.carousel = carousel;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    // addRequirements(this.carousel);
+  public RelayControl(Climber climber, boolean isDisengage) {
+    this.climber = climber;
+    this.isDisengage = isDisengage; 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (isDisengage) {
+      climber.relayOff();
+    } else {
+      climber.relayOn();
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isRev) {
-      carousel.setSpeed(-Constants.CarouselConstants.INTAKE_SPEED);
-    } else {
-      carousel.setSpeed(Constants.CarouselConstants.INTAKE_SPEED);
-    }
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    carousel.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -7,9 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Turret;
+
+import lib.limelightLib.ControlMode.LedMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,9 +24,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  private Command autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer robotContainer;
+  // private Turret turret;
+
+  private UsbCamera usbCamera0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -30,7 +39,22 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
+    // turret = new Turret();
+
+    robotContainer.doOnInit();
+    
+    // USB CAMERA TRY-CATCH
+    try {
+      usbCamera0 = CameraServer.getInstance().startAutomaticCapture(0);
+    } catch (Exception e) {
+      System.out.println("camera capture failed");
+      System.out.println(e.getStackTrace());
+
+      SmartDashboard.putString("camera capture failed", "failed");
+    }
+
+    RobotContainer.myLimelight.setPipeline(3);
   }
 
   /**
@@ -42,11 +66,25 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    robotContainer.relayOnDisable();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    // Limelight prints
+    SmartDashboard.putBoolean("Target Found", RobotContainer.myLimelight.getIsTargetFound());
+    SmartDashboard.putNumber("Pipeline", RobotContainer.myLimelight.getLimeLight().getPipeline());
+    SmartDashboard.putBoolean("Connected", RobotContainer.myLimelight.getLimeLight().isConnected());
+    SmartDashboard.putNumber("Angle to:", RobotContainer.myLimelight.getAngleOffset());
+    SmartDashboard.putNumber("Angle Vertical to:", RobotContainer.myLimelight.getVertOffset());
+
+    // robotContainer.doInPeriodic();
+
+    //
+    // SmartDashboard.putNumber("Turret Motor Speed", turret.getRawSpeed());
+    // SmartDashboard.putNumber("Turret Spin Speed", turret.getRawSpeed() / 75);
   }
 
   /**
@@ -54,10 +92,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    // Makes sure relay shuts off when robot disables
+    // robotContainer.doOnDisable();
+
+    // Enables relay when robot disables
+    robotContainer.relayOnDisable();
   }
 
   @Override
   public void disabledPeriodic() {
+    robotContainer.relayOnDisable();
   }
 
   /**
@@ -65,11 +109,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
     }
   }
 
@@ -86,9 +130,11 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
     }
+
+    robotContainer.doInPeriodic();
   }
 
   /**
@@ -96,6 +142,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    robotContainer.doInPeriodic();
   }
 
   @Override
