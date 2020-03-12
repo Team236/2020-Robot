@@ -14,6 +14,7 @@ import lib.limelightLib.TheLimeLight;
 import lib.limelightLib.ControlMode.LedMode;
 import lib.limelightLib.ControlMode.StreamType;
 import lib.limelightLib.ControlMode;
+
 /**
  * Add your docs here.
  */
@@ -32,7 +33,7 @@ public class Limelight extends SubsystemBase {
   private double error;
   private double errorT;
   private double lastError;
-  
+
   private StreamType stream;
   private CameraServer limeStream;
   private LedMode ledMode;
@@ -42,12 +43,8 @@ public class Limelight extends SubsystemBase {
     limelight = new TheLimeLight("limeight");
   }
 
-  public Limelight(String tableName)  {
+  public Limelight(String tableName) {
     limelight = new TheLimeLight(tableName);
-  }
-  //@Override
-  public void initDefaultCommand() {
-      //setDefaultCommand(new )
   }
 
   public TheLimeLight getLimeLight() {
@@ -82,60 +79,52 @@ public class Limelight extends SubsystemBase {
     return getLimeLight().getIsTargetFound();
   }
 
-  public void setLEDMode(LedMode ledMode)  {
+  public void setLEDMode(LedMode ledMode) {
     getLimeLight().setLEDMode(ledMode);
   }
+
   /*
-  public void putStream() {
-    getLimeLight().setStream(stream);
-    CameraServer.getInstance().addServer(name)
-    SmartDashboard.putData(value);
-  }
-  */
-  public double doPID(Limelight limeSub, double _kP, double _kI, double _kD, double integralZone)
-  {
+   * public void putStream() { getLimeLight().setStream(stream);
+   * CameraServer.getInstance().addServer(name) SmartDashboard.putData(value); }
+   */
+  public double doPID(Limelight limeSub, double _kP, double _kI, double _kD, double integralZone) {
     double integralActiveZone = integralZone;
     double ang = lime.getLimeLight().getdegRotationToTarget();
 
     error = ang;
 
-    //Proportional
+    // Proportional
     proportional = error * kP;
 
-    //Integral
-    if((error < integralActiveZone && error > -integralActiveZone))
-    {
+    // Integral
+    if ((error < integralActiveZone && error > -integralActiveZone)) {
       errorT += error;
-    }
-    else 
-    {
+    } else {
       errorT = 0;
     }
-    if(errorT > 50 / kI)
-    {
+    if (errorT > 50 / kI) {
       errorT = 50 / kI;
     }
 
     integral = errorT * kI;
 
-    //Derivative
+    // Derivative
     derivative = (error - lastError) * kD;
 
-    if(error == 0.0)
-    {
+    if (error == 0.0) {
       derivative = 0.0;
     }
-    
+
     lastError = error;
 
     speed = (proportional + integral + derivative);
-    //negative -= (proportional + integral + derivative);
+    // negative -= (proportional + integral + derivative);
 
     return speed;
   }
 
   @Override
-  public void periodic()  {
+  public void periodic() {
     // SmartDashboard.putBoolean("Get Is Connected", getLimeLight().isConnected());
     // SmartDashboard.putBoolean("Get Is Target", isTarget());
     // SmartDashboard.putNumber("Vertical error", getVertOffset());

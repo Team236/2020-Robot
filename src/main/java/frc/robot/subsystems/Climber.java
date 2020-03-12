@@ -70,7 +70,10 @@ public class Climber extends SubsystemBase {
   private void setSpeedRaw(double speed) {
     master.set(speed);
   }
-
+ /**
+  * Reads limit as hooked to DIO
+  * @return
+  */
   public boolean isNewLimit() {
     if (isLimitUnplugged) {
       return false;
@@ -102,7 +105,7 @@ public class Climber extends SubsystemBase {
   }
 
   /**
-   * old limit style, right not unused
+   * old limit style, right now unused
    * @return
    */
   public boolean isBottomLimit() {
@@ -161,10 +164,7 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putBoolean("climb limit", isBottomLimit());
-    // SmartDashboard.putBoolean("new limit", isNewLimit());
 
     SmartDashboard.putNumber("cl enc", getEncoderPosition());
-    // System.out.println("lim out" + isLimitUnplugged);
   }
 }

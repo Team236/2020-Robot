@@ -172,7 +172,8 @@ public class ColorSpinner extends SubsystemBase {
   public int getColorProimity() {
     return colorSensor.getProximity();
   }
-
+  
+  // SERVO FUNCTIONS
   /**
    * Gets servo position
    * 

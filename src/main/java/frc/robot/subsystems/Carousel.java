@@ -19,7 +19,6 @@ public class Carousel extends SubsystemBase {
   private VictorSPX carouselMotor, rollerMotor, greenWheel;
 
   private Servo toShootServo;
-  // private Servo toShootServo2;
 
   /**
    * Creates a new Carousel.
@@ -30,11 +29,11 @@ public class Carousel extends SubsystemBase {
     greenWheel = new VictorSPX(ID_GREEN_WHEEL);
 
     toShootServo = new Servo(PWM_TO_SHOOT_SERVO);
-    // toShootServo2 = new Servo(PWM_TO_SHOOT_SERVO_2);
   }
 
   /**
    * Sets speed of carousel motor
+   * 
    * @param speed
    */
   public void setSpeed(double speed) {
@@ -47,6 +46,7 @@ public class Carousel extends SubsystemBase {
 
   /**
    * Spins rollers that push ball to shooter
+   * 
    * @param speed
    */
   public void setRollerSpeed(double speed) {
@@ -65,28 +65,27 @@ public class Carousel extends SubsystemBase {
   }
 
   /**
-   * Sets both servos that push ball to shooter (green wheel)
+   * Sets servo that pushes ball to shooter (green wheel)
+   * 
    * @param position desired position of servo
    */
   public void setToShootServos(double position) {
     toShootServo.setPosition(position);
-    // toShootServo2.setPosition(position);
   }
 
   /**
    * Extends green wheel to bump ball to rollers
    */
-/*   public void extendBumpWheel() {
-    setToShootServos(EXTEND_POS);
-  }
- */
+  /*
+   * public void extendBumpWheel() { setToShootServos(EXTEND_POS); }
+   */
   /**
    * Retracts green wheel
    */
-/*   public void retractBumpWheel() {
-    setToShootServos(RETRACT_POS);
-  }
- */
+  /*
+   * public void retractBumpWheel() { setToShootServos(RETRACT_POS); }
+   */
+
   /**
    * Spins the green wheel at predetermined speed
    */

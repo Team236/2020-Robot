@@ -93,7 +93,7 @@ public class LimeLightHoodOffset extends CommandBase {
     //negative -= (proportional + integral + derivative);
 
 
-    shooter.setHoodRaw(speed);
+    shooter.setHoodSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.

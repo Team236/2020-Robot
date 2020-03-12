@@ -118,7 +118,6 @@ public class Drive extends SubsystemBase implements TurnInterface {
   @Override
   public double getRate() {
     return navx.getRate();
-    // return 0;
   }
 
   /**

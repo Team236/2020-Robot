@@ -120,16 +120,16 @@ public class Shooter extends SubsystemBase {
     master.set(speed);
   }
 
-  public void setHoodRaw(double speed) {
+  public void stop() {
+    setSpeedRaw(0);
+  }
+
+  private void setHoodRaw(double speed) {
     hood.set(ControlMode.PercentOutput, speed);
   }
 
   public void stopHood() {
     hood.set(ControlMode.PercentOutput, 0);
-  }
-
-  public void stop() {
-    setSpeedRaw(0);
   }
 
   public void updateConstants() {
@@ -158,6 +158,10 @@ public class Shooter extends SubsystemBase {
     return save;
   }
 
+  /**
+   * Sets hood speed unless limit hit
+   * @param speed
+   */
   public void setHoodSpeed(double speed) {
     if (!getHoodLimit() || speed > 0) {
       if (speed > 0 && getHoodEncoder() > ENC_LIMIT) {
@@ -169,8 +173,6 @@ public class Shooter extends SubsystemBase {
       resetHoodEncoder();
       stopHood();
     }
-
-    // setHoodRaw(speed);
   }
 
   @Override

@@ -50,7 +50,7 @@ public class Intake extends SubsystemBase {
       limitsUnplugged = true;
     }
 
-    // Ball counter
+    // Ball counter - unused
     try {
       this.ballCounter = new Counter();
       this.ballCounter.setUpSource(DIO_INTAKE_COUNTER);
@@ -61,14 +61,17 @@ public class Intake extends SubsystemBase {
 
   }
 
+  /**
+   * Sets intake spin speed
+   * @param speed speed to spin intake wheels
+   */
   public void setSpeed(double speed) {
-    // if (true) {
       intakeMotor.set(ControlMode.PercentOutput, -speed);
-
-    // }
-    // !getLowerLimit() || speed > 0
   }
 
+  /**
+   * Stops intake wheels
+   */
   public void stop() {
     setSpeed(0);
   }
@@ -93,6 +96,10 @@ public class Intake extends SubsystemBase {
     ballCounter.reset();
   }
 
+  /**
+   * Returns upper limit state
+   * @return
+   */
   public boolean getUpperLimit() {
     if (limitsUnplugged) {
       return false;
@@ -101,6 +108,10 @@ public class Intake extends SubsystemBase {
     }
   }
 
+  /**
+   * Returns lower limit state
+   * @return
+   */
   public boolean getLowerLimit() {
     // return raiseLowerMotor.getSensorCollection().isRevLimitSwitchClosed();
      if (limitsUnplugged) {
@@ -126,14 +137,6 @@ public class Intake extends SubsystemBase {
 
   }
 
-  public void raise() {
-
-  }
-
-  public void lower() {
-
-  }
-
   public void stopPositionMotor() {
     setPositionSpeed(0);
   }
@@ -142,6 +145,6 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("intake upper", getUpperLimit());
-    SmartDashboard.putBoolean("int down lim", getLowerLimit());
+    // SmartDashboard.putBoolean("int down lim", getLowerLimit());
   }
 }
