@@ -26,6 +26,8 @@ public class ClimberWithAxis extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Powers relay to unlock climber
+    climber.relayOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

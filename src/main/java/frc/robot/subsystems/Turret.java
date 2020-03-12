@@ -57,7 +57,7 @@ public class Turret extends SubsystemBase {
 
   }
 
-  public void setTurretSpeedRaw(double speed) {
+  private void setTurretSpeedRaw(double speed) {
     turretSpinner.set(speed);
   }
 
@@ -87,17 +87,18 @@ public class Turret extends SubsystemBase {
     } else {
       return limitRight.get();
     }
-    //limitLeft.enableLimitSwitch(false);
+    // limitLeft.enableLimitSwitch(false);
     // return limitLeft.get();
   }
 
- /*  public boolean isRightLimit() {
-    //limitRight.enableLimitSwitch(false);
-    return limitRight.get();
-  } */
+  /*
+   * public boolean isRightLimit() { //limitRight.enableLimitSwitch(false); return
+   * limitRight.get(); }
+   */
 
   /**
    * Sets speed considering limits
+   * 
    * @param speed
    */
   public void setSpeed(double speed) {
@@ -108,7 +109,7 @@ public class Turret extends SubsystemBase {
     }
   }
 
-  public void setWasHitRight(boolean bool)  {
+  public void setWasHitRight(boolean bool) {
     wasHitRight = bool;
   }
 
@@ -116,16 +117,17 @@ public class Turret extends SubsystemBase {
     wasHitLeft = bool;
   }
 
-  public boolean getWasHitRight()  {
+  public boolean getWasHitRight() {
     return wasHitRight;
   }
 
-  public boolean getWasHitLeft()  {
+  public boolean getWasHitLeft() {
     return wasHitLeft;
   }
 
   /**
    * sets speed considering limits, previous conditions
+   * 
    * @param speed
    * @param spinCase direction
    */
